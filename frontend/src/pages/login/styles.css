@@ -11,7 +11,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: translateY(-10%);
+  transform: translateY(-8%);
 }
 
 .login-side {
