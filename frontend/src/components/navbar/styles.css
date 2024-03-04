@@ -1,0 +1,37 @@
+.navbar-container {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 44px;
+  padding: 12px 0px 12px 0px;
+  top: 0;
+  left: 0;
+  justify-content: space-between;
+}
+
+.navbar-logo-container {
+  margin-left: 64px;
+  width: 112px;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.navbar-routes {
+  display: flex;
+  width: 50%;
+  overflow: hidden;
+}
+
+.navbar-searchBar-container{
+  width: 280px;
+}
+
+.navbar-setting-container{
+  margin-right: 64px;
+}
+
+#navbar-logo {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,36 @@
+.searchBox {
+  display: flex;
+  background: #dfe2e4;
+  height: 100%;
+  border-radius: 16px;
+  border: 0px;
+  overflow: hidden;
+}
+
+.searchButton {
+  color: white;
+  float: left;
+  width: 48px;
+  background: #dfe2e4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  border-radius: 0px;
+  height: 100%;
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  color: black;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 44px;
+  width: 100%;
+  padding: 0 6px;
+  margin-left: 10px;
+}
+
