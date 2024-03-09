@@ -1,6 +1,6 @@
 .searchBox {
   display: flex;
-  background: #dfe2e4;
+  background: #f0f4f9;
   height: 100%;
   border-radius: 16px;
   border: 0px;
@@ -11,7 +11,7 @@
   color: white;
   float: left;
   width: 48px;
-  background: #dfe2e4;
+  background: #f0f4f9;
   display: flex;
   justify-content: center;
   align-items: center;

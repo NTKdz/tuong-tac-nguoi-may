@@ -1,13 +1,16 @@
-import React from 'react'
+import { Box, Container, Typography } from "@mui/material";
+import React from "react";
 
 export default function HomePage() {
   return (
-    <div>
-      <div className="trending-articles"></div>
-      <div className="articles-by-category">
-        <div className="articles-category-selector"></div>
-        <div className="articles-list"></div>
-      </div>
-    </div>
-  )
+    <Container maxWidth={false}>
+      <Box>
+        <Typography>trending</Typography>
+      </Box>
+      <Box>
+        <Typography>latest</Typography>
+        
+      </Box>
+    </Container>
+  );
 }

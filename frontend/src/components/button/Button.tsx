@@ -1,6 +1,8 @@
 import React from "react";
+import Button from "@mui/material/Button";
 import "./styles.css";
-export function Button({
+
+export function MyButton({
   onClick,
   style,
   content,
@@ -15,16 +17,5 @@ export function Button({
   id?: string;
   name?: string;
 }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`button-style ${className ? className : ""}`}
-      id={id}
-      type="button"
-      style={style}
-      name={name}
-    >
-      {content}
-    </button>
-  );
+  return <Button variant="text">Text</Button>;
 }
