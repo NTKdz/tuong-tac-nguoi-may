@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
+import { signIn, signUp } from "../../firebase/auth";
 
 export default function Login() {
   const currentLocation = "signUp";
@@ -20,6 +21,38 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     });
+  };
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
+    const repeatPassword = data.get("repeat password") as string;
+
+    if (password === repeatPassword) {
+      try {
+        const userCredential = await signUp(email, password);
+        if (userCredential) {
+          console.log("User created:", userCredential.user);
+        }
+      } catch (error) {
+        console.error("Signup failed:", error);
+      }
+    } else {
+      console.error("Passwords do not match");
+      // show an error message to the user
+    }
+  };
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
+
+    const userCredential = await signIn(email, password);
+    if (userCredential) {
+      console.log("User signed in:", userCredential.user);
+    }
   };
 
   return (
@@ -135,3 +168,27 @@ export default function Login() {
     </Box>
   );
 }
+// import { useEffect } from 'react';
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// import app from './firebaseConfig';
+
+// const auth = getAuth(app);
+
+// // Inside your component
+// useEffect(() => {
+//   const unsubscribe = onAuthStateChanged(auth, user => {
+//     if (user) {
+//       // User is signed in.
+//     } else {
+//       // User is signed out.
+//       // Redirect to login page or handle accordingly.
+//     }
+//   });
+
+//   // Clean up subscription
+//   return unsubscribe;
+// }, []);
+// const handleSignout = async () => {
+//   await signout();
+//   console.log('User signed out');
+// };
