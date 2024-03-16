@@ -4,7 +4,12 @@ import { router } from "./routes";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Button, CssBaseline, PaletteMode } from "@mui/material";
+import {
+  Button,
+  CssBaseline,
+  PaletteMode,
+  responsiveFontSizes,
+} from "@mui/material";
 
 const styles = {
   mode: "light" as PaletteMode,
@@ -17,6 +22,14 @@ const styles = {
       main: "#f0f4f9",
       contrastText: "#ffffff",
     },
+    background: {
+      default: "#f0f4f9",
+      paper: "#ffffff",
+    },
+    text: {
+      primary: "",
+      secondary: "",
+    },
   },
 };
 const theme = (
@@ -28,6 +41,14 @@ const theme = (
     secondary: {
       main: string;
       contrastText: string;
+    };
+    background: {
+      default: string;
+      paper: string;
+    };
+    text: {
+      primary: string;
+      secondary: string;
     };
   },
   mode: PaletteMode | undefined
@@ -43,16 +64,38 @@ const theme = (
         contrastText: theme.secondary.contrastText,
       },
       mode: mode,
+      background: {
+        default: theme.background.default,
+        paper: theme.background.paper,
+      },
+      text: {
+        primary:
+          theme.text.primary !== ""
+            ? theme.text.primary
+            : theme.primary.contrastText,
+        secondary:
+          theme.text.secondary !== ""
+            ? theme.text.secondary
+            : theme.secondary.contrastText,
+      },
+      // getContrastText: (background) => {
+      //   return "#111111";
+      // },
     },
+    typography: { button: { fontSize: 14 }, fontSize: 14 },
     components: {
       MuiButton: {
-        styleOverrides: {
-          root: {},
-        },
+        // styleOverrides: {},
       },
       MuiTextField: {
         styleOverrides: {
           root: {
+            MuiPaper: {
+              root: {
+                // padding: "10px",
+                // marginBottom: "10px",
+              },
+            },
             "& .MuiOutlinedInput-root": {
               color: theme.primary.contrastText,
               "& .MuiOutlinedInput-notchedOutline": {
@@ -86,7 +129,9 @@ const theme = (
 
 function App() {
   return (
-    <ThemeProvider theme={theme(styles.light, styles.mode)}>
+    <ThemeProvider
+      theme={responsiveFontSizes(theme(styles.light, styles.mode))}
+    >
       <CssBaseline />
       <Provider store={store}>
         <RouterProvider router={router} />

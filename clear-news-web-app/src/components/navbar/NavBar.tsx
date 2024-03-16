@@ -60,14 +60,14 @@ export default function NavBar() {
         <Toolbar disableGutters>
           <Box
             component="img"
-            src="src/assets/logos/logo-icon-black.svg"
+            src="/src/assets/logos/logo-icon-black.svg"
             sx={{ height: "64px", display: { xs: "none", md: "flex" } }}
           />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href=""
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
