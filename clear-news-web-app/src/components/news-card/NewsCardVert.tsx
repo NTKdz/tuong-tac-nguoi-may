@@ -11,7 +11,7 @@ export default function NewsCardVert({
   elevation,
 }: {
   title: string;
-  pictureUrl: string;
+  pictureUrl?: string;
   dateTime?: { date: string; time: string };
   style?: SxProps<Theme> | undefined;
   pictureStyle?: SxProps<Theme> | undefined;

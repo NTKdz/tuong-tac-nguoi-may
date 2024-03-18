@@ -55,6 +55,7 @@ const theme = (
 ) =>
   createTheme({
     palette: {
+      mode: mode,
       primary: {
         main: theme.primary.main,
         contrastText: theme.primary.contrastText,
@@ -63,7 +64,6 @@ const theme = (
         main: theme.secondary.main,
         contrastText: theme.secondary.contrastText,
       },
-      mode: mode,
       background: {
         default: theme.background.default,
         paper: theme.background.paper,
@@ -90,13 +90,8 @@ const theme = (
       MuiTextField: {
         styleOverrides: {
           root: {
-            MuiPaper: {
-              root: {
-                // padding: "10px",
-                // marginBottom: "10px",
-              },
-            },
             "& .MuiOutlinedInput-root": {
+              borderRadius: "8px",
               color: theme.primary.contrastText,
               "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: theme.primary.contrastText,
@@ -119,6 +114,34 @@ const theme = (
               "&.Mui-focused": {
                 color: theme.primary.contrastText,
                 fontWeight: "bold",
+              },
+            },
+
+            "& .MuiInput-root": {
+              color: theme.primary.contrastText,
+              fontFamily: "Arial",
+              // fontWeight: "bold",
+              "&:before": {
+                borderColor: theme.primary.contrastText,
+                borderWidth: "2px",
+              },
+              "&:after": {
+                borderColor: theme.primary.contrastText,
+                borderWidth: "3px",
+              },
+              ":hover:not(.Mui-focused)": {
+                "&:before": {
+                  borderColor: theme.primary.contrastText,
+                  borderWidth: "2px",
+                },
+              },
+            },
+            "& .MuiInputLabel-standard": {
+              color: theme.primary.contrastText,
+              // fontWeight: "bold",
+              "&.Mui-focused": {
+                fontWeight: "bold",
+                color: theme.primary.contrastText,
               },
             },
           },

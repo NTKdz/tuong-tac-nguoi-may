@@ -3,6 +3,7 @@ import React from "react";
 import NewsCardVert from "../news-card/NewsCardVert";
 import NewsCardHori from "../news-card/NewsCardHori";
 import mockData from "../../mockdata/data3.json";
+import HeadLine from "../headline/HeadLine";
 
 export default function MainSection() {
   const data = mockData.articles.results;
@@ -24,6 +25,7 @@ export default function MainSection() {
           flexDirection: "column",
         }}
       >
+
         <Typography variant="h4">Trending</Typography>
         <NewsCardVert
           title={data[0].title}
@@ -71,7 +73,7 @@ export default function MainSection() {
               elevation={0}
               pictureStyle={{ margin: "8px" }}
             />
-            {data.slice(1, 9).map((news, index) => {
+            {data.slice(0, 9).map((news, index) => {
               return (
                 <NewsCardHori
                   title={news.title}
@@ -84,7 +86,7 @@ export default function MainSection() {
                     borderRadius: "8px",
                     borderTop: `2px solid ${theme.palette.background.default}`,
                   }}
-                  fontSize="h6"
+                  fontSize="body1"
                 />
               );
             })}
@@ -98,12 +100,12 @@ export default function MainSection() {
             }}
           >
             <NewsCardVert
-              title={data[0].title}
-              pictureUrl={data[0].image ? data[0].image : ""}
+              title={data[10].title}
+              pictureUrl={data[10].image ? data[10].image : ""}
               elevation={0}
               pictureStyle={{ margin: "8px" }}
             />
-            {data.slice(1, 9).map((news, index) => {
+            {data.slice(11, 20).map((news, index) => {
               return (
                 <NewsCardHori
                   title={news.title}
@@ -116,7 +118,7 @@ export default function MainSection() {
                     borderRadius: "8px",
                     borderTop: `2px solid ${theme.palette.background.default}`,
                   }}
-                  fontSize="h6"
+                  fontSize="body1"
                 />
               );
             })}

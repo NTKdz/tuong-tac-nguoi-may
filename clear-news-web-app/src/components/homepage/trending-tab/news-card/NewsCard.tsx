@@ -1,19 +1,24 @@
-import { Box, Typography } from "@mui/material";
+import { Box, SxProps, Typography } from "@mui/material";
 import React from "react";
 import "./styles.css";
 import ImageHolder from "../../../image-holder/ImageHolder";
+import { Variant } from "@mui/material/styles/createTypography";
 export default function NewsCard({
   title,
   pictureUrl,
   dateTime,
+  pictureStyle,
+  fontSize,
 }: {
   title: string;
   pictureUrl: string;
   dateTime: { date: string; time: string };
+  pictureStyle?: SxProps;
+  fontSize?: Variant;
 }) {
   return (
     <Box>
-      <Box sx={{ height: "152px" }}>
+      <Box sx={pictureStyle ? pictureStyle : { height: "152px" }}>
         <ImageHolder src={pictureUrl} />
       </Box>
 
@@ -22,7 +27,7 @@ export default function NewsCard({
           {dateTime.date + " " + dateTime.time}
         </Typography>
         <Typography
-          variant="body1"
+          variant={fontSize ? fontSize : "body1"}
           sx={{
             overflow: "hidden",
             textOverflow: "ellipsis",
