@@ -3,6 +3,7 @@ import React from "react";
 import "./styles.css";
 import ImageHolder from "../../../image-holder/ImageHolder";
 import { Variant } from "@mui/material/styles/createTypography";
+
 export default function NewsCard({
   title,
   pictureUrl,

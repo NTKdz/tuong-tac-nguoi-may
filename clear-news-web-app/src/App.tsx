@@ -5,7 +5,6 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
-  Button,
   CssBaseline,
   PaletteMode,
   responsiveFontSizes,

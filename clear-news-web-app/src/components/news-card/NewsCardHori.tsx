@@ -24,7 +24,16 @@ export default function NewsCardHori({
 }) {
   return (
     <Paper
-      sx={style ? style : { display: "flex", borderRadius: "8px" }}
+      sx={
+        style
+          ? {
+              ...style,
+            }
+          : {
+              display: "flex",
+              borderRadius: "8px",
+            }
+      }
       elevation={elevation || elevation == 0 ? elevation : 1}
     >
       {pictureUrl && (
@@ -48,7 +57,19 @@ export default function NewsCardHori({
         </Box>
       )}
 
-      <Box sx={{ paddingLeft: "8px", paddingRight: "8px", flex: "1" }}>
+      <Box
+        sx={{
+          paddingLeft: "8px",
+          paddingRight: "8px",
+          flex: "1",
+          ":hover": {
+            scale: "1.1",
+            transition: "scale 0.5s",
+            zIndex: "1000",
+            backgroundColor:"white"
+          },
+        }}
+      >
         <Typography variant="body1">
           {dateTime && dateTime.date + " " + dateTime.time}
         </Typography>

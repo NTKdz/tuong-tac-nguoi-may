@@ -18,7 +18,12 @@ export default function NewsCardVert({
   elevation?: number;
 }) {
   return (
-    <Paper sx={style} elevation={elevation || elevation == 0 ? elevation : 1}>
+    <Paper
+      sx={{
+        ...style,
+      }}
+      elevation={elevation || elevation == 0 ? elevation : 1}
+    >
       {pictureUrl && (
         <Box sx={pictureStyle ? pictureStyle : { height: "240px" }}>
           <ImageHolder src={pictureUrl} />

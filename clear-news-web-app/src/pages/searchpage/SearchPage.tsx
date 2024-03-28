@@ -8,9 +8,12 @@ import { formatDateTime } from "../../utils/dateFormater";
 export default function SearchPage() {
   const data = mockData.articles.results;
   const [paginationCount, changePaginationCount] = useState(
-    mockData.articles.count / 10
+    mockData.articles.count / 20
   );
 
+  const filterData = data.filter((article) => {
+    return article.image != null;
+  });
   return (
     <Container
       maxWidth="md"
@@ -24,14 +27,14 @@ export default function SearchPage() {
       }}
     >
       <SearchBar style={{ marginBottom: "32px", width: "100%" }} />
-      {data &&
-        data.slice(0, 10).map((article) => {
+      {filterData &&
+        filterData.slice(0, 20).map((article) => {
           return (
-            <Box sx={{ marginBottom: "16px" }}>
+            <Box sx={{ marginBottom: "16px", width: "100%", }}>
               <NewsCardHori
-                pictureUrl={article.image}
+                pictureUrl={article.image ?? undefined}
                 title={article.title}
-                pictureStyle={{ flex: "0.5", height: "150px" }}
+                pictureStyle={{ flex: "0.5", height: "160px" }}
                 dateTime={formatDateTime(article.dateTime)}
               />
             </Box>

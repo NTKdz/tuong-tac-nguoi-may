@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/category/:category", element: <NewsList /> },
       { path: "/:id", element: <NewsDetail /> },
-      { path: "/account", element: <Account /> },
+      { path: "/account/:route", element: <Account /> },
     ],
     errorElement: <ErrorPage />,
   },
