@@ -44,11 +44,9 @@ export default function Account() {
           );
         })}
       </Box>
-      <Box>
+      <Box sx={{ width: "90%",margin:"auto" }}>
         {selectedTab == 0 ? (
-          <Box
-            sx={{ transition: "all 0.5s"}}
-          >
+          <Box sx={{ transition: "all 0.5s" }}>
             <Settings />
           </Box>
         ) : (
