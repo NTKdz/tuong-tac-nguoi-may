@@ -1,12 +1,38 @@
 import React from "react";
 import "./styles.css";
-export default function SearchBar() {
+import { Box, Icon, IconButton, SxProps, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+
+export default function SearchBar({
+  label,
+  onClick,
+  style,
+}: {
+  label?: string;
+  onClick?: (keyWord: string) => void;
+  style?: SxProps;
+}) {
   return (
-    <div className="searchBox">
-      <input className="searchInput" type="text" name="" placeholder="Search" />
-      <button className="searchButton">
-        <img src="src/assets/icons/search-icon.svg" alt="" />
-      </button>
-    </div>
+    <Box
+      sx={{ width: "100%", display: "flex", alignItems: "center", ...style }}
+    >
+      <TextField
+        id="outlined-basic"
+        label={label ? label : "Search"}
+        variant="standard"
+        sx={{ width: "100%" }}
+      />
+      <IconButton
+        sx={{
+          borderRadius: "0px",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SearchIcon sx={{ height: "100%" }}></SearchIcon>
+      </IconButton>
+    </Box>
   );
 }

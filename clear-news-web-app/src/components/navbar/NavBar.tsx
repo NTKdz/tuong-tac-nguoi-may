@@ -11,25 +11,25 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import TextField from "@mui/material/TextField";
 import { CssBaseline, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const pageRoutes = [
   { name: "art", route: "art" },
-  { name: "Business", route: "art" },
-  { name: "Computers", route: "art" },
-  { name: "Health", route: "art" },
-  { name: "Home", route: "art" },
-  { name: "Science", route: "art" },
-  { name: "Sports", route: "art" },
-  { name: "Weather", route: "art" },
+  { name: "Business", route: "business" },
+  { name: "Computers", route: "computers" },
+  { name: "Health", route: "health" },
+  { name: "Home", route: "home" },
+  { name: "Science", route: "science" },
+  { name: "Sports", route: "sport" },
+  { name: "Weather", route: "weather" },
 ];
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -45,12 +45,20 @@ export default function NavBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (
+    event: React.MouseEvent<HTMLElement>,
+    route: string
+  ) => {
     setAnchorElNav(null);
+    navigate("/category/" + route);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (
+    event: React.MouseEvent<HTMLElement>,
+    setting: string
+  ) => {
     setAnchorElUser(null);
+    navigate(setting);
   };
 
   return (
@@ -60,14 +68,20 @@ export default function NavBar() {
         <Toolbar disableGutters>
           <Box
             component="img"
-            src="src/assets/logos/logo-icon-black.svg"
-            sx={{ height: "64px", display: { xs: "none", md: "flex" } }}
+            src="/src/assets/logos/logo-icon-black.svg"
+            sx={{
+              height: "64px",
+              display: { xs: "none", md: "flex" },
+              ":hover": {
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => navigate("/")}
           />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -76,7 +90,11 @@ export default function NavBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              ":hover": {
+                cursor: "pointer",
+              },
             }}
+            onClick={() => navigate("/")}
           >
             ClearNews
           </Typography>
@@ -110,7 +128,10 @@ export default function NavBar() {
               }}
             >
               {pageRoutes.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page.route}
+                  onClick={(event) => handleCloseNavMenu(event, page.route)}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -138,10 +159,14 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pageRoutes.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                className="nav-button"
+                key={page.route}
+                onClick={(event) => handleCloseNavMenu(event, page.route)}
                 color="primary"
-                sx={{ color: theme.palette.primary.contrastText }}
+                sx={{
+                  color: theme.palette.primary.contrastText,
+                  fontSize: "14px",
+                }}
               >
                 {page.name}
               </Button>
@@ -155,6 +180,7 @@ export default function NavBar() {
             sx={{
               display: { xs: "none", md: "flex" },
               marginRight: "24px",
+              maxWidth: "200px",
             }}
           />
 
@@ -181,7 +207,10 @@ export default function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={(event) => handleCloseUserMenu(event, setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
