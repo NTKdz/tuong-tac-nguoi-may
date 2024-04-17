@@ -1,28 +1,44 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { defaultStyles } from "../theme";
 
-export const counterSlice = createSlice({
-  name: 'counter',
-  initialState: {
-    value: 0
-  },
+const themeSlice = createSlice({
+  name: "theme",
+  initialState: defaultStyles,
   reducers: {
-    increment: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
+    setTheme: (state, action) => {
+      state = action.payload;
     },
-    decrement: state => {
-      state.value -= 1
+    setPrimary: (
+      state,
+      action: PayloadAction<{ main: string; contrastText: string }>
+    ) => {
+      state.theme.primary = action.payload;
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    }
-  }
-})
+    setSecondary: (
+      state,
+      action: PayloadAction<{ main: string; contrastText: string }>
+    ) => {
+      state.theme.secondary = action.payload;
+    },
+    setFontSize: (state, action: PayloadAction<{ fontSize: number }>) => {
+      state.theme.typography = action.payload;
+    },
+    setBackGroundColor: (
+      state,
+      action: PayloadAction<{ default: string; paper: string }>
+    ) => {
+      state.theme.background = action.payload;
+    },
+  },
+});
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const {
+  setTheme,
+  setPrimary,
+  setSecondary,
+  setFontSize,
+  setBackGroundColor,
+} = themeSlice.actions;
 
-export default counterSlice.reducer
+export default themeSlice.reducer;

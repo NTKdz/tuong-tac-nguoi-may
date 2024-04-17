@@ -20,11 +20,12 @@ export default function LatestTab() {
             return (
               <Grid item xs={3}>
                 <NewsCardVert
+                  id={news.uri}
                   title={news.title}
                   pictureUrl={news.image}
                   dateTime={formatDateTime(news.dateTime)}
                   style={{
-                    height: "400px",
+                    minHeight: "400px",
                     padding: "12px",
                     borderRadius: "16px",
                   }}

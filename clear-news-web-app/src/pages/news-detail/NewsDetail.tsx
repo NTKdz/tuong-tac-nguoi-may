@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import Hls from "hls.js"; // Import hls.js library
 import mockData from "../../mockdata/data1.json";
 import ImageHolder from "../../components/image-holder/ImageHolder";
+import CommentSection from "../../components/comment-section/CommentSection";
 
 export default function NewsDetail() {
   const data = mockData;
@@ -28,7 +29,7 @@ export default function NewsDetail() {
     initializeHls();
   }, []);
 
-  function loadVideo(videoSrc:string){
+  function loadVideo(videoSrc: string) {
     if (Hls.isSupported()) {
       let hls = new Hls();
       hls.loadSource(videoSrc);
@@ -76,6 +77,8 @@ export default function NewsDetail() {
           );
         })}
       </Paper>
+
+      <CommentSection />
     </Container>
   );
 }

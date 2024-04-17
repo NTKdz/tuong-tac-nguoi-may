@@ -35,7 +35,7 @@ export default function MainSection() {
             marginRight: "24px",
             borderRadius: "8px",
           }}
-          pictureStyle={{ height: "400px", margin: "8px" }}
+          pictureStyle={{ minHeight: "400px", margin: "8px" }}
         />
         {data.slice(1, 9).map((news, index) => {
           return (

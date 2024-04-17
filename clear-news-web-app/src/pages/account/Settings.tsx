@@ -1,7 +1,6 @@
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import React from "react";
 import CustomDialog from "../../components/dialog/Dialog";
-import ImageHolder from "../../components/image-holder/ImageHolder";
 import Avatar from "../../components/avatar/Avatar";
 
 export default function Settings() {

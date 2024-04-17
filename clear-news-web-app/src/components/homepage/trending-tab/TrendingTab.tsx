@@ -4,9 +4,12 @@ import MainArticle from "./news-card/MainArticle";
 import mockArticle from "../../../mockdata/data2.json";
 import NewsCard from "./news-card/NewsCard";
 import { formatDateTime } from "../../../utils/dateFormater";
+import { useNavigate } from "react-router-dom";
 export default function TrendingTab() {
   const data = mockArticle.articles.results;
   const theme = useTheme();
+  const navigate = useNavigate();
+
   return (
     <Box>
       <Box
@@ -18,7 +21,10 @@ export default function TrendingTab() {
           overflow: "hidden",
         }}
       >
-        <Box sx={{ flex: "3" }}>
+        <Box
+          sx={{ flex: "3", ":hover": { cursor: "pointer" } }}
+          onClick={() => navigate("/" + data[0].uri)}
+        >
           <MainArticle
             title={data[0].title}
             pictureUrl={data[0].image}
@@ -30,7 +36,7 @@ export default function TrendingTab() {
           spacing={2}
           sx={{
             flex: "4",
-            backgroundColor: theme.palette.secondary.main,
+            // backgroundColor: theme.palette.secondary.main,
             paddingTop: "16px",
             paddingBottom: "16px",
           }}
@@ -39,7 +45,13 @@ export default function TrendingTab() {
         >
           {data.slice(1, 7).map((item, index: number) => {
             return (
-              <Grid item xs={6} key={index}>
+              <Grid
+                item
+                xs={6}
+                key={index}
+                sx={{ ":hover": { cursor: "pointer" } }}
+                onClick={() => navigate("/" + item.uri)}
+              >
                 <NewsCard
                   title={item.title}
                   pictureUrl={item.image}

@@ -1,27 +1,33 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
 
-const pageRoutes = [
-  { name: "All", route: "all" },
-  { name: "Art", route: "art" },
-  { name: "Business", route: "art" },
-  { name: "Computers", route: "art" },
-  { name: "Health", route: "art" },
-  { name: "Home", route: "art" },
-  { name: "Science", route: "art" },
-  { name: "Sports", route: "art" },
-  { name: "Weather", route: "art" },
+const categories = [
+  { name: "All", category: "all" },
+  { name: "Art", category: "art" },
+  { name: "Business", category: "business" },
+  { name: "Computers", category: "computers" },
+  { name: "Health", category: "health" },
+  { name: "Home", category: "home" },
+  { name: "Science", category: "science" },
+  { name: "Sports", category: "sports" },
+  { name: "Weather", category: "weather" },
 ];
 
-export default function CategorySelector() {
+export default function CategorySelector({
+  changeCategory,
+}: {
+  changeCategory: (category: string) => void;
+}) {
   const theme = useTheme();
   const [selectedTab, changeSelectedTab] = useState<number>(0);
 
   function handleCategorySelect(
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
+    index: number,
+    category: string
   ) {
     changeSelectedTab(index);
+    changeCategory(category);
   }
 
   return (
@@ -35,8 +41,7 @@ export default function CategorySelector() {
       }}
       elevation={4}
     >
-      {pageRoutes.map((route, index) => {
-        console.log(index);
+      {categories.map((category, index) => {
         return (
           <Box
             sx={{
@@ -58,13 +63,13 @@ export default function CategorySelector() {
               },
             }}
             key={index}
-            onClick={(e) => handleCategorySelect(e, index)}
+            onClick={(e) => handleCategorySelect(e, index, category.category)}
           >
             <Typography
               className={selectedTab === index ? "selected" : ""}
               key={index}
             >
-              {route.name}
+              {category.name}
             </Typography>
           </Box>
         );
