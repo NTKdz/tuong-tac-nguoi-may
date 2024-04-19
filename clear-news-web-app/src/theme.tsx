@@ -2,8 +2,8 @@ export const defaultStyles = {
   mode: "light" ,
   theme: {
     primary: {
-      main: "#ffffff",
-      contrastText: "#3c3c3c",
+      main: "#0073e6",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#f0f4f9",
@@ -14,7 +14,7 @@ export const defaultStyles = {
       paper: "#ffffff",
     },
     text: {
-      primary: "",
+      primary: "#3c3c3c",
       secondary: "",
     },
     typography: { fontSize: 14 },

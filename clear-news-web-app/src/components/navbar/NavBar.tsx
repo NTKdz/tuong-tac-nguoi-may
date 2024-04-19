@@ -68,7 +68,7 @@ export default function NavBar() {
         <Toolbar disableGutters>
           <Box
             component="img"
-            src="/src/assets/logos/logo-icon-black.svg"
+            src={theme.palette.mode==="light"?"/src/assets/logos/logo-icon-white.svg":"/src/assets/logos/logo-icon-black.svg"}
             sx={{
               height: "64px",
               display: { xs: "none", md: "flex" },

@@ -33,31 +33,26 @@ const myTheme = (
   createTheme({
     palette: {
       mode: mode,
-      // primary: {
-      //   main: theme.primary.main,
-      //   contrastText: theme.primary.contrastText,
-      // },
-      // secondary: {
-      //   main: theme.secondary.main,
-      //   contrastText: theme.secondary.contrastText,
-      // },
+      primary: {
+        main: theme.primary.main,
+        contrastText: theme.primary.contrastText,
+      },
+      secondary: {
+        main: theme.secondary.main,
+        contrastText: theme.secondary.contrastText,
+      },
       background: {
-        default: theme.background.default,
-        paper: theme.background.paper,
+        default: mode === "dark" ? "#121212" : theme.background.default,
+        paper: mode === "dark" ? "#121212" : theme.background.paper,
       },
       text: {
-        // primary:
-        //   theme.text.primary !== ""
-        //     ? theme.text.primary
-        //     : theme.primary.contrastText,
+        primary: theme.text.primary,
+
         // secondary:
         //   theme.text.secondary !== ""
         //     ? theme.text.secondary
         //     : theme.secondary.contrastText,
       },
-      // getContrastText: (background) => {
-      //   return "#111111";
-      // },
     },
     typography: {
       fontSize: theme.typography.fontSize,
@@ -70,8 +65,7 @@ const myTheme = (
       // h4: {},
       // h5: {},
       // h6: {},
-      button: {
-      },
+      button: {},
     },
     components: {
       MuiButton: {
