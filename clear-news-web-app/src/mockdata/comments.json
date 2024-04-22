@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "author": "John Doe",
+      "email": "john@example.com",
+      "body": "This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.This is the first comment.",
+      "timestamp": "2024-04-19T10:00:00Z",
+      "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+      "replies": [
+        {
+          "id": 101,
+          "author": "Alice Johnson",
+          "email": "alice@example.com",
+          "body": "Thanks for your comment, John!",
+          "timestamp": "2024-04-19T10:05:00Z",
+          "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+          "replies": [
+            {
+              "id": 10101,
+              "author": "John Doe",
+              "email": "john@example.com",
+              "body": "You're welcome, Alice!",
+              "timestamp": "2024-04-19T10:10:00Z",
+              "avatar": "https://via.placeholder.com/500x240.png?text=No+Image"
+            },
+            {
+              "id": 101301,
+              "author": "John Doe",
+              "email": "john@example.com",
+              "body": "You're welcome, Alice!",
+              "timestamp": "2024-04-19T10:10:00Z",
+              "avatar": "https://via.placeholder.com/500x240.png?text=No+Image"
+            }
+          ]
+        },
+        {
+          "id": 102,
+          "author": "Bob Brown",
+          "email": "bob@example.com",
+          "body": "I agree with Alice!",
+          "timestamp": "2024-04-19T10:15:00Z",
+          "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+          "replies": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "author": "Jane Smith",
+      "email": "jane@example.com",
+      "body": "I agree with John's comment.",
+      "timestamp": "2024-04-19T10:20:00Z",
+      "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+      "replies": [
+        {
+          "id": 201,
+          "author": "Emily White",
+          "email": "emily@example.com",
+          "body": "Me too!",
+          "timestamp": "2024-04-19T10:25:00Z",
+          "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+          "replies": [
+            {
+              "id": 20101,
+              "author": "Jane Smith",
+              "email": "jane@example.com",
+              "body": "Glad to hear that!",
+              "timestamp": "2024-04-19T10:30:00Z",
+              "avatar": "https://via.placeholder.com/500x240.png?text=No+Image"
+            }
+          ]
+        },
+        {
+          "id": 202,
+          "author": "Michael Brown",
+          "email": "michael@example.com",
+          "body": "I have a question...",
+          "timestamp": "2024-04-19T10:35:00Z",
+          "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+          "replies": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "author": "Alice Johnson",
+      "email": "alice@example.com",
+      "body": "Nice post! Keep up the good work.",
+      "timestamp": "2024-04-19T10:40:00Z",
+      "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+      "replies": []
+    },
+    {
+      "id": 4,
+      "author": "Mary Green",
+      "email": "mary@example.com",
+      "body": "I enjoyed reading this.",
+      "timestamp": "2024-04-19T10:45:00Z",
+      "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+      "replies": []
+    },
+    {
+      "id": 5,
+      "author": "David Black",
+      "email": "david@example.com",
+      "body": "Great content!",
+      "timestamp": "2024-04-19T10:50:00Z",
+      "avatar": "https://via.placeholder.com/500x240.png?text=No+Image",
+      "replies": []
+    }
+  ]
+}
