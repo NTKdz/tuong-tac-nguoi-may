@@ -10,9 +10,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
+import { getContrastColor } from "../../utils/colorContrast";
+import { useTheme } from "@emotion/react";
 
 export default function Login() {
   const currentLocation = "signUp";
+  const theme = useTheme();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,7 +34,7 @@ export default function Login() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: true ? "#f0f4f9" : "",
+        // backgroundColor: true ? "#f0f4f9" : "",
       }}
     >
       <Container
@@ -40,7 +43,7 @@ export default function Login() {
           display: "flex",
           padding: "36px !important",
           borderRadius: "24px",
-          backgroundColor: true ? "white" : "",
+          // backgroundColor: true ? "white" : "",
         }}
       >
         <CssBaseline />
@@ -55,7 +58,11 @@ export default function Login() {
           <div id="login-logo-container">
             <img
               id="login-logo"
-              src="src/assets/logos/logo-icon-black.svg"
+              src={
+                getContrastColor(theme.palette.primary.main) === "light"
+                  ? "/src/assets/logos/logo-icon-white.svg"
+                  : "/src/assets/logos/logo-icon-black.svg"
+              }
               alt=""
             />
           </div>

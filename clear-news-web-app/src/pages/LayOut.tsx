@@ -10,6 +10,7 @@ export default function LayOut() {
     <Box sx={{ position: "relative", overflow: "hidden" }}>
       <ThemeController />
       <NavBar />
+      <Box sx={{ width: "100%", height: "64px" }}></Box>
       <Outlet />
       <Footer />
     </Box>

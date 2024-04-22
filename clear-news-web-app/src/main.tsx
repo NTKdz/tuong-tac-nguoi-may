@@ -6,7 +6,7 @@ import VoiceController from "./components/controller/voice-controller/VoiceContr
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {/* <AppWrapper /> */}
-    <VoiceController />
+    <AppWrapper />
+    {/* <VoiceController /> */}
   </React.StrictMode>
 );

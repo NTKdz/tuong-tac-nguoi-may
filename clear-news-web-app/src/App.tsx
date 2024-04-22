@@ -46,7 +46,7 @@ const myTheme = (
         paper: mode === "dark" ? "#121212" : theme.background.paper,
       },
       text: {
-        primary: theme.text.primary,
+        primary: mode === "dark" ? "#CCCCCC" : theme.text.primary,
 
         // secondary:
         //   theme.text.secondary !== ""

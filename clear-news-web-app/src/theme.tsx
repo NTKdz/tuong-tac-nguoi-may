@@ -1,5 +1,5 @@
 export const defaultStyles = {
-  mode: "light" ,
+  mode: "dark" ,
   theme: {
     primary: {
       main: "#0073e6",

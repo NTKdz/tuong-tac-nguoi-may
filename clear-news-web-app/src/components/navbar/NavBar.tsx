@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { CssBaseline, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getContrastColor } from "../../utils/colorContrast";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -61,14 +63,45 @@ export default function NavBar() {
     navigate(setting);
   };
 
+  const [isNavVisible, setNavVisibility] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      const scrollingUp = prevScrollPos > currentScrollPos;
+
+      if (currentScrollPos > 64) {
+        setNavVisibility(scrollingUp);
+      } else {
+        setNavVisibility(true);
+      }
+
+      setPrevScrollPos(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
+
   return (
-    <AppBar position="static">
+    <AppBar
+      position={"fixed"}
+      sx={{ top: isNavVisible ? 0 : -100, transition: "all 0.5s" }}
+    >
       <CssBaseline />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
             component="img"
-            src={theme.palette.mode==="light"?"/src/assets/logos/logo-icon-white.svg":"/src/assets/logos/logo-icon-black.svg"}
+            src={
+              getContrastColor(theme.palette.primary.main) === "light"
+                ? "/src/assets/logos/logo-icon-white.svg"
+                : "/src/assets/logos/logo-icon-black.svg"
+            }
             sx={{
               height: "64px",
               display: { xs: "none", md: "flex" },
@@ -178,9 +211,40 @@ export default function NavBar() {
             label="Search"
             variant="outlined"
             sx={{
+              flexGrow: 1,
               display: { xs: "none", md: "flex" },
               marginRight: "24px",
-              maxWidth: "200px",
+              maxWidth: "320px",
+
+              "& .MuiOutlinedInput-root": {
+                height: "50px",
+                borderRadius: "8px",
+                color: theme.palette.primary.contrastText,
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.primary.contrastText,
+                },
+                "&.Mui-focused": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: theme.palette.primary.contrastText,
+                    borderWidth: "2px",
+                  },
+                },
+                "&:hover:not(.Mui-focused)": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: theme.palette.primary.contrastText,
+                    borderWidth: "2px",
+                  },
+                },
+              },
+              "& .MuiInputLabel-outlined": {
+                color: theme.palette.primary.contrastText,
+                top: "-3px",
+                "&.Mui-focused": {
+                  top: "0px",
+                  color: theme.palette.primary.contrastText,
+                  fontWeight: "bold",
+                },
+              },
             }}
           />
 
