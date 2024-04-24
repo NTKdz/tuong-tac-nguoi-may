@@ -4,7 +4,7 @@ import app from './config';
 const auth = getAuth(app);
 
 // Sign up new users
-const signUp = async (email: string, password: string) => {
+export const SignUp = async (email: string, password: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     return userCredential;
@@ -14,7 +14,7 @@ const signUp = async (email: string, password: string) => {
 };
 
 // Sign in existing users
-const signIn = async (email: string, password: string) => {
+export const SignIn = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential;
@@ -24,7 +24,7 @@ const signIn = async (email: string, password: string) => {
 };
 
 // Sign out users
-const logOut = async () => {
+export const LogOut = async () => {
   try {
     await signOut(auth);
   } catch (error) {
@@ -32,4 +32,3 @@ const logOut = async () => {
   }
 };
 
-export { signUp, signIn, logOut };

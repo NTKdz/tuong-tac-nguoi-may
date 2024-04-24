@@ -10,9 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
-import { signIn, signUp } from "../../firebase/auth";
-import { getContrastColor } from "../../utils/colorContrast";
-import { useTheme } from "@emotion/react";
+import { SignIn, SignUp } from "../../firebase/auth";
 
 export default function Login() {
   const currentLocation = "signUp";
@@ -34,7 +32,7 @@ export default function Login() {
 
     if (password === repeatPassword) {
       try {
-        const userCredential = await signUp(email, password);
+        const userCredential = await SignUp(email, password);
         if (userCredential) {
           console.log("User created:", userCredential.user);
         }
@@ -52,7 +50,7 @@ export default function Login() {
     const email = data.get("email") as string;
     const password = data.get("password") as string;
 
-    const userCredential = await signIn(email, password);
+    const userCredential = await SignIn(email, password);
     if (userCredential) {
       console.log("User signed in:", userCredential.user);
     }
