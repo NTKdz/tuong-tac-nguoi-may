@@ -1,38 +1,58 @@
-import React, { useEffect, useState } from "react";
-import "./commands";
-export default function VoiceController() {
-  const [recognizedText, setRecognizedText] = useState("");
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from "react";
+
+interface IVoiceController {
+  onSpeechRecognized: (text: string) => void;
+}
+
+const VoiceController: React.FC<IVoiceController> = ({
+  onSpeechRecognized,
+}) => {
   const [recognition, setRecognition] = useState(null);
   const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
-    const recognition = new window.webkitSpeechRecognition();
+    const SpeechRecognitionInstance =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
 
-    recognition.continuous = true;
-    recognition.lang = "en-US";
-    recognition.interimResults = true;
+    const newRecognition = new SpeechRecognitionInstance();
+    newRecognition.continuous = true;
+    newRecognition.interimResults = true;
+    newRecognition.lang = "vi-VN";
 
-    recognition.onresult = (event) => {
-      const transcript = Array.from(event.results)
+    newRecognition.onresult = (event) => {
+      const newTranscript = Array.from(event.results)
         .map((result) => result[0].transcript)
         .join("");
-      setRecognizedText(transcript);
+
+      setTranscript(newTranscript);
+      // onSpeechRecognized(newTranscript);
     };
 
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
+    newRecognition.onspeechend = () => {
+      setIsListening(false);
     };
 
-    setRecognition(recognition);
+    setRecognition(newRecognition);
+  }, []);
 
-    const handleKeyDown = (event) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         if (isListening) {
+          setIsListening(false);
           recognition.stop();
         } else {
+          setIsListening(true);
+          setTranscript("");
           recognition.start();
         }
-        setIsListening(!isListening);
       }
     };
 
@@ -41,24 +61,14 @@ export default function VoiceController() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isListening]);
-
-  const toggleListening = () => {
-    if (isListening) {
-      recognition.stop();
-    } else {
-      recognition.start();
-    }
-    setIsListening(!isListening);
-  };
+  }, [recognition, isListening]);
 
   return (
     <div>
-      <p>Press Enter to start/stop listening.</p>
-      <p>Recognized Text: {recognizedText}</p>
-      <button onClick={toggleListening}>
-        {isListening ? "Stop Listening" : "Start Listening"}
-      </button>
+      <p>Listening: {isListening ? "Yes" : "No"}</p>
+      <p>Transcript: {transcript}</p>
     </div>
   );
-}
+};
+
+export default VoiceController;

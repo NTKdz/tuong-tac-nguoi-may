@@ -20,7 +20,7 @@ const themeSettings = [
   { setting: "BackgroundColor", component: <></> },
 ];
 export default function ThemeController() {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
   const myTheme = useTheme();
   const { theme } = useSelector((state: RootState) => state);
   const { changeFontSize } = ThemeHooks();
@@ -42,7 +42,7 @@ export default function ThemeController() {
           top: "100px",
           right: "0px",
           // display: isOpen ? "block" : "none",
-          zIndex: 10000,
+          zIndex: 10001,
           transition: "all 0.5s",
           opacity: isOpen ? 0 : 1,
           "&:hover": {
@@ -50,7 +50,9 @@ export default function ThemeController() {
           },
           backgroundColor: myTheme.palette.background.paper,
         }}
-        onClick={() => setOpen(!isOpen)}
+        onClick={() => {
+          setOpen(!isOpen);
+        }}
       >
         <ArrowBackIosIcon sx={{ margin: "auto" }} />
       </Box>

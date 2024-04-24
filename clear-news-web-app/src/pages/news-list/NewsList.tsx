@@ -15,7 +15,7 @@ export default function NewsList() {
     <Container
       maxWidth={false}
       sx={{
-        padding: "64px 32px 32px 32px",
+        padding: "32px 32px 32px 32px",
       }}
     >
       <MainSection />

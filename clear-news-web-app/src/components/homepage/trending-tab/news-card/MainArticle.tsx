@@ -24,7 +24,7 @@ export default function MainArticle({
         padding: "16px",
         borderRadius: "8px",
       }}
-      elevation={0}
+      elevation={1 }
     >
       <HeadLine content="Trending" />
 
