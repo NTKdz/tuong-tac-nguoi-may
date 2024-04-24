@@ -11,10 +11,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
 import { SignIn, SignUp } from "../../firebase/auth";
+import { useTheme } from "@mui/material";
+import { getContrastColor } from "../../utils/colorContrast";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function Login() {
-  const currentLocation = "signUp";
+  const [currentLocation, setCurrentLocation] = React.useState("signUp");
   const theme = useTheme();
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,6 +39,7 @@ export default function Login() {
         const userCredential = await SignUp(email, password);
         if (userCredential) {
           console.log("User created:", userCredential.user);
+          navigate("/");
         }
       } catch (error) {
         console.error("Signup failed:", error);
@@ -53,6 +58,7 @@ export default function Login() {
     const userCredential = await SignIn(email, password);
     if (userCredential) {
       console.log("User signed in:", userCredential.user);
+      navigate("/");
     }
   };
 
@@ -102,7 +108,10 @@ export default function Login() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
+            onSubmit={
+              currentLocation === "signIn" ? handleSignIn : handleSignUp
+            }
             noValidate
             sx={{ mt: 1 }}
           >
@@ -149,21 +158,30 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {/* Sign In */}
+              {currentLocation === "signIn" ? "Sign In" : "Sign Up"}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  {currentLocation === "signIn"
-                    ? "Forgot password?"
-                    : "Got an account? Login"}
+                  {currentLocation === "signIn" ? (
+                    <div>Forgot password?</div>
+                  ) : (
+                    <div onClick={() => setCurrentLocation("signIn")}>
+                      Got an account? Login
+                    </div>
+                  )}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {currentLocation === "signIn"
-                    ? "Don't have an account? Sign Up"
-                    : ""}
+                  {currentLocation === "signIn" ? (
+                    <div onClick={() => setCurrentLocation("signUp")}>
+                      Don't have an account? Sign Up
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </Link>
               </Grid>
             </Grid>
