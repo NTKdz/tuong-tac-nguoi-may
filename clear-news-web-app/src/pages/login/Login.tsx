@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import "./styles.css";
 import { signIn, signUp } from "../../firebase/auth";
 import { getContrastColor } from "../../utils/colorContrast";
-import { useTheme } from "@emotion/react";
+import { Paper, useTheme } from "@mui/material";
 
 export default function Login() {
   const currentLocation = "signUp";
@@ -74,18 +74,19 @@ export default function Login() {
         maxWidth="sm"
         sx={{
           display: "flex",
-          padding: "36px !important",
-          borderRadius: "24px",
+         
           // backgroundColor: true ? "white" : "",
         }}
       >
         <CssBaseline />
-        <Box
+        <Paper
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             flex: 1,
+            padding: "36px !important",
+            borderRadius: "16px",
           }}
         >
           <div id="login-logo-container">
@@ -170,7 +171,7 @@ export default function Login() {
               </Grid>
             </Grid>
           </Box>
-        </Box>
+        </Paper>
       </Container>
     </Box>
   );

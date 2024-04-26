@@ -97,12 +97,12 @@ export default function NewsCardHori({
           paddingLeft: "8px",
           paddingRight: "8px",
           flex: "1",
-          ":hover": {
-            scale: "1.1",
-            transition: "scale 0.5s",
-            zIndex: "1000",
-            backgroundColor: "white",
-          },
+          // ":hover": {
+          //   scale: "1.1",
+          //   transition: "scale 0.5s",
+          //   zIndex: "1000",
+          //   backgroundColor: "white",
+          // },
         }}
       >
         <Box ref={boxRef} sx={{ display: "flex", flexDirection: "column" }}>

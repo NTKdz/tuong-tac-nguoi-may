@@ -16,6 +16,7 @@ import { CssBaseline, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getContrastColor } from "../../utils/colorContrast";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -62,7 +63,7 @@ export default function NavBar() {
     setAnchorElUser(null);
     navigate(setting);
   };
-
+  const [isScrollTopVisible, setScrollTopVisibility] = useState(false);
   const [isNavVisible, setNavVisibility] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
 
@@ -71,6 +72,7 @@ export default function NavBar() {
       const currentScrollPos = window.scrollY;
       const scrollingUp = prevScrollPos > currentScrollPos;
 
+      setScrollTopVisibility(scrollingUp);
       if (currentScrollPos > 64) {
         setNavVisibility(scrollingUp);
       } else {
@@ -87,18 +89,41 @@ export default function NavBar() {
     };
   }, [prevScrollPos]);
 
+  const colorSchemeMode = React.useMemo(() => {
+    return getContrastColor(theme.palette.primary.main);
+  }, [theme.palette.primary.main]);
+
   return (
     <AppBar
       position={"fixed"}
       sx={{ top: isNavVisible ? 0 : -100, transition: "all 0.5s" }}
     >
       <CssBaseline />
+      <IconButton
+        sx={{
+          position: "fixed",
+          bottom: 100,
+          right: 100,
+          width: "64px",
+          height: "64px",
+          opacity: isScrollTopVisible ? "1" : "0",
+          transition: "all 0.5s",
+        }}
+        onClick={() => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }}
+      >
+        <ArrowUpwardIcon sx={{ width: "40px", height: "40px" }} />
+      </IconButton>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
             component="img"
             src={
-              getContrastColor(theme.palette.primary.main) === "light"
+              colorSchemeMode === "light"
                 ? "/src/assets/logos/logo-icon-white.svg"
                 : "/src/assets/logos/logo-icon-black.svg"
             }
@@ -215,7 +240,6 @@ export default function NavBar() {
               display: { xs: "none", md: "flex" },
               marginRight: "24px",
               maxWidth: "320px",
-
               "& .MuiOutlinedInput-root": {
                 height: "50px",
                 borderRadius: "8px",

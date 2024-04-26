@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from "../components/navbar/NavBar";
 import Footer from "../components/footer/Footer";
 import ThemeController from "../components/controller/theme-controller/ThemeController";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 
 export default function LayOut() {
   return (

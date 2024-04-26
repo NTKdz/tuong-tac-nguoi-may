@@ -17,7 +17,7 @@ export default function NewsDetail() {
   const author = data[8032858371].info.authors;
   const bodyLines = data[8032858371].info.body.split("\n");
   const videoRef = useRef(null);
-  const commentSectionRef = useRef(null);
+  const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const [speechSynthesis, setSpeechSynthesis] =
     useState<SpeechSynthesis | null>(null);
 
@@ -47,7 +47,9 @@ export default function NewsDetail() {
 
   const scrollToCommentSection = () => {
     if (commentSectionRef.current) {
-      commentSectionRef.current.scrollIntoView({ behavior: "smooth" });
+      commentSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   };
 
@@ -74,7 +76,7 @@ export default function NewsDetail() {
           <Typography variant="h3" sx={{ marginBottom: "32px" }}>
             {data[8032858371].info.title}
           </Typography>
-          <Box sx={{ marginBottom: "16px" }}>
+          <Box sx={{ marginBottom: "32px" }}>
             {author && author.length > 0 ? "" : ""}
             <Typography
               variant="body1"
@@ -128,7 +130,7 @@ export default function NewsDetail() {
               </IconButton>
             </Box>
           </Box>
-          <button onClick={() => speak()}>Speak</button>
+          {/* <button onClick={() => speak()}>Speak</button> */}
           <ImageHolder src={data[8032858371].info.image} />
         </Box>
 
