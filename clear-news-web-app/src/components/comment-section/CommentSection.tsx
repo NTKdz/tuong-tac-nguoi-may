@@ -99,6 +99,7 @@ export default function CommentSection() {
         commentsList.map((comment) => {
           return (
             <Comment
+              key={comment.id}
               id={comment.id}
               author={comment.author}
               email={comment.email}

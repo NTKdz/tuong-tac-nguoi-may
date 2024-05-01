@@ -28,7 +28,7 @@ export default function NewsCardVert({
         ":hover": { cursor: "pointer" },
       }}
       elevation={elevation || elevation == 0 ? elevation : 1}
-      onClick={() => navigate("/" + id)}
+      onClick={() => navigate("/news/" + id)}
     >
       {pictureUrl && (
         <Box sx={pictureStyle ? pictureStyle : { height: "240px" }}>

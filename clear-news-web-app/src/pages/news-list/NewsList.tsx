@@ -1,9 +1,9 @@
-import { Box, Container } from "@mui/material";
-import React, { useEffect } from "react";
+import { Container } from "@mui/material";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import mockData from "../../mockdata/data3.json";
-import MainSection from "../../components/news-by-category/MainSection";
 import AdditionalSection from "../../components/news-by-category/AdditionalSection";
+import MainSection from "../../components/news-by-category/MainSection";
+import mockData from "../../mockdata/data3.json";
 
 export default function NewsList() {
   const { category } = useParams();

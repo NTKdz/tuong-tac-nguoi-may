@@ -1,9 +1,8 @@
-import React from "react";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/navbar/NavBar";
-import Footer from "../components/footer/Footer";
 import ThemeController from "../components/controller/theme-controller/ThemeController";
-import { Box, IconButton } from "@mui/material";
+import Footer from "../components/footer/Footer";
+import NavBar from "../components/navbar/NavBar";
 
 export default function LayOut() {
   return (

@@ -25,9 +25,9 @@ export default function MainSection() {
           flexDirection: "column",
         }}
       >
-
         <Typography variant="h4">Trending</Typography>
         <NewsCardVert
+          id={data[0].uri}
           title={data[0].title}
           pictureUrl={data[0].image ? data[0].image : ""}
           elevation={0}
@@ -40,6 +40,8 @@ export default function MainSection() {
         {data.slice(1, 9).map((news, index) => {
           return (
             <NewsCardHori
+              key={index}
+              id={news.uri}
               title={news.title}
               pictureUrl={news.image ? news.image : ""}
               elevation={0}
@@ -68,6 +70,7 @@ export default function MainSection() {
             }}
           >
             <NewsCardVert
+              id={data[0].uri}
               title={data[0].title}
               pictureUrl={data[0].image ? data[0].image : ""}
               elevation={0}
@@ -76,6 +79,8 @@ export default function MainSection() {
             {data.slice(0, 9).map((news, index) => {
               return (
                 <NewsCardHori
+                  key={index}
+                  id={news.uri}
                   title={news.title}
                   // pictureUrl={news.image ? news.image : ""}
                   elevation={0}
@@ -100,6 +105,7 @@ export default function MainSection() {
             }}
           >
             <NewsCardVert
+              id={data[10].uri}
               title={data[10].title}
               pictureUrl={data[10].image ? data[10].image : ""}
               elevation={0}
@@ -108,6 +114,8 @@ export default function MainSection() {
             {data.slice(11, 20).map((news, index) => {
               return (
                 <NewsCardHori
+                  key={index}
+                  id={news.uri}
                   title={news.title}
                   // pictureUrl={news.image ? news.image : ""}
                   elevation={0}

@@ -11,6 +11,8 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export default function NewsDetail() {
   const data = mockData;
@@ -20,6 +22,7 @@ export default function NewsDetail() {
   const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const [speechSynthesis, setSpeechSynthesis] =
     useState<SpeechSynthesis | null>(null);
+  const { lineHeight } = useSelector((state: RootState) => state.theme);
 
   useEffect(() => {
     const initializeHls = () => {
@@ -32,7 +35,7 @@ export default function NewsDetail() {
         );
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play();
+          
         });
       }
     };
@@ -133,37 +136,50 @@ export default function NewsDetail() {
           {/* <button onClick={() => speak()}>Speak</button> */}
           <ImageHolder src={data[8032858371].info.image} />
         </Box>
+        <audio controls style={{ width: "100%" }}>
+          <source src="https://s3.us-east-1.amazonaws.com/invideo-uploads-us-east-1/speechen-US-Neural2-A17141979201700.mp3"></source>
+        </audio>
+        <Box>
+          {bodyLines.map((line, index) => {
+            if (
+              line.includes("ADVERTISEMENT") ||
+              line.includes("SPONSORED CONTENT")
+            )
+              return null;
 
-        {bodyLines.map((line, index) => {
-          if (line.includes("ADVERTISEMENT")) return null;
-          // if (index === 1) {
-          //   return (
-          //     <Box key={index}>
-          //       <video
-          //         ref={videoRef}
-          //         width="640"
-          //         height="360"
-          //         controls
-          //         playsInline // Important for mobile devices
-          //       >
-          //         <source
-          //           src="https://lineup.cbsivideo.com/playout/c1ed69db-6b71-4581-a937-a70ab4089f8a/0/chunklist.m3u8"
-          //           type="application/x-mpegURL"
-          //         />
-          //         Your browser does not support the video tag.
-          //       </video>
-          //       <Typography variant="body1" paragraph>
-          //         {line}
-          //       </Typography>
-          //     </Box>
-          //   );
-          // }
-          return (
-            <Typography key={index} variant="body1" paragraph>
-              {line}
-            </Typography>
-          );
-        })}
+            return (
+              <Box key={index}>
+                {index === Math.floor(bodyLines.length / 2) && (
+                  <Box>
+                    <video
+                      ref={videoRef}
+                      width="100%"
+                      controls
+                      playsInline // Important for mobile devices
+                    >
+                      <source
+                        src="https://lineup.cbsivideo.com/playout/c1ed69db-6b71-4581-a937-a70ab4089f8a/0/chunklist.m3u8"
+                        type="application/x-mpegURL"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                    <Typography variant="body1" paragraph>
+                      {line}
+                    </Typography>
+                  </Box>
+                )}
+                <Typography
+                  key={index}
+                  variant="body1"
+                  paragraph
+                  lineHeight={lineHeight + "%"}
+                >
+                  {line}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
       </Paper>
 
       <div ref={commentSectionRef}>

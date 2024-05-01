@@ -69,7 +69,7 @@ export default function NewsCardHori({
             }
       }
       elevation={elevation || elevation == 0 ? elevation : 1}
-      onClick={() => navigate("/" + id)}
+      onClick={() => navigate("/news/" + id)}
     >
       {pictureUrl && (
         <Box

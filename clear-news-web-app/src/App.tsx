@@ -1,12 +1,10 @@
+import { CssBaseline, PaletteMode, responsiveFontSizes } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Provider, useSelector } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
+import { RootState, store } from "./redux/store";
 import { router } from "./routes";
-import { RootState, store, useAppSelector } from "./redux/store";
-import { Provider, useSelector } from "react-redux";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline, PaletteMode, responsiveFontSizes } from "@mui/material";
-import { useEffect } from "react";
-import { defaultStyles } from "./theme";
 
 const myTheme = (
   theme: {
@@ -55,6 +53,7 @@ const myTheme = (
       },
     },
     typography: {
+      fontFamily: `sans-serif`,
       fontSize: theme.typography.fontSize,
       // body1: { fontSize: theme.typography.fontSize },
       // body2: {},
@@ -71,74 +70,11 @@ const myTheme = (
       MuiButton: {
         // styleOverrides: {},
       },
-      // MuiTextField: {
-      //   styleOverrides: {
-      //     root: {
-      //       "& .MuiOutlinedInput-root": {
-      //         borderRadius: "8px",
-      //         color: theme.primary.contrastText,
-      //         "& .MuiOutlinedInput-notchedOutline": {
-      //           borderColor: theme.primary.contrastText,
-      //         },
-      //         "&.Mui-focused": {
-      //           "& .MuiOutlinedInput-notchedOutline": {
-      //             borderColor: theme.primary.contrastText,
-      //             borderWidth: "2px",
-      //           },
-      //         },
-      //         "&:hover:not(.Mui-focused)": {
-      //           "& .MuiOutlinedInput-notchedOutline": {
-      //             borderColor: theme.primary.contrastText,
-      //             borderWidth: "3px",
-      //           },
-      //         },
-      //       },
-      //       "& .MuiInputLabel-outlined": {
-      //         color: theme.primary.contrastText,
-      //         "&.Mui-focused": {
-      //           color: theme.primary.contrastText,
-      //           fontWeight: "bold",
-      //         },
-      //       },
-
-      //       "& .MuiInput-root": {
-      //         color: theme.primary.contrastText,
-      //         fontFamily: "Arial",
-      //         // fontWeight: "bold",
-      //         "&:before": {
-      //           borderColor: theme.primary.contrastText,
-      //           borderWidth: "2px",
-      //         },
-      //         "&:after": {
-      //           borderColor: theme.primary.contrastText,
-      //           borderWidth: "3px",
-      //         },
-      //         ":hover:not(.Mui-focused)": {
-      //           "&:before": {
-      //             borderColor: theme.primary.contrastText,
-      //             borderWidth: "2px",
-      //           },
-      //         },
-      //       },
-      //       "& .MuiInputLabel-standard": {
-      //         color: theme.primary.contrastText,
-      //         // fontWeight: "bold",
-      //         "&.Mui-focused": {
-      //           fontWeight: "bold",
-      //           color: theme.primary.contrastText,
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
     },
   });
 
 function App() {
-  const { theme } = useSelector((state: RootState) => state);
-  useEffect(() => {
-    console.log(theme);
-  }, []);
+  const theme = useSelector((state: RootState) => state.theme);
   return (
     <ThemeProvider
       theme={responsiveFontSizes(

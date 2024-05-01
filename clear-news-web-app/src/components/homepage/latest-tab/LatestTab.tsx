@@ -18,7 +18,7 @@ export default function LatestTab() {
         {data &&
           data.slice(0, 12).map((news) => {
             return (
-              <Grid item xs={3}>
+              <Grid key={news.uri} item xs={3}>
                 <NewsCardVert
                   id={news.uri}
                   title={news.title}

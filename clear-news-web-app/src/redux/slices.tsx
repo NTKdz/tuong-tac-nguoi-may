@@ -5,8 +5,36 @@ const themeSlice = createSlice({
   name: "theme",
   initialState: defaultStyles,
   reducers: {
-    setTheme: (state, action) => {
-      state = action.payload;
+    setMode: (state, action: PayloadAction<string>) => {
+      state.mode = action.payload;
+    },
+    setTheme: (
+      state,
+      action: PayloadAction<{
+        mode: string;
+        theme: {
+          primary: {
+            main: string;
+            contrastText: string;
+          };
+          secondary: {
+            main: string;
+            contrastText: string;
+          };
+          background: {
+            default: string;
+            paper: string;
+          };
+          text: {
+            primary: string;
+            secondary: string;
+          };
+          typography: { fontSize: number; fontFamily: string };
+        };
+      }>
+    ) => {
+      state.theme = action.payload.theme;
+      state.mode = action.payload.mode;
     },
     setPrimary: (
       state,
@@ -20,8 +48,20 @@ const themeSlice = createSlice({
     ) => {
       state.theme.secondary = action.payload;
     },
-    setFontSize: (state, action: PayloadAction<{ fontSize: number }>) => {
-      state.theme.typography = action.payload;
+    setTextColor: (
+      state,
+      action: PayloadAction<{ primary: string; secondary: string }>
+    ) => {
+      state.theme.text = action.payload;
+    },
+    setFontSize: (state, action: PayloadAction<number>) => {
+      state.theme.typography.fontSize = action.payload;
+    },
+    setFontFamily: (state, action: PayloadAction<string>) => {
+      state.theme.typography.fontFamily = action.payload;
+    },
+    setLineHeight: (state, action: PayloadAction<string>) => {
+      state.lineHeight = action.payload;
     },
     setBackGroundColor: (
       state,
@@ -29,16 +69,29 @@ const themeSlice = createSlice({
     ) => {
       state.theme.background = action.payload;
     },
+    setDefaultBackGroundColor: (state, action: PayloadAction<string>) => {
+      state.theme.background.default = action.payload;
+    },
+    setPaperBackGroundColor: (state, action: PayloadAction<string>) => {
+      console.log("dfa")
+      state.theme.background.paper = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
+  setMode,
   setTheme,
   setPrimary,
   setSecondary,
   setFontSize,
   setBackGroundColor,
+  setTextColor,
+  setDefaultBackGroundColor,
+  setPaperBackGroundColor,
+  setFontFamily,
+  setLineHeight,
 } = themeSlice.actions;
 
 export default themeSlice.reducer;

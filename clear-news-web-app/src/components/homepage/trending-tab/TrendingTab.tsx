@@ -23,7 +23,7 @@ export default function TrendingTab() {
       >
         <Box
           sx={{ flex: "3", ":hover": { cursor: "pointer" } }}
-          onClick={() => navigate("/" + data[0].uri)}
+          onClick={() => navigate("/news/" + data[0].uri)}
         >
           <MainArticle
             title={data[0].title}
@@ -50,7 +50,7 @@ export default function TrendingTab() {
                 xs={6}
                 key={index}
                 sx={{ ":hover": { cursor: "pointer" } }}
-                onClick={() => navigate("/" + item.uri)}
+                onClick={() => navigate("/news/" + item.uri)}
               >
                 <NewsCard
                   title={item.title}

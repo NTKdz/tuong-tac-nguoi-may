@@ -40,7 +40,7 @@ export default function MainArticle({
         sx={{
           width: "146px",
           height: "36px",
-          fontSize: "12px",
+          fontSize: "12px!important",
           borderRadius: "24px",
           marginLeft: "4px",
           marginTop: "4px",
