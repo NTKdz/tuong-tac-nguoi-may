@@ -16,6 +16,7 @@ import { CssBaseline, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getContrastColor } from "../../utils/colorContrast";
+import { LogOut } from "../../firebase/auth";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -297,9 +298,26 @@ export default function NavBar() {
               {settings.map((setting) => (
                 <MenuItem
                   key={setting}
-                  onClick={(event) => handleCloseUserMenu(event, setting)}
+                  onClick={(event) => {
+                    handleCloseUserMenu(event, setting);
+                    LogOut();
+                  }}
                 >
                   <Typography textAlign="center">{setting}</Typography>
+
+                  {/* {setting !== "logout" ? (
+                    <Typography textAlign="center">{setting}</Typography>
+                  ) : (
+                    <Typography
+                      component="div"
+                      textAlign="center"
+                      onClick={() => {
+                        LogOut();
+                      }}
+                    >
+                      {setting}
+                    </Typography>
+                  )} */}
                 </MenuItem>
               ))}
             </Menu>

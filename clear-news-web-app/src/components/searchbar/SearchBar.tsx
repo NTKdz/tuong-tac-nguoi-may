@@ -1,6 +1,5 @@
-import React from "react";
 import "./styles.css";
-import { Box, Icon, IconButton, SxProps, TextField } from "@mui/material";
+import { Box, IconButton, SxProps, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function SearchBar({
