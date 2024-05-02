@@ -15,14 +15,13 @@ export default function ColorPicker({
 }) {
   const theme = useTheme();
   const [value, setValue] = useState(color);
-  const prevMode = useRef(theme.palette.mode);
 
   useEffect(() => {
-    if (prevMode.current === "dark") {
+    if (theme.palette.mode === "dark") {
+      return;
+    } else {
       setValue(color);
     }
-    prevMode.current = theme.palette.mode;
-  
   }, [color, theme.palette.mode]);
 
   useEffect(() => {

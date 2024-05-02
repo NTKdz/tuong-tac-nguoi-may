@@ -43,7 +43,7 @@ export const ThemeHooks = () => {
 
   function changeMode(mode: string) {
     dispatch(setMode(mode));
-    mode === "light" && dispatch(setTheme(defaultStyles));
+    // mode === "light" && dispatch(setTheme(defaultStyles));
   }
   function changeTheme(theme: themeState) {
     dispatch(setTheme(theme));
