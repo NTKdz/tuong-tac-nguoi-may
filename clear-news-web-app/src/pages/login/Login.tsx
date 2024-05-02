@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
 import { SignIn, SignUp } from "../../firebase/auth";
-import { useTheme } from "@mui/material";
 import { getContrastColor } from "../../utils/colorContrast";
 import { Paper, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -38,10 +37,11 @@ export default function Login() {
     if (password === repeatPassword) {
       try {
         const userCredential = await SignUp(email, password);
-        if (userCredential) {
-          console.log("User created:", userCredential.user);
-          navigate("/");
-        }
+        // if (userCredential) {
+        //   console.log("User created:", userCredential.user);
+        //   navigate("/");
+        // }
+        navigate("/");
       } catch (error) {
         console.error("Signup failed:", error);
       }
