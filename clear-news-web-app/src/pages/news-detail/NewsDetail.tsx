@@ -13,6 +13,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { BookmarkArticle } from "../../firebase/apiFunctions";
 
 export default function NewsDetail() {
   const data = mockData;
@@ -34,9 +35,7 @@ export default function NewsDetail() {
           "https://lineup.cbsivideo.com/playout/c1ed69db-6b71-4581-a937-a70ab4089f8a/0/chunklist.m3u8"
         );
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          
-        });
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {});
       }
     };
 
@@ -56,20 +55,16 @@ export default function NewsDetail() {
     }
   };
 
-  const speak = () => {
-    if (speechSynthesis) {
-      const utterance = new SpeechSynthesisUtterance(
-        data[8032858371].info.body
-      );
-      speechSynthesis.speak(utterance);
-    }
-  };
   function loadVideo(videoSrc: string) {
     if (Hls.isSupported()) {
       let hls = new Hls();
       hls.loadSource(videoSrc);
       hls.attachMedia(this.myRef.current);
     }
+  }
+
+  function onBookMarkClick(articleId: string) {
+    BookmarkArticle(articleId);
   }
 
   return (
@@ -124,7 +119,16 @@ export default function NewsDetail() {
             </Box>
             <Box>
               <IconButton
-                sx={{ width: "32px", height: "32px", marginRight: "8px" }}
+                sx={{
+                  width: "32px",
+                  height: "32px",
+                  marginRight: "8px",
+                  ":hover": { cursor: "pointer" },
+                }}
+                onClick={() => {
+                  console.log("click");
+                  onBookMarkClick(data[8032858371].info.uri);
+                }}
               >
                 <BookmarkBorderIcon />
               </IconButton>

@@ -28,7 +28,7 @@ import LineHeightInput from "./value-input/LineHeightInput";
 
 export default function ThemeController() {
   const location = useLocation();
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
   const [attribute, setAttribute] = useState({
     top: "80px",
     right: "0",

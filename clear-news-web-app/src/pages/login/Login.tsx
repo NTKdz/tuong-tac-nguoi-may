@@ -16,7 +16,7 @@ import { Paper, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [currentLocation, setCurrentLocation] = React.useState("signUp");
+  const [currentLocation, setCurrentLocation] = React.useState("signIn");
   const theme = useTheme();
   const navigate = useNavigate();
   // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
