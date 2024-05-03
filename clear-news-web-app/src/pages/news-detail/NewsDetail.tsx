@@ -14,7 +14,6 @@ import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { BookmarkArticle } from "../../firebase/apiFunctions";
-
 export default function NewsDetail() {
   const data = mockData;
   const author = data[8032858371].info.authors;
@@ -111,7 +110,8 @@ export default function NewsDetail() {
               <IconButton
                 sx={{ width: "32px", height: "32px", marginRight: "8px" }}
                 onClick={() => {
-                  scrollToCommentSection();
+                  // scrollToCommentSection();
+                  BookmarkArticle(data[8032858371].info.uri);
                 }}
               >
                 <CommentOutlinedIcon />
