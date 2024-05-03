@@ -2,18 +2,29 @@ import app from "./config";
 import {
   arrayUnion,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 const db = getFirestore(app);
 const auth = getAuth();
-const user = auth.currentUser;
+// const user = auth.currentUser;
+let user: User | null = null;
+onAuthStateChanged(auth, (currentUser) => {
+  user = currentUser;
+  if (user) {
+    console.log("User is signed in", user);
+  } else {
+    console.log("No user signed in");
+  }
+});
 
 // Create new comment
 export const CreateComment = async (
@@ -49,12 +60,15 @@ export const GetAllCommentsOfArticle = async (articleId: string) => {
 
 // bookmark an article
 export const BookmarkArticle = async (articleId: string) => {
+  console.log(user);
+
   if (user) {
     const uid = user.uid;
     const userDocRef = doc(db, "users", uid);
 
     try {
       await updateDoc(userDocRef, {
+        // await updateDoc(userDocRef, {
         bookmarks: arrayUnion(articleId),
       });
       console.log("Bookmark added");
