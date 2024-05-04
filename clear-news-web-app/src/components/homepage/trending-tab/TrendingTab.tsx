@@ -1,14 +1,25 @@
-import { Box, Grid, useTheme } from "@mui/material";
-import React from "react";
-import MainArticle from "./news-card/MainArticle";
-import mockArticle from "../../../mockdata/data2.json";
-import NewsCard from "./news-card/NewsCard";
+import { Box, Grid } from "@mui/material";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import NewsHooks from "../../../redux/hooks/NewsHooks";
+import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
+import MainArticle from "./news-card/MainArticle";
+import NewsCard from "./news-card/NewsCard";
 import { useNavigate } from "react-router-dom";
+
 export default function TrendingTab() {
-  const data = mockArticle.articles.results;
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { trendingNews } = useSelector((state: RootState) => state.news);
+  const { getTrendingNews } = NewsHooks();
+
+  useEffect(() => {
+    getTrendingNews();
+  }, []);
+
+  // Check if newsResult and its nested properties are defined
+  const mainArticle = trendingNews?.articles?.results?.[0];
+  const otherArticles = trendingNews?.articles?.results?.slice(1, 7) || [];
 
   return (
     <Box>
@@ -23,12 +34,12 @@ export default function TrendingTab() {
       >
         <Box
           sx={{ flex: "3", ":hover": { cursor: "pointer" } }}
-          onClick={() => navigate("/news/" + data[0].uri)}
+          onClick={() => navigate("/news/" + mainArticle?.uri)}
         >
           <MainArticle
-            title={data[0].title}
-            pictureUrl={data[0].image}
-            dateTime={formatDateTime(data[0].dateTime)}
+            title={mainArticle?.title}
+            pictureUrl={mainArticle?.image}
+            dateTime={formatDateTime(mainArticle?.dateTime)}
           />
         </Box>
         <Grid
@@ -36,32 +47,28 @@ export default function TrendingTab() {
           spacing={2}
           sx={{
             flex: "4",
-            // backgroundColor: theme.palette.secondary.main,
             paddingTop: "16px",
             paddingBottom: "16px",
           }}
-          // rowSpacing={1}
-          // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          {data.slice(1, 7).map((item, index: number) => {
-            return (
-              <Grid
-                item
-                xs={6}
-                key={index}
-                sx={{ ":hover": { cursor: "pointer" } }}
-                onClick={() => navigate("/news/" + item.uri)}
-              >
-                <NewsCard
-                  title={item.title}
-                  pictureUrl={item.image}
-                  dateTime={formatDateTime(item.dateTime)}
-                />
-              </Grid>
-            );
-          })}
+          {otherArticles.map((item, index: number) => (
+            <Grid
+              item
+              xs={6}
+              key={index}
+              sx={{ ":hover": { cursor: "pointer" } }}
+              onClick={() => navigate("/news/" + item?.uri)}
+            >
+              <NewsCard
+                title={item?.title}
+                pictureUrl={item?.image}
+                dateTime={formatDateTime(item?.dateTime)}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Box>
   );
 }
+

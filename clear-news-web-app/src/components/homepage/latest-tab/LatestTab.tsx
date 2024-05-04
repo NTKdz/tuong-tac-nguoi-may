@@ -1,12 +1,23 @@
 import { Box, Grid, useTheme } from "@mui/material";
-import React from "react";
-import HeadLine from "../../headline/HeadLine";
-import mockData from "../../../mockdata/data2.json";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import NewsHooks from "../../../redux/hooks/NewsHooks";
+import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
+import HeadLine from "../../headline/HeadLine";
 import NewsCardVert from "../../news-card/NewsCardVert";
 export default function LatestTab() {
   const theme = useTheme();
-  const data = mockData.articles.results;
+  const { latestNews } = useSelector((state: RootState) => state.news);
+  const { getLatestNews } = NewsHooks();
+
+  useEffect(() => {
+    getLatestNews();
+  }, []);
+
+  // Check if newsResult and its nested properties are defined
+  const articles = latestNews?.articles?.results || [];
+
   return (
     <Box sx={{ marginTop: "36px" }}>
       <HeadLine
@@ -15,24 +26,21 @@ export default function LatestTab() {
       />
 
       <Grid container spacing={4}>
-        {data &&
-          data.slice(0, 12).map((news) => {
-            return (
-              <Grid key={news.uri} item xs={3}>
-                <NewsCardVert
-                  id={news.uri}
-                  title={news.title}
-                  pictureUrl={news.image}
-                  dateTime={formatDateTime(news.dateTime)}
-                  style={{
-                    minHeight: "400px",
-                    padding: "12px",
-                    borderRadius: "16px",
-                  }}
-                />
-              </Grid>
-            );
-          })}
+        {articles.slice(0, 12).map((news) => (
+          <Grid key={news.uri} item xs={3}>
+            <NewsCardVert
+              id={news.uri}
+              title={news.title}
+              pictureUrl={news.image}
+              dateTime={formatDateTime(news.dateTime)}
+              style={{
+                minHeight: "400px",
+                padding: "12px",
+                borderRadius: "16px",
+              }}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

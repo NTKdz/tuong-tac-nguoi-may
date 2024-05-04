@@ -11,10 +11,9 @@ import {
   setSecondary,
   setTextColor,
   setTheme,
-} from "../slices";
-import { defaultStyles } from "../../theme";
+} from "../slices/themeSlices";
 
-export interface themeState {
+export interface ThemeState {
   mode: string;
   theme: {
     primary: {
@@ -45,7 +44,7 @@ export const ThemeHooks = () => {
     dispatch(setMode(mode));
     // mode === "light" && dispatch(setTheme(defaultStyles));
   }
-  function changeTheme(theme: themeState) {
+  function changeTheme(theme: ThemeState) {
     dispatch(setTheme(theme));
     dispatch(setLineHeight(theme.lineHeight));
   }

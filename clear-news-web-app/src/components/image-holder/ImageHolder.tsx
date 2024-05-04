@@ -1,5 +1,5 @@
 import { Box, CircularProgress, SxProps, Theme } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ImageHolder({
   src,
@@ -17,6 +17,9 @@ export default function ImageHolder({
   const [image, setImage] = useState(src);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    setImage(src);
+  }, [src]);
   const handleImageLoad = () => {
     setLoading(false);
   };
