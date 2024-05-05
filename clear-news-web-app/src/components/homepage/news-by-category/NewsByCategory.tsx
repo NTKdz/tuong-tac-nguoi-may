@@ -1,15 +1,18 @@
 import { Box, Grid, useTheme } from "@mui/material";
-import React, { useState } from "react";
-import HeadLine from "../../headline/HeadLine";
-import mockData from "../../../mockdata/data3.json";
-import CategorySelector from "./category-selector/CategorySelector";
-import NewsCardHori from "../../news-card/NewsCardHori";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
+import HeadLine from "../../headline/HeadLine";
+import NewsCardHori from "../../news-card/NewsCardHori";
+import CategorySelector from "./category-selector/CategorySelector";
 
 export default function NewsByCategory() {
   const [selectedCategory, changeSelectedCategory] = useState<string>("all");
   const theme = useTheme();
-  const data = mockData.articles.results;
+  const { trendingNews } = useSelector((state: RootState) => state.news);
+  const data = trendingNews?.articles?.results || [];
+
   const filteredData = data.filter((item) => {
     if (selectedCategory === "all") return true;
     return item.categories[0]?.label.toLowerCase().includes(selectedCategory);

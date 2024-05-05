@@ -32,7 +32,7 @@ const myTheme = (
     palette: {
       mode: mode,
       primary: {
-        main: theme.primary.main,
+        main: mode === "dark" ?"#0073e6" :theme.primary.main,
         contrastText: theme.primary.contrastText,
       },
       secondary: {
@@ -75,6 +75,7 @@ const myTheme = (
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme);
+  
   return (
     <ThemeProvider
       theme={responsiveFontSizes(

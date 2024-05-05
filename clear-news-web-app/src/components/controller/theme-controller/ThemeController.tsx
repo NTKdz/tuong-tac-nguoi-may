@@ -398,7 +398,7 @@ export default function ThemeController() {
         sx={{
           position: "fixed",
           top: attribute.top,
-          right: attribute.right,
+          right: isOpen ? attribute.right : -1000,
           // display: isOpen ? "block" : "none",
           zIndex: 1000,
           transition: "all 0.5s",

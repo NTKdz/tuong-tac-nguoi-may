@@ -13,10 +13,10 @@ import "./styles.css";
 import { SignIn, SignUp } from "../../firebase/auth";
 import { getContrastColor } from "../../utils/colorContrast";
 import { Paper, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [currentLocation, setCurrentLocation] = React.useState("signIn");
+  const location = useLocation();
   const theme = useTheme();
   const navigate = useNavigate();
   // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -63,6 +63,9 @@ export default function Login() {
     }
   };
 
+  React.useEffect(() => {
+    console.log(location);
+  }, []);
   return (
     <Box
       sx={{
@@ -98,7 +101,9 @@ export default function Login() {
             <img
               id="login-logo"
               src={
-                getContrastColor(theme.palette.primary.main) === "light"
+                theme.palette.mode === "dark"
+                  ? "/src/assets/logos/logo-icon-white.svg"
+                  : getContrastColor(theme.palette.primary.main) === "dark"
                   ? "/src/assets/logos/logo-icon-white.svg"
                   : "/src/assets/logos/logo-icon-black.svg"
               }
@@ -106,13 +111,13 @@ export default function Login() {
             />
           </div>
           <Typography variant="h3">
-            {currentLocation === "signIn" ? "Sign in" : "Sign up"}
+            {location.pathname.includes("login") ? "Sign in" : "Sign up"}
           </Typography>
           <Box
             component="form"
             // onSubmit={handleSubmit}
             onSubmit={
-              currentLocation === "signIn" ? handleSignIn : handleSignUp
+              location.pathname.includes("login") ? handleSignIn : handleSignUp
             }
             noValidate
             sx={{ mt: 1 }}
@@ -137,7 +142,7 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            {currentLocation === "signIn" ? (
+            {location.pathname.includes("login") ? (
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -161,15 +166,15 @@ export default function Login() {
               sx={{ mt: 3, mb: 2 }}
             >
               {/* Sign In */}
-              {currentLocation === "signIn" ? "Sign In" : "Sign Up"}
+              {location.pathname.includes("login") ? "Sign In" : "Sign Up"}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  {currentLocation === "signIn" ? (
+                  {location.pathname.includes("login") ? (
                     <div>Forgot password?</div>
                   ) : (
-                    <div onClick={() => setCurrentLocation("signIn")}>
+                    <div onClick={() => navigate("/login")}>
                       Got an account? Login
                     </div>
                   )}
@@ -177,8 +182,8 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {currentLocation === "signIn" ? (
-                    <div onClick={() => setCurrentLocation("signUp")}>
+                  {location.pathname.includes("login") ? (
+                    <div onClick={() => navigate("/logout")}>
                       Don't have an account? Sign Up
                     </div>
                   ) : (

@@ -18,8 +18,10 @@ import { useEffect, useState } from "react";
 import { getContrastColor } from "../../utils/colorContrast";
 import { LogOut } from "../../firebase/auth";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Setting", "Bookmarks"];
 
 const pageRoutes = [
   { name: "art", route: "art" },
@@ -35,6 +37,7 @@ const pageRoutes = [
 export default function NavBar() {
   const navigate = useNavigate();
   const theme = useTheme();
+  // const {loading} = useSelector((state:RootState)=>state.loading)
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -91,24 +94,29 @@ export default function NavBar() {
   }, [prevScrollPos]);
 
   const colorSchemeMode = React.useMemo(() => {
+    if (theme.palette.mode === "dark") return "light";
     return getContrastColor(theme.palette.primary.main);
-  }, [theme.palette.primary.main]);
+  }, [theme.palette.mode, theme.palette.primary.main]);
 
   return (
     <AppBar
       position={"fixed"}
-      sx={{ top: isNavVisible ? 0 : -100, transition: "all 0.5s" }}
+      sx={{
+        top: isNavVisible ? 0 : -100,
+        transition: "all 0.5s",
+      }}
     >
       <CssBaseline />
       <IconButton
         sx={{
+          display: isScrollTopVisible ? "block" : "none",
           position: "fixed",
           bottom: 100,
           right: 100,
           width: "64px",
           height: "64px",
-          opacity: isScrollTopVisible ? "1" : "0",
           transition: "all 0.5s",
+          zIndex: 0,
         }}
         onClick={() => {
           window.scrollTo({
@@ -299,7 +307,10 @@ export default function NavBar() {
                 <MenuItem
                   key={setting}
                   onClick={(event) => {
-                    handleCloseUserMenu(event, setting);
+                    handleCloseUserMenu(
+                      event,
+                      "account/" + setting.toLowerCase()
+                    );
                     LogOut();
                   }}
                 >
