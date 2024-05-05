@@ -60,3 +60,19 @@ export const LogOut = async () => {
     console.error("Log out error", error);
   }
 };
+
+export const GetUidAndEmail = async () => {
+  try {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const uid = currentUser.uid;
+      const email = currentUser.email;
+      return { uid, email };
+    } else {
+      throw new Error("No user is currently signed in");
+    }
+  } catch (error) {
+    console.error("Error getting UID and email:", error);
+    throw error;
+  }
+};

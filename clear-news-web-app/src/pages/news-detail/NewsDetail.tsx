@@ -187,7 +187,7 @@ export default function NewsDetail() {
       </Paper>
 
       <div ref={commentSectionRef}>
-        <CommentSection />
+        <CommentSection articleId={data[8032858371].info.uri} />
       </div>
     </Container>
   );

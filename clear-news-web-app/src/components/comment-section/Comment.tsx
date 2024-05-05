@@ -84,7 +84,7 @@ export default function Comment({
               />
             </Box>
 
-            <Typography>{author}</Typography>
+            <Typography>{email}</Typography>
           </Box>
           <IconButton sx={{ width: "40px", height: "40px" }}>
             <MoreVertIcon />

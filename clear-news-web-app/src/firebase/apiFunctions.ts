@@ -29,12 +29,14 @@ onAuthStateChanged(auth, (currentUser) => {
 // Create new comment
 export const CreateComment = async (
   userId: string,
+  userEmail: string,
   articleId: string,
   content: string
 ) => {
   try {
     const docRef = await addDoc(collection(db, "comments"), {
       userId: userId,
+      userEmail: userEmail,
       articleId: articleId,
       content: content,
       createAt: new Date(),
@@ -51,11 +53,17 @@ export const GetAllCommentsOfArticle = async (articleId: string) => {
     collection(db, "comments"),
     where("articleId", "==", articleId)
   );
+  const comments = [];
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // console.log(`${doc.id} => ${doc.data().}`);
     console.log(doc.id, " => ", doc.data().content);
+    comments.push({
+      id: doc.id,
+      data: doc.data(),
+    });
   });
+  return comments;
 };
 
 // bookmark an article
