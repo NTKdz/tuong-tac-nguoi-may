@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import NewsCardVert from "../news-card/NewsCardVert";
 import NewsCardHori from "../news-card/NewsCardHori";
 import mockData from "../../mockdata/data3.json";
@@ -8,6 +8,7 @@ import HeadLine from "../headline/HeadLine";
 export default function MainSection() {
   const data = mockData.articles.results;
   const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -92,6 +93,7 @@ export default function MainSection() {
                     borderTop: `2px solid ${theme.palette.background.default}`,
                   }}
                   fontSize="body1"
+                  showImage={false}
                 />
               );
             })}
@@ -127,6 +129,7 @@ export default function MainSection() {
                     borderTop: `2px solid ${theme.palette.background.default}`,
                   }}
                   fontSize="body1"
+                  showImage={false}
                 />
               );
             })}

@@ -17,6 +17,7 @@ export const readStyle = {
     typography: { fontSize: 14, fontFamily: "san-serif" },
   },
   lineHeight: "200",
+  current: "general",
 };
 export const defaultStyles = {
   mode: "light",
@@ -40,6 +41,7 @@ export const defaultStyles = {
     typography: { fontSize: 14, fontFamily: "san-serif" },
   },
   lineHeight: "200",
+  current: "general",
 };
 
 export const customStyles = {
@@ -64,6 +66,7 @@ export const customStyles = {
     typography: { fontSize: 14, fontFamily: "san-serif" },
   },
   lineHeight: "200",
+  current: "general",
 };
 
 export const fontFamilies = ["sans-serif"];

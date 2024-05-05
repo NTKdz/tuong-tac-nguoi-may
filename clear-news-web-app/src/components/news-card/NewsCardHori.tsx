@@ -14,6 +14,7 @@ export default function NewsCardHori({
   elevation,
   fontSize,
   maxLine,
+  showImage = true,
 }: {
   id: string;
   title: string;
@@ -24,6 +25,7 @@ export default function NewsCardHori({
   elevation?: number;
   fontSize?: string;
   maxLine?: string;
+  showImage?: boolean;
 }) {
   const boxRef = useRef(null);
   const navigate = useNavigate();
@@ -71,7 +73,7 @@ export default function NewsCardHori({
       elevation={elevation || elevation == 0 ? elevation : 1}
       onClick={() => navigate("/news/" + id)}
     >
-      {pictureUrl && (
+      {showImage && (
         <Box
           sx={
             pictureStyle

@@ -1,6 +1,6 @@
 import { CSSObject, useTheme } from "@mui/material";
 import { MuiColorInput } from "mui-color-input";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ColorPicker({
   color,

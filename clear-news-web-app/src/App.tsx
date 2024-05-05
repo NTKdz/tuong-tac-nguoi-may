@@ -5,6 +5,8 @@ import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { RootState, store } from "./redux/store";
 import { router } from "./routes";
+import { useEffect } from "react";
+import { defaultStyles } from "./theme";
 
 const myTheme = (
   theme: {
@@ -32,7 +34,7 @@ const myTheme = (
     palette: {
       mode: mode,
       primary: {
-        main: mode === "dark" ?"#0073e6" :theme.primary.main,
+        main: mode === "dark" ? "#0073e6" : theme.primary.main,
         contrastText: theme.primary.contrastText,
       },
       secondary: {
@@ -75,7 +77,31 @@ const myTheme = (
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme);
-  
+
+  useEffect(() => {
+    if (!localStorage.getItem("read-theme"))
+      localStorage.setItem(
+        "read-theme",
+        JSON.stringify({
+          mode: defaultStyles.mode,
+          current: defaultStyles.current,
+          lineHeight: defaultStyles.lineHeight,
+          theme: defaultStyles.theme,
+        })
+      );
+    if (!localStorage.getItem("theme"))
+      localStorage.setItem(
+        "theme",
+        JSON.stringify({
+          mode: defaultStyles.mode,
+          current: defaultStyles.current,
+          lineHeight: defaultStyles.lineHeight,
+          theme: defaultStyles.theme,
+        })
+      );
+    console.log(theme);
+  }, []);
+
   return (
     <ThemeProvider
       theme={responsiveFontSizes(

@@ -11,14 +11,16 @@ export default function ImageHolder({
     borderRadius: "8px",
   },
 }: {
-  src: string;
+  src?: string;
   style?: SxProps<Theme>;
 }) {
   const [image, setImage] = useState(src);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setImage(src);
+    if (src === "")
+      setImage("https://via.placeholder.com/500x240.png?text=No+Image");
+    else setImage(src);
   }, [src]);
   const handleImageLoad = () => {
     setLoading(false);

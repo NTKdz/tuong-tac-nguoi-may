@@ -1,5 +1,5 @@
 import { Box, Paper, SxProps, Theme, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ImageHolder from "../image-holder/ImageHolder";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ export default function NewsCardVert({
   style,
   pictureStyle,
   elevation,
+  showImage=true,
 }: {
   id: string;
   title: string;
@@ -19,6 +20,7 @@ export default function NewsCardVert({
   style?: SxProps<Theme> | undefined;
   pictureStyle?: SxProps<Theme> | undefined;
   elevation?: number;
+  showImage?: boolean;
 }) {
   const navigate = useNavigate();
   return (
@@ -30,7 +32,7 @@ export default function NewsCardVert({
       elevation={elevation || elevation == 0 ? elevation : 1}
       onClick={() => navigate("/news/" + id)}
     >
-      {pictureUrl && (
+      {showImage && (
         <Box sx={pictureStyle ? pictureStyle : { height: "240px" }}>
           <ImageHolder src={pictureUrl} />
         </Box>

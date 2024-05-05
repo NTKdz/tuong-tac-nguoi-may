@@ -16,17 +16,20 @@ import { RootState } from "../../redux/store";
 import { BookmarkArticle } from "../../firebase/apiFunctions";
 import { useParams } from "react-router-dom";
 import NewsHooks from "../../redux/hooks/NewsHooks";
+
 export default function NewsDetail() {
+  const newsDetail = mockData[8032858371].info;
   const videoRef = useRef(null);
   const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
-  const { newsDetail } = useSelector((state: RootState) => state.news);
-  const { getNewsDetail } = NewsHooks();
+  // const { newsDetail } = useSelector((state: RootState) => state.news);
+  // const { getNewsDetail } = NewsHooks();
 
   useEffect(() => {
     console.log(id);
-    id && getNewsDetail(id);
+    // id && getNewsDetail(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {

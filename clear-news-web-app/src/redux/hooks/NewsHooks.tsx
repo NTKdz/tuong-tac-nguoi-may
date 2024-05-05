@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { NewsResult } from "../interface/newsInterface";
+import { NewsDetail, NewsResult } from "../interface/newsInterface";
 import {
   setLatestNews,
   setNewsDetail,
@@ -9,6 +9,7 @@ import {
 import { setLoading } from "../slices/loadingSlice";
 
 const baseUrl = "https://www.newsapi.ai/api/v1/article/getArticles";
+const baseUrl1 = "https://www.newsapi.ai/api/v1/article/getArticle";
 export default function NewsHooks() {
   const dispatch = useDispatch();
 
@@ -16,7 +17,7 @@ export default function NewsHooks() {
     const query = {
       query: {
         $query: {
-          locationUri: "http://en.wikipedia.org/wiki/United_States",
+          lang: "eng",
         },
         $filter: {
           forceMaxDataTimeWindow: "31",
@@ -29,7 +30,6 @@ export default function NewsHooks() {
       includeArticleCategories: true,
       includeArticleLocation: true,
       includeArticleImage: true,
-
       includeArticleVideos: true,
       apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
     };
@@ -54,7 +54,7 @@ export default function NewsHooks() {
     const query = {
       query: {
         $query: {
-          locationUri: "http://en.wikipedia.org/wiki/United_States",
+          lang: "eng",
         },
         $filter: {
           forceMaxDataTimeWindow: "31",
@@ -90,7 +90,7 @@ export default function NewsHooks() {
   async function getNewsDetail(id: string) {
     const query = {
       articleUri: [id],
-      resultType: "articles",
+      resultType: "info",
       articlesSortBy: "date",
       includeArticleEventUri: false,
       includeArticleCategories: true,
@@ -102,12 +102,11 @@ export default function NewsHooks() {
 
     try {
       dispatch(setLoading(true));
-      const response = await axios.post(baseUrl, query);
+      const response = await axios.post(baseUrl1, query);
 
       if (response.status === 200) {
-        const data: NewsResult = response.data;
-        console.log(data.articles.results[0]);
-        dispatch(setNewsDetail(data.articles.results[0]));
+        const data: NewsDetail = response.data[id].info;
+        dispatch(setNewsDetail(data));
       }
     } catch (error) {
       console.error("Error fetching news detail:", error);

@@ -21,10 +21,10 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ThemeHooks } from "../../../redux/hooks/ThemeHooks";
 import { RootState } from "../../../redux/store";
-import { defaultStyles, fontFamilies, readStyle } from "../../../theme";
+import { fontFamilies } from "../../../theme";
 import ColorPicker from "./color-picker/ColorPicker";
-import ValueInput from "./value-input/ValueInput";
 import LineHeightInput from "./value-input/LineHeightInput";
+import ValueInput from "./value-input/ValueInput";
 
 export default function ThemeController() {
   const location = useLocation();
@@ -35,16 +35,16 @@ export default function ThemeController() {
     width: "500px",
   });
   const myTheme = useTheme();
-  const { lineHeight, theme, mode } = useSelector(
+  const { lineHeight, theme, mode, current } = useSelector(
     (state: RootState) => state.theme
   );
+
   const {
+    changeCurrent,
     changeFontSize,
     changeTextColor,
     changeTheme,
-    changeBackgroundColor,
     changePrimary,
-    changeSecondary,
     changeDefaultBackgroundColor,
     changePaperBackgroundColor,
     changeMode,
@@ -53,10 +53,12 @@ export default function ThemeController() {
   } = ThemeHooks();
 
   useEffect(() => {
-    if (location.pathname.includes("news")) {
-      changeTheme(readStyle);
+    if (location.pathname.includes("/news")) {
+      changeCurrent("reading");
+      changeMode(JSON.parse(localStorage.getItem("read-theme")!).mode);
     } else {
-      changeTheme(defaultStyles);
+      changeCurrent("default");
+      changeMode(JSON.parse(localStorage.getItem("theme")!).mode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
@@ -67,6 +69,7 @@ export default function ThemeController() {
         changeTextColor(color);
         break;
       case "default":
+        console.log("change default");
         changeDefaultBackgroundColor(color);
         break;
       case "paper":
@@ -200,6 +203,7 @@ export default function ThemeController() {
               <ColorPicker
                 color={myTheme.palette.text.primary}
                 onColorChange={(color: string) => {
+                  console.log("change text");
                   onColorChange("text", color);
                 }}
                 disabled={myTheme.palette.mode === "dark" ? true : false}
@@ -415,7 +419,8 @@ export default function ThemeController() {
           <Button
             sx={{ float: "right" }}
             onClick={() => {
-              const currentTheme = localStorage.getItem("theme");
+              const readStyle = current === "reading" ? "read-theme" : "theme";
+              const currentTheme = localStorage.getItem(readStyle);
               currentTheme && changeTheme(JSON.parse(currentTheme));
               setOpen(!isOpen);
             }}
@@ -437,8 +442,9 @@ export default function ThemeController() {
           </Button>
           <Button
             onClick={() => {
+              const readStyle = current === "reading" ? "read-theme" : "theme";
               localStorage.setItem(
-                "theme",
+                readStyle,
                 JSON.stringify({
                   mode: mode,
                   theme: theme,

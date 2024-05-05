@@ -63,9 +63,6 @@ export default function Login() {
     }
   };
 
-  React.useEffect(() => {
-    console.log(location);
-  }, []);
   return (
     <Box
       sx={{
@@ -122,6 +119,17 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
+            {!location.pathname.includes("login") && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="user-name"
+                label="Username"
+                name="username"
+                autoFocus
+              />
+            )}
             <TextField
               margin="normal"
               required

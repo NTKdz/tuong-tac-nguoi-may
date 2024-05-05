@@ -9,7 +9,7 @@ export default function Account() {
   const [selectedTab, changeSelectedTab] = useState(0);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ minHeight: "300px" }}>
       <Box
         sx={{
           display: "flex",
@@ -44,7 +44,7 @@ export default function Account() {
           );
         })}
       </Box>
-      <Box sx={{ width: "90%",margin:"auto" }}>
+      <Box sx={{ width: "90%", margin: "auto" }}>
         {selectedTab == 0 ? (
           <Box sx={{ transition: "all 0.5s" }}>
             <Settings />

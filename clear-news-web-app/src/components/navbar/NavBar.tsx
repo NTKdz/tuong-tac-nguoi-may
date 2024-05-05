@@ -21,7 +21,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-const settings = ["Setting", "Bookmarks"];
+const settings = ["Setting", "Bookmarks", "Logout"];
 
 const pageRoutes = [
   { name: "art", route: "art" },
@@ -61,11 +61,17 @@ export default function NavBar() {
   };
 
   const handleCloseUserMenu = (
-    event: React.MouseEvent<HTMLElement>,
-    setting: string
+    // event: React.MouseEvent<HTMLElement>,
+    setting?: string
   ) => {
     setAnchorElUser(null);
-    navigate(setting);
+
+    if (setting?.includes("logout")) {
+      LogOut();
+      navigate("/logout");
+    } else {
+      setting && navigate(setting);
+    }
   };
   const [isScrollTopVisible, setScrollTopVisibility] = useState(false);
   const [isNavVisible, setNavVisibility] = useState(true);
@@ -204,7 +210,6 @@ export default function NavBar() {
               ))}
             </Menu>
           </Box>
-
           <Typography
             variant="h5"
             noWrap
@@ -239,7 +244,6 @@ export default function NavBar() {
               </Button>
             ))}
           </Box>
-
           <TextField
             id="standard-basic"
             label="Search"
@@ -280,7 +284,6 @@ export default function NavBar() {
               },
             }}
           />
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -301,22 +304,24 @@ export default function NavBar() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={() => handleCloseUserMenu()}
             >
               {settings.map((setting) => (
                 <MenuItem
                   key={setting}
-                  onClick={(event) => {
+                  onClick={() => {
                     handleCloseUserMenu(
-                      event,
+                      // event,
                       "account/" + setting.toLowerCase()
                     );
-                    LogOut();
                   }}
                 >
                   <Typography textAlign="center">{setting}</Typography>
-
-                  {/* {setting !== "logout" ? (
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>{" "}
+          {/* {setting !== "logout" ? (
                     <Typography textAlign="center">{setting}</Typography>
                   ) : (
                     <Typography
@@ -329,10 +334,6 @@ export default function NavBar() {
                       {setting}
                     </Typography>
                   )} */}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>
