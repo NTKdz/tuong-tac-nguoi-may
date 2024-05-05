@@ -17,6 +17,7 @@ const themeSlice = createSlice({
       const readStyle = state.current === "reading" ? "read-theme" : "theme";
       if (localStorage.getItem(readStyle)) {
         state.theme = JSON.parse(localStorage.getItem(readStyle)!).theme;
+        state.lineHeight = JSON.parse(localStorage.getItem(readStyle)!).lineHeight;
       }
     },
     setTheme: (

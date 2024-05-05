@@ -78,30 +78,6 @@ const myTheme = (
 function App() {
   const theme = useSelector((state: RootState) => state.theme);
 
-  useEffect(() => {
-    if (!localStorage.getItem("read-theme"))
-      localStorage.setItem(
-        "read-theme",
-        JSON.stringify({
-          mode: defaultStyles.mode,
-          current: defaultStyles.current,
-          lineHeight: defaultStyles.lineHeight,
-          theme: defaultStyles.theme,
-        })
-      );
-    if (!localStorage.getItem("theme"))
-      localStorage.setItem(
-        "theme",
-        JSON.stringify({
-          mode: defaultStyles.mode,
-          current: defaultStyles.current,
-          lineHeight: defaultStyles.lineHeight,
-          theme: defaultStyles.theme,
-        })
-      );
-    console.log(theme);
-  }, []);
-
   return (
     <ThemeProvider
       theme={responsiveFontSizes(
