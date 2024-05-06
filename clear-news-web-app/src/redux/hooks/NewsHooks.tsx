@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { NewsDetail, NewsResult } from "../interface/newsInterface";
 import {
   setLatestNews,
+  setNewsByQuery,
   setNewsDetail,
   setTrendingNews,
 } from "../slices/newsSlice";
@@ -116,10 +117,65 @@ export default function NewsHooks() {
     }
   }
 
+  async function getNewsByCategory(category: string) {
+    const query = {
+      query: {
+        $query: {
+          $and: [
+            {
+              $or: [
+                {
+                  categoryUri: "dmoz/" + category,
+                },
+                {
+                  categoryUri: "news/" + category,
+                },
+              ],
+            },
+            {
+              locationUri: "http://en.wikipedia.org/wiki/United_States",
+            },
+            {
+              lang: "eng",
+            },
+          ],
+        },
+        $filter: {
+          forceMaxDataTimeWindow: "31",
+          isDuplicate: "skipDuplicates",
+        },
+      },
+      resultType: "articles",
+      articlesSortBy: "date",
+      includeArticleEventUri: false,
+      includeArticleCategories: true,
+      includeArticleLocation: true,
+      includeArticleImage: true,
+      includeArticleVideos: true,
+      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+    };
+
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.post(baseUrl, query);
+
+      if (response.status === 200) {
+        const data: NewsResult = response.data;
+        console.log(data);
+        dispatch(setNewsByQuery(data));
+      }
+    } catch (error) {
+      console.error("Error fetching news detail:", error);
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+
   async function getNewsBySearch(
-    location: string,
+    locations: string[],
     date: string,
-    category: string,
+    categories: string,
     sortBy: string
   ) {
     const query = {
@@ -137,11 +193,21 @@ export default function NewsHooks() {
               ],
             },
             {
-              locationUri: "http://en.wikipedia.org/wiki/United_States",
+              $or: [
+                locations.map((location) => {
+                  locationUri: "http://en.wikipedia.org/wiki/" + location;
+                }),
+                {
+                  locationUri: "http://en.wikipedia.org/wiki/United_Kingdom",
+                },
+                {
+                  locationUri: "http://en.wikipedia.org/wiki/United_States",
+                },
+              ],
             },
             {
-              dateStart: "2024-04-27",
-              dateEnd: "2024-05-04",
+              dateStart: "2024-04-29",
+              dateEnd: "2024-05-06",
             },
           ],
         },
@@ -155,7 +221,28 @@ export default function NewsHooks() {
       includeArticleVideos: true,
       apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
     };
+
+    try {
+      dispatch(setLoading(true));
+      const response = await axios.post(baseUrl, query);
+
+      if (response.status === 200) {
+        const data: NewsResult = response.data;
+        dispatch(setNewsByQuery(data));
+      }
+    } catch (error) {
+      console.error("Error fetching news detail:", error);
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
   }
 
-  return { getNewsBySearch, getNewsDetail, getTrendingNews, getLatestNews };
+  return {
+    getNewsBySearch,
+    getNewsDetail,
+    getTrendingNews,
+    getLatestNews,
+    getNewsByCategory,
+  };
 }

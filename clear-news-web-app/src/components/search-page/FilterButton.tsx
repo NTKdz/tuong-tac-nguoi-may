@@ -25,7 +25,7 @@ export default function FilterButton({
   content: string;
   boxTitle: string;
   description?: string;
-  onApplyFilter: () => void;
+  onApplyFilter: (e: string[]) => void;
 }) {
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [value, setValue] = useState("");
