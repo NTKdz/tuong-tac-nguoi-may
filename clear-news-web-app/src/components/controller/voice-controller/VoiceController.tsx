@@ -70,8 +70,8 @@ const VoiceController = () => {
 
   return (
     <div>
-      <p>Listening: {isListening ? "Yes" : "No"}</p>
-      <p>Transcript: {transcript}</p>
+      {/* <p>Listening: {isListening ? "Yes" : "No"}</p>
+      <p>Transcript: {transcript}</p> */}
     </div>
   );
 };
