@@ -9,7 +9,7 @@ import NewsCard from "./news-card/NewsCard";
 import { useNavigate } from "react-router-dom";
 
 export default function TrendingTab() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { trendingNews } = useSelector((state: RootState) => state.news);
   const { getTrendingNews } = NewsHooks();
 
@@ -60,6 +60,7 @@ export default function TrendingTab() {
               onClick={() => navigate("/news/" + item?.uri)}
             >
               <NewsCard
+                id={item.uri}
                 title={item?.title}
                 pictureUrl={item?.image}
                 dateTime={formatDateTime(item?.dateTime)}
@@ -71,4 +72,3 @@ export default function TrendingTab() {
     </Box>
   );
 }
-

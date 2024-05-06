@@ -16,6 +16,7 @@ import { RootState } from "../../redux/store";
 import { BookmarkArticle } from "../../firebase/apiFunctions";
 import { useParams } from "react-router-dom";
 import NewsHooks from "../../redux/hooks/NewsHooks";
+import PrintIcon from "@mui/icons-material/Print";
 
 export default function NewsDetail() {
   const newsDetail = mockData[8032858371].info;
@@ -107,14 +108,17 @@ export default function NewsDetail() {
             <Box>
               <IconButton
                 sx={{ width: "32px", height: "32px", marginRight: "8px" }}
+                onClick={() => {
+                  window.print();
+                }}
               >
-                <ThumbUpAltOutlinedIcon />
+                <PrintIcon />
               </IconButton>
               <IconButton
                 sx={{ width: "32px", height: "32px", marginRight: "8px" }}
                 onClick={() => {
-                  // scrollToCommentSection();
-                  BookmarkArticle(newsDetail.uri);
+                  scrollToCommentSection();
+                  // BookmarkArticle(newsDetail.uri);
                 }}
               >
                 <CommentOutlinedIcon />

@@ -1,9 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import React, { useEffect } from "react";
-import NewsCardVert from "../news-card/NewsCardVert";
-import NewsCardHori from "../news-card/NewsCardHori";
 import mockData from "../../mockdata/data3.json";
-import HeadLine from "../headline/HeadLine";
+import NewsCardHori from "../news-card/NewsCardHori";
+import NewsCardVert from "../news-card/NewsCardVert";
 
 export default function MainSection() {
   const data = mockData.articles.results;

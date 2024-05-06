@@ -4,7 +4,6 @@ import NewsCard from "../homepage/trending-tab/news-card/NewsCard";
 import mockData from "../../mockdata/data4.json";
 import { formatDateTime } from "../../utils/dateFormater";
 
-
 export default function AdditionalSection() {
   const data = mockData.articles.results;
 
@@ -21,6 +20,7 @@ export default function AdditionalSection() {
         {data.slice(21, 29).map((article, index) => (
           <Box key={index} sx={{ flex: "1", minWidth: "300px" }}>
             <NewsCard
+              id={article.uri}
               title={article.title}
               dateTime={formatDateTime(article.dateTime)}
               pictureUrl={article.image || ""}
@@ -38,6 +38,7 @@ export default function AdditionalSection() {
         {filteredData.slice(0, 4).map((article, index) => (
           <Box key={index} sx={{ flex: "1", minWidth: "300px" }}>
             <NewsCard
+              id={article.uri}
               title={article.title}
               dateTime={formatDateTime(article.dateTime)}
               pictureUrl={article.image || ""}

@@ -4,14 +4,15 @@ interface IVoiceController {
   onSpeechRecognized: (text: string) => void;
 }
 
-const VoiceController: React.FC<IVoiceController> = () => {
+const VoiceController = () => {
   const [recognition, setRecognition] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
     const SpeechRecognitionInstance =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const newRecognition = new SpeechRecognitionInstance();
     newRecognition.continuous = true;
