@@ -1,41 +1,92 @@
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Box, Button, Container, Pagination, Paper } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NewsCardHori from "../../components/news-card/NewsCardHori";
+import FilterButton from "../../components/search-page/FilterButton";
 import SearchBar from "../../components/searchbar/SearchBar";
 import mockData from "../../mockdata/data3.json";
 import { formatDateTime } from "../../utils/dateFormater";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useEffect, useState } from "react";
-import FilterButton from "../../components/search-page/FilterButton";
-import { useNavigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import NewsHooks from "../../redux/hooks/NewsHooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export default function SearchPage() {
-  const { keyword } = useParams<{ keyword: string }>();
-  const queryParams = new URLSearchParams(location.search);
-
+  const { getNewsBySearch } = NewsHooks();
+  const { newsByQuery } = useSelector((state: RootState) => state.news);
   const navigate = useNavigate();
-  const data = mockData.articles.results;
+  // const data = mockData.articles.results;
+  const data = newsByQuery?.articles?.results || [];
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filter, setFilter] = useState({
-    category: ["d"],
-    date: "d",
-    location: ["d"],
-    sort: "newest",
+    topic: "",
+    category: [""],
+    date: {
+      startDate: formatDateTime(dayjs().subtract(1, "month").toString()).date,
+      endDate: formatDateTime(dayjs().toString()).date,
+    },
+    location: [""],
+    sort: "date",
   });
 
+  const queryParams = useMemo(
+    () => new URLSearchParams(location.search),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location.search]
+  );
+
   useEffect(() => {
-    const category = queryParams.get("category");
-    const date = queryParams.get("date");
-    const locationParam = queryParams.get("location");
-    const sort = queryParams.get("sort");
-    console.log("Category:", category);
-    console.log("Date:", date);
-    console.log("Location:", locationParam);
-    console.log("Sort:", sort);
-  }, [keyword]);
+    if (queryParams) {
+      const dateParam = queryParams.get("date");
+      const [startDate, endDate] = (dateParam && dateParam.split(",")) || [];
+      const category = queryParams.get("category");
+      const date = { startDate: startDate, endDate: endDate };
+      const locationParam = queryParams.get("location");
+      const sort = queryParams.get("sort");
+      const topic = queryParams.get("topic");
+      console.log("Category:", category);
+      console.log("Date:", date);
+      console.log("Location:", locationParam);
+      console.log("Sort:", sort);
+      console.log("Topic:", topic);
+      getNewsBySearch(
+        locationParam ? locationParam.split(",") : [""],
+        date ? date : { startDate: "", endDate: "" },
+        category ? category.split(",") : [""],
+        sort ? sort : "date"
+      );
+
+      setFilter({
+        topic: "",
+        category: [""],
+        date: {
+          startDate: formatDateTime(dayjs().subtract(1, "month").format("YYYY-MM-DD").toString())
+            .date,
+          endDate: formatDateTime(dayjs().toString()).date,
+        },
+        location: [""],
+        sort: "date",
+      });
+    }
+  }, [queryParams]);
+
   const filterData = data.filter((article) => {
     return article.image != null;
   });
+
+  const applyFilters = () => {
+    setFilterOpen(false);
+    const query = new URLSearchParams();
+    filter.category[0] && query.set("category", filter.category.join(","));
+    const formattedDate = `${filter.date.startDate},${filter.date.endDate}`;
+    formattedDate !== "," && query.set("date", formattedDate);
+    filter.location[0] && query.set("location", filter.location.join(","));
+    filter.sort && query.set("sort", filter.sort);
+    filter.topic && query.set("topic", filter.topic);
+    navigate(`/search/param?${query.toString()}`);
+  };
 
   return (
     <Container
@@ -72,8 +123,8 @@ export default function SearchPage() {
                 content={"Sort by"}
                 boxTitle="Sort by"
                 onApplyFilter={(value: string[]) => {
-                  setFilterOpen(!isFilterOpen);
                   setFilter({ ...filter, sort: value[0] });
+                  console.log(value);
                 }}
               />
               <FilterButton
@@ -81,7 +132,6 @@ export default function SearchPage() {
                 boxTitle="Locations"
                 description="Specify the locations where the events described in the articles occurred "
                 onApplyFilter={(value: string[]) => {
-                  setFilterOpen(!isFilterOpen);
                   setFilter({ ...filter, location: [...value] });
                 }}
               />
@@ -90,8 +140,11 @@ export default function SearchPage() {
                 boxTitle="Date"
                 description="What is the publication date of the articles you are interested in?"
                 onApplyFilter={(value: string[]) => {
-                  setFilterOpen(!isFilterOpen);
-                  setFilter({ ...filter, date: [...value] });
+                  setFilter({
+                    ...filter,
+                    date: { startDate: value[0], endDate: value[1] },
+                  });
+                  console.log(value);
                 }}
               />
               <FilterButton
@@ -100,7 +153,6 @@ export default function SearchPage() {
                 description="Limit the news articles to only those that are on a particular topic 
               \n Arts - Business - Computers - Health \n Home - Science - Sports - Weather"
                 onApplyFilter={(value: string[]) => {
-                  setFilterOpen(!isFilterOpen);
                   setFilter({ ...filter, category: [...value] });
                 }}
               />
@@ -128,15 +180,7 @@ export default function SearchPage() {
                 variant="contained"
                 sx={{ width: "49.5%" }}
                 onClick={() => {
-                  setFilterOpen(false);
-                  const query = new URLSearchParams();
-                  query.set("category", filter.category.join(","));
-                  query.set("date", filter.date);
-                  query.set("location", filter.location.join(","));
-                  query.set("sort", filter.sort);
-
-                  navigate(`/search/param?${query.toString()}`);
-                  console.log(`/search/param?${query.toString()}`);
+                  applyFilters();
                 }}
               >
                 Apply

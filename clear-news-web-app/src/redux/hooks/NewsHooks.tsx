@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-labels */
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { NewsDetail, NewsResult } from "../interface/newsInterface";
@@ -8,6 +9,9 @@ import {
   setTrendingNews,
 } from "../slices/newsSlice";
 import { setLoading } from "../slices/loadingSlice";
+import { formatDateTime } from "../../utils/dateFormater";
+import dayjs from "dayjs";
+import { capitalize } from "../../utils/stringFormater";
 
 const baseUrl = "https://www.newsapi.ai/api/v1/article/getArticles";
 const baseUrl1 = "https://www.newsapi.ai/api/v1/article/getArticle";
@@ -32,7 +36,7 @@ export default function NewsHooks() {
       includeArticleLocation: true,
       includeArticleImage: true,
       includeArticleVideos: true,
-      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+      apiKey: apiKey,
     };
 
     try {
@@ -69,7 +73,7 @@ export default function NewsHooks() {
       includeArticleLocation: true,
       includeArticleImage: true,
       includeArticleVideos: true,
-      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+      apiKey: apiKey,
     };
 
     try {
@@ -98,7 +102,7 @@ export default function NewsHooks() {
       includeArticleLocation: true,
       includeArticleImage: true,
       includeArticleVideos: true,
-      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+      apiKey: apiKey,
     };
 
     try {
@@ -152,7 +156,7 @@ export default function NewsHooks() {
       includeArticleLocation: true,
       includeArticleImage: true,
       includeArticleVideos: true,
-      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+      apiKey: apiKey,
     };
 
     try {
@@ -174,53 +178,80 @@ export default function NewsHooks() {
 
   async function getNewsBySearch(
     locations: string[],
-    date: string,
-    categories: string,
+    date: { startDate: string; endDate: string },
+    categories: string[],
     sortBy: string
   ) {
+    console.log([locations, date, categories, sortBy]);
+    const parseDate = (dateString: string) => {
+      const [day, month, year] = dateString.split("/");
+      return `${year}-${month}-${day}`;
+    };
+
+    const startDate = date.startDate
+      ? parseDate(date.startDate)
+      : dayjs().subtract(1, "month").format("YYYY-MM-DD");
+    const endDate = date.endDate
+      ? parseDate(date.endDate)
+      : dayjs().format("YYYY-MM-DD");
+
+    const locationProperty = locations[0] && [
+      ...locations.map((location) => ({
+        locationUri: `http://en.wikipedia.org/wiki/${location.replace(
+          /\s+/g,
+          "_"
+        )}`,
+      })),
+    ];
+
+    const categoriesProperty = categories[0] && [
+      ...categories.map((category) => ({
+        categoryUri: `dmoz/${capitalize(category)}`,
+      })),
+      ...categories.map((category) => ({
+        categoryUri: `news/${capitalize(category)}`,
+      })),
+    ];
+    console.log({ startDate, endDate });
+
     const query = {
       query: {
         $query: {
           $and: [
             {
-              $or: [
-                {
-                  categoryUri: "dmoz/Science",
-                },
-                {
-                  categoryUri: "news/Science",
-                },
-              ],
+              $or: locationProperty
+                ? locationProperty
+                : [
+                    {
+                      locationUri: "http://en.wikipedia.org/wiki/United_States",
+                    },
+                  ],
             },
             {
-              $or: [
-                locations.map((location) => {
-                  locationUri: "http://en.wikipedia.org/wiki/" + location;
-                }),
-                {
-                  locationUri: "http://en.wikipedia.org/wiki/United_Kingdom",
-                },
-                {
-                  locationUri: "http://en.wikipedia.org/wiki/United_States",
-                },
-              ],
+              $or: categoriesProperty ? categoriesProperty : categoryQuery,
             },
             {
-              dateStart: "2024-04-29",
-              dateEnd: "2024-05-06",
+              dateStart: startDate,
+              dateEnd: endDate,
             },
           ],
         },
+        $filter: {
+          isDuplicate: "skipDuplicates",
+          forceMaxDataTimeWindow: "31",
+        },
       },
       resultType: "articles",
-      articlesSortBy: "date",
+      articlesSortBy: sortBy === "date" ? "date" : "rel",
       includeArticleEventUri: false,
       includeArticleCategories: true,
       includeArticleLocation: true,
       includeArticleImage: true,
       includeArticleVideos: true,
-      apiKey: "27cdf73d-32ac-4b7d-8663-e05f57049703",
+      apiKey: apiKey,
     };
+
+    console.log([query]);
 
     try {
       dispatch(setLoading(true));
@@ -228,6 +259,7 @@ export default function NewsHooks() {
 
       if (response.status === 200) {
         const data: NewsResult = response.data;
+        console.log(response.data);
         dispatch(setNewsByQuery(data));
       }
     } catch (error) {
@@ -246,3 +278,55 @@ export default function NewsHooks() {
     getNewsByCategory,
   };
 }
+const categoryQuery = [
+  {
+    categoryUri: "dmoz/Arts",
+  },
+  {
+    categoryUri: "dmoz/Business",
+  },
+  {
+    categoryUri: "dmoz/Computers",
+  },
+  {
+    categoryUri: "dmoz/Health",
+  },
+  {
+    categoryUri: "dmoz/Home",
+  },
+  {
+    categoryUri: "dmoz/Science",
+  },
+  {
+    categoryUri: "dmoz/Sports",
+  },
+  {
+    categoryUri: "dmoz/Weather",
+  },
+  {
+    categoryUri: "news/Arts",
+  },
+  {
+    categoryUri: "news/Business",
+  },
+  {
+    categoryUri: "news/Computers",
+  },
+  {
+    categoryUri: "news/Health",
+  },
+  {
+    categoryUri: "news/Home",
+  },
+  {
+    categoryUri: "news/Science",
+  },
+  {
+    categoryUri: "news/Sports",
+  },
+  {
+    categoryUri: "news/Weather",
+  },
+];
+
+const apiKey = "80e6dfda-35b9-4e5c-9a4d-80a83b945586";

@@ -291,7 +291,7 @@ export default function NavBar() {
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  value && navigate("/search/" + value);
+                  value && navigate("/search/param?topic=" + value);
                 }
               }}
             ></TextField>
