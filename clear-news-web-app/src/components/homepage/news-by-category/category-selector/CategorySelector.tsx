@@ -1,13 +1,11 @@
 import {
   Box,
   Button,
-  Menu,
-  MenuItem,
   Paper,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const categories = [
   { name: "All", category: "all" },
@@ -18,7 +16,7 @@ const categories = [
   { name: "Home", category: "home" },
   { name: "Science", category: "science" },
   { name: "Sports", category: "sports" },
-  { name: "Weather", category: "weather" },
+  { name: "Games", category: "games" },
 ];
 
 export default function CategorySelector({

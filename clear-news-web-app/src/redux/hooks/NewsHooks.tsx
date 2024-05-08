@@ -365,7 +365,7 @@ const categoryQuery = [
     categoryUri: "dmoz/Sports",
   },
   {
-    categoryUri: "dmoz/Weather",
+    categoryUri: "dmoz/Games",
   },
   {
     categoryUri: "news/Arts",
@@ -389,7 +389,7 @@ const categoryQuery = [
     categoryUri: "news/Sports",
   },
   {
-    categoryUri: "news/Weather",
+    categoryUri: "news/Games",
   },
 ];
 

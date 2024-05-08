@@ -1,17 +1,16 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Box, Button, Container, Pagination, Paper } from "@mui/material";
+import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import NewsCardHori from "../../components/news-card/NewsCardHori";
 import FilterButton from "../../components/search-page/FilterButton";
 import SearchBar from "../../components/searchbar/SearchBar";
-import mockData from "../../mockdata/data3.json";
-import { formatDateTime } from "../../utils/dateFormater";
-import dayjs from "dayjs";
 import NewsHooks from "../../redux/hooks/NewsHooks";
-import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { formatDateTime } from "../../utils/dateFormater";
 
 export default function SearchPage() {
   const { getNewsBySearch } = NewsHooks();

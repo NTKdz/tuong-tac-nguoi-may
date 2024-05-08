@@ -31,8 +31,8 @@ const pageRoutes = [
   { name: "Health", route: "Health" },
   { name: "Home", route: "Home" },
   { name: "Science", route: "Science" },
-  { name: "Sports", route: "Sport" },
-  { name: "Weather", route: "Weather" },
+  { name: "Sports", route: "Sports" },
+  { name: "Games", route: "Games" },
 ];
 
 export default function NavBar() {

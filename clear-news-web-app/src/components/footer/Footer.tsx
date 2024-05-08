@@ -1,7 +1,20 @@
 import React from "react";
 import { Box, Container, Typography, Link, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+const categories = [
+  "Art",
+  "Business",
+  "Computers",
+  "Health",
+  "Home",
+  "Science",
+  "Sports",
+  "Weather",
+];
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
       <Container maxWidth="lg">
@@ -18,38 +31,17 @@ const Footer: React.FC = () => {
             <Typography variant="h6" color="text.primary" gutterBottom>
               Sections
             </Typography>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              display="block"
-            >
-              Politics
-            </Link>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              display="block"
-            >
-              Business
-            </Link>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              display="block"
-            >
-              Sports
-            </Link>
-            <Link
-              href="#"
-              variant="body2"
-              color="text.secondary"
-              display="block"
-            >
-              Entertainment
-            </Link>
+            {categories.map((category) => (
+              <Link
+                sx={{ "&:hover": { cursor: "pointer" } }}
+                variant="body2"
+                color="text.secondary"
+                display="block"
+                onClick={() => navigate(`/category/${category}`)}
+              >
+                {category}
+              </Link>
+            ))}
           </Grid>
           <Grid item xs={6} sm={3}>
             <Typography variant="h6" color="text.primary" gutterBottom>
