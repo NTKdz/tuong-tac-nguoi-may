@@ -24,6 +24,7 @@ export default function NewsDetail() {
   const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
+  const { audioLink } = useSelector((state: RootState) => state.loading);
   // const { newsDetail } = useSelector((state: RootState) => state.news);
   // const { getNewsDetail } = NewsHooks();
 
@@ -148,7 +149,13 @@ export default function NewsDetail() {
           <ImageHolder src={newsDetail.image} />
         </Box>
         <audio controls style={{ width: "100%" }}>
-          <source src="https://s3.us-east-1.amazonaws.com/invideo-uploads-us-east-1/speechen-US-Neural2-A17141979201700.mp3"></source>
+          <source
+            src={
+              audioLink
+                // ? audioLink
+                // : "https://s3.us-east-1.amazonaws.com/invideo-uploads-us-east-1/speechen-US-Neural2-A17141979201700.mp3"
+            }
+          ></source>
         </audio>
         <Box>
           {newsDetail &&

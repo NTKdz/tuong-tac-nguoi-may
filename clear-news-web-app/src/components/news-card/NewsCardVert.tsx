@@ -1,7 +1,13 @@
-import { Box, Paper, SxProps, Theme, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import ImageHolder from "../image-holder/ImageHolder";
+import {
+  Box,
+  Paper,
+  SxProps,
+  Theme,
+  Typography,
+  TypographyVariant
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ImageHolder from "../image-holder/ImageHolder";
 
 export default function NewsCardVert({
   id,
@@ -11,7 +17,8 @@ export default function NewsCardVert({
   style,
   pictureStyle,
   elevation,
-  showImage=true,
+  showImage = true,
+  typoVariant = "body1",
 }: {
   id: string;
   title: string;
@@ -21,6 +28,7 @@ export default function NewsCardVert({
   pictureStyle?: SxProps<Theme> | undefined;
   elevation?: number;
   showImage?: boolean;
+  typoVariant?: TypographyVariant;
 }) {
   const navigate = useNavigate();
   return (
@@ -43,7 +51,7 @@ export default function NewsCardVert({
           {dateTime && dateTime.date + " " + dateTime.time}
         </Typography>
         <Typography
-          variant="body1"
+          variant={typoVariant}
           sx={{
             overflow: "hidden",
             textOverflow: "ellipsis",

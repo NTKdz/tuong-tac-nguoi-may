@@ -8,7 +8,7 @@ import {
   setNewsDetail,
   setTrendingNews,
 } from "../slices/newsSlice";
-import { setLoading } from "../slices/loadingSlice";
+import { setAudioLink, setLoading } from "../slices/loadingSlice";
 import { formatDateTime } from "../../utils/dateFormater";
 import dayjs from "dayjs";
 import { capitalize } from "../../utils/stringFormater";
@@ -111,7 +111,7 @@ export default function NewsHooks() {
 
       if (response.status === 200) {
         const data: NewsDetail = response.data[id].info;
-        getAudio(data.body);
+        await getAudio(data.body);
         dispatch(setNewsDetail(data));
       }
     } catch (error) {
@@ -272,6 +272,7 @@ export default function NewsHooks() {
   }
 
   async function getAudio(text: string) {
+    dispatch(setLoading(true));
     const key = [
       "8e8798413dmshf57c00d04dfa197p1e8da5jsnaadb5e702399",
       "0917e38b6fmsh25dbcb67d26c191p1e2df3jsnc92302097b33",
@@ -319,10 +320,12 @@ export default function NewsHooks() {
           size: number;
         } = response.data;
         console.log(data);
-        return data.link;
+        dispatch(setAudioLink(data.link));
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      dispatch(setLoading(false));
     }
   }
   return {

@@ -29,10 +29,10 @@ export default function NewsCardHori({
 }) {
   const boxRef = useRef(null);
   const navigate = useNavigate();
-
   const [currentMaxLine, changeCurrentMaxLine] = useState(
     maxLine ? maxLine : "6"
   );
+  const [onHover, setHover] = useState(false);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
@@ -72,12 +72,24 @@ export default function NewsCardHori({
       }
       elevation={elevation || elevation == 0 ? elevation : 1}
       onClick={() => navigate("/news/" + id)}
+      onMouseEnter={() => {
+        console.log(onHover);
+        setHover(true);
+      }}
+      onMouseLeave={() => {
+        console.log(onHover);
+        setHover(false);
+      }}
     >
       {showImage && (
         <Box
           sx={
             pictureStyle
-              ? pictureStyle
+              ? {
+                  ...pictureStyle,
+                  flex: onHover ? 0 : 0.5,
+                  transition: "all 0.5s",
+                }
               : { flex: "1", minHeight: "240px", width: "500px" }
           }
         >
@@ -119,6 +131,7 @@ export default function NewsCardHori({
               display: "-webkit-box",
               WebkitLineClamp: currentMaxLine,
               WebkitBoxOrient: "vertical",
+              "&:hover": { },
             }}
           >
             {title}
