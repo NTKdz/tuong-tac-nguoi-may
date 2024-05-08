@@ -181,7 +181,8 @@ export default function NewsHooks() {
     locations: string[],
     date: { startDate: string; endDate: string },
     categories: string[],
-    sortBy: string
+    sortBy: string,
+    topic: string
   ) {
     console.log([locations, date, categories, sortBy]);
     const parseDate = (dateString: string) => {
@@ -235,7 +236,12 @@ export default function NewsHooks() {
               dateStart: startDate,
               dateEnd: endDate,
             },
-          ],
+            { lang: "eng" },
+            topic !== "" && {
+              keyword: topic,
+              keywordLoc: "title",
+            },
+          ].filter(Boolean),
         },
         $filter: {
           isDuplicate: "skipDuplicates",

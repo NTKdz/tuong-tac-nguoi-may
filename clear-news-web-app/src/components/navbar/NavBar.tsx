@@ -196,7 +196,9 @@ export default function NavBar() {
                 horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => {
+                setAnchorElNav(null);
+              }}
               sx={{
                 display: { xs: "block", md: "none" },
               }}
@@ -215,7 +217,6 @@ export default function NavBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -225,9 +226,13 @@ export default function NavBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              "&:hover": {
+                cursor: "pointer",
+              },
             }}
+            onClick={() => navigate("/")}
           >
-            LOGO
+            ClearNews
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pageRoutes.map((page) => (
@@ -307,7 +312,7 @@ export default function NavBar() {
                 },
               }}
               onClick={() => {
-                value && navigate("/search/" + value);
+                value && navigate("/search/param?topic=" + value);
               }}
             />
           </Box>

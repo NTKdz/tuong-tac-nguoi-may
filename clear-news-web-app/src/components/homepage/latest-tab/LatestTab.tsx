@@ -6,18 +6,19 @@ import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
 import HeadLine from "../../headline/HeadLine";
 import NewsCardVert from "../../news-card/NewsCardVert";
+import mockData from "../../../mockdata/data2.json";
 export default function LatestTab() {
   const theme = useTheme();
   const { latestNews } = useSelector((state: RootState) => state.news);
   const { getLatestNews } = NewsHooks();
 
   useEffect(() => {
-    getLatestNews();
+    // getLatestNews();
   }, []);
 
-  // Check if newsResult and its nested properties are defined
-  const articles = latestNews?.articles?.results || [];
+  // const articles = latestNews?.articles?.results || [];
 
+  const articles = mockData.articles.results;
   return (
     <Box sx={{ marginTop: "36px" }}>
       <HeadLine
@@ -25,9 +26,9 @@ export default function LatestTab() {
         background={`linear-gradient(90deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 30%)`}
       />
 
-      <Grid container spacing={4}>
-        {articles.slice(0, 12).map((news) => (
-          <Grid key={news.uri} item xs={3}>
+      <Grid container spacing={3}>
+        {articles.slice(0, 24).map((news) => (
+          <Grid key={news.uri} item xs={12} sm={6} md={4} lg={3} xl={2}>
             <NewsCardVert
               id={news.uri}
               title={news.title}

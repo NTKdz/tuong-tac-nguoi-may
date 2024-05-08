@@ -31,6 +31,8 @@ export default function SearchPage() {
     sort: "date",
   });
 
+  const [page, setPage] = useState(1);
+
   const queryParams = useMemo(
     () => new URLSearchParams(location.search),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,20 +57,19 @@ export default function SearchPage() {
         locationParam ? locationParam.split(",") : [""],
         date ? date : { startDate: "", endDate: "" },
         category ? category.split(",") : [""],
-        sort ? sort : "date"
+        sort ? sort : "date",
+        topic ? topic : ""
       );
 
       setFilter({
-        topic: "",
+        topic: topic ? topic : "",
         category: [""],
-        date: {
-          startDate: formatDateTime(dayjs().subtract(1, "month").format("YYYY-MM-DD").toString())
-            .date,
-          endDate: formatDateTime(dayjs().toString()).date,
-        },
+        date: { startDate: "", endDate: "" },
         location: [""],
         sort: "date",
       });
+
+      setPage(1);
     }
   }, [queryParams]);
 
@@ -88,19 +89,32 @@ export default function SearchPage() {
     navigate(`/search/param?${query.toString()}`);
   };
 
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
   return (
     <Container
       maxWidth="md"
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
         paddingTop: "32px",
         paddingBottom: "16px",
+        minHeight: "600px",
       }}
     >
-      <SearchBar style={{ marginBottom: "32px", width: "100%" }} />
+      <SearchBar
+        searchValue={filter.topic}
+        style={{ marginBottom: "32px", width: "100%" }}
+        onSearch={(keyword: string) => {
+          setFilter({ ...filter, topic: keyword });
+          navigate(`/search/param?topic=${keyword}`);
+        }}
+        onChangeValue={(keyword: string) => {
+          setFilter({ ...filter, topic: keyword });
+        }}
+      />
       <Box sx={{ width: "100%", marginBottom: "40px" }}>
         <Button
           onClick={() => {
@@ -190,20 +204,30 @@ export default function SearchPage() {
         )}
       </Box>
       {filterData &&
-        filterData.slice(0, 20).map((article) => {
-          return (
-            <Box key={article.uri} sx={{ marginBottom: "16px", width: "100%" }}>
-              <NewsCardHori
-                id={article.uri}
-                pictureUrl={article.image ?? undefined}
-                title={article.title}
-                pictureStyle={{ flex: "0.5", height: "160px" }}
-                dateTime={formatDateTime(article.dateTime)}
-              />
-            </Box>
-          );
-        })}
-      <Pagination count={mockData.articles.count / 20} size={"large"} />
+        filterData
+          .slice(0 + (page - 1) * 20, 20 + (page - 1) * 20)
+          .map((article) => {
+            return (
+              <Box
+                key={article.uri}
+                sx={{ marginBottom: "16px", width: "100%" }}
+              >
+                <NewsCardHori
+                  id={article.uri}
+                  pictureUrl={article.image ?? undefined}
+                  title={article.title}
+                  pictureStyle={{ flex: "0.5", height: "160px" }}
+                  dateTime={formatDateTime(article.dateTime)}
+                />
+              </Box>
+            );
+          })}
+      <Pagination
+        count={Math.ceil(newsByQuery?.articles?.count / 20)}
+        size={"large"}
+        page={page}
+        onChange={handleChange}
+      />
     </Container>
   );
 }

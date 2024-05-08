@@ -7,25 +7,27 @@ import { formatDateTime } from "../../../utils/dateFormater";
 import MainArticle from "./news-card/MainArticle";
 import NewsCard from "./news-card/NewsCard";
 import { useNavigate } from "react-router-dom";
-
+import mockData from "../../../mockdata/data2.json";
 export default function TrendingTab() {
   const navigate = useNavigate();
   const { trendingNews } = useSelector((state: RootState) => state.news);
   const { getTrendingNews } = NewsHooks();
 
   useEffect(() => {
-    getTrendingNews();
+    // getTrendingNews();
   }, []);
 
-  // Check if newsResult and its nested properties are defined
-  const mainArticle = trendingNews?.articles?.results?.[0];
-  const otherArticles = trendingNews?.articles?.results?.slice(1, 7) || [];
+  // const mainArticle = trendingNews?.articles?.results?.[0];
+  // const otherArticles = trendingNews?.articles?.results?.slice(1, 7) || [];
+
+  const mainArticle = mockData?.articles?.results?.[0];
+  const otherArticles = mockData?.articles?.results?.slice(1, 7) || [];
 
   return (
     <Box>
       <Box
         sx={{
-          display: "flex",
+          display: { sm: "block", md: "flex" },
           flexDirection: "row",
           gap: "32px",
           width: "100%",
@@ -55,6 +57,7 @@ export default function TrendingTab() {
             <Grid
               item
               xs={6}
+              md={6}
               key={index}
               sx={{ ":hover": { cursor: "pointer" } }}
               onClick={() => navigate("/news/" + item?.uri)}

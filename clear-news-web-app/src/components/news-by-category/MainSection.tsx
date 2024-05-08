@@ -22,7 +22,7 @@ export default function MainSection() {
       {data && (
         <Box
           sx={{
-            display: "flex",
+            display: {lg:"flex"},
             flexDirection: "row",
             marginLeft: "24px",
             marginRight: "24px",
@@ -63,7 +63,7 @@ export default function MainSection() {
           </Box>
           <Box sx={{ flex: "5" }}>
             <Typography variant="h4">Latest</Typography>
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: {sm:"flex"} }}>
               <Box
                 sx={{
                   flex: "1",

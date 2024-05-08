@@ -6,13 +6,13 @@ import { formatDateTime } from "../../../utils/dateFormater";
 import HeadLine from "../../headline/HeadLine";
 import NewsCardHori from "../../news-card/NewsCardHori";
 import CategorySelector from "./category-selector/CategorySelector";
-
+import mockData from "../../../mockdata/data2.json";
 export default function NewsByCategory() {
   const [selectedCategory, changeSelectedCategory] = useState<string>("all");
   const theme = useTheme();
   const { trendingNews } = useSelector((state: RootState) => state.news);
-  const data = trendingNews?.articles?.results || [];
-
+  // const data = trendingNews?.articles?.results || [];
+  const data = mockData.articles.results;
   const filteredData = data.filter((item) => {
     if (selectedCategory === "all") return true;
     return item.categories[0]?.label.toLowerCase().includes(selectedCategory);
@@ -39,9 +39,9 @@ export default function NewsByCategory() {
         // rowSpacing={1}
         // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        {filteredData.slice(0, 10).map((item, index: number) => {
+        {filteredData.slice(0, 24).map((item, index: number) => {
           return (
-            <Grid item xs={6} key={index}>
+            <Grid item xs={12} md={6} lg={4} key={index}>
               <NewsCardHori
                 id={item.uri}
                 title={item.title}
