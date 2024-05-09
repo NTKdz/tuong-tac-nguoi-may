@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { Title } from "@mui/icons-material";
 
 const db = getFirestore(app);
 const auth = getAuth();
@@ -88,13 +89,20 @@ export const BookmarkArticle = async (articleId: string) => {
   }
 };
 
-export const GetAllBookmarks = async () => {
+export const GetAllBookmarks = async (): Promise<string[]> => {
+  const bookmarks: string[] = [];
+
   if (user) {
     const uid = user.uid;
     const q = query(collection(db, "users"), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data().bookmarks);
+      const userBookmarks = doc.data().bookmarks;
+      bookmarks.push(...userBookmarks);
     });
   }
+
+  return bookmarks;
 };
+
+
