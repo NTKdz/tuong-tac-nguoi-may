@@ -82,11 +82,12 @@ export const BookmarkArticle = async (
 
     try {
       await updateDoc(userDocRef, {
-        // await updateDoc(userDocRef, {
-        bookmarks: arrayUnion(articleId),
-        title: title,
-        imageUrl: imageUrl,
-        createAt: date,
+        bookmarks: arrayUnion({
+          articleId: articleId,
+          title: title,
+          imageUrl: imageUrl,
+          createdAt: date,
+        }),
       });
       console.log("Bookmark added");
     } catch (error) {
@@ -111,4 +112,29 @@ export const GetAllBookmarks = async (): Promise<string[]> => {
   }
 
   return bookmarks;
+};
+
+export const IsBookmarked = async (articleId: string): Promise<boolean> => {
+  if (!user) {
+    throw new Error("User is not logged in");
+  }
+
+  try {
+    const uid = user.uid;
+    const userDocRef = doc(db, "users", uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      if (userData && userData.bookmarks) {
+        return userData.bookmarks.some(
+          (bookmark: any) => bookmark.articleId === articleId
+        );
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking bookmark:", error);
+    throw error;
+  }
 };
