@@ -9,9 +9,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ImageHolder from "../image-holder/ImageHolder";
-
+import { DeleteComment } from "../../firebase/apiFunctions";
 export interface CommentModel {
   id: string;
   author: string;
@@ -37,6 +37,7 @@ export default function Comment({
   const [isReplying, setIsReplying] = useState(false);
   const [isRepliesShown, setRepliesShown] = useState(false);
   const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -91,6 +92,7 @@ export default function Comment({
           </IconButton>
         </Box>
         <Box sx={{ marginTop: "8px", marginBottom: "8px" }}>{body}</Box>
+
         <Box>
           <Box sx={{ display: "flex" }}>
             {/* <Button

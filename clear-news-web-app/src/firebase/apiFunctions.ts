@@ -1,6 +1,8 @@
 import app from "./config";
 import {
+  arrayRemove,
   arrayUnion,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -58,22 +60,19 @@ export const GetAllCommentsOfArticle = async (articleId: string) => {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // console.log(`${doc.id} => ${doc.data().}`);
-    console.log(doc.id, " => ", doc.data().content);
+    // console.log(doc.id, " => ", doc.data().content);
     comments.push({
       id: doc.id,
       data: doc.data(),
     });
   });
+  console.log(comments);
+
   return comments;
 };
 
 // bookmark an article
-export const BookmarkArticle = async (
-  articleId: string,
-  title: string,
-  imageUrl: string,
-  date: string
-) => {
+
 export const BookmarkArticle = async (
   articleId: string,
   title: string,
@@ -136,7 +135,7 @@ export const IsBookmarked = async (
   articleId: string,
   uid: string
 ): Promise<boolean> => {
-  console.log(uid)
+  console.log(uid);
   if (!uid) {
     throw new Error("User is not logged in");
   }
@@ -156,6 +155,41 @@ export const IsBookmarked = async (
     return false;
   } catch (error) {
     console.error("Error checking bookmark:", error);
+    throw error;
+  }
+};
+
+export const DeleteComment = async (commentId: string) => {
+  try {
+    const commentDocRef = doc(db, "comments", commentId);
+    const commentDocSnap = await getDoc(commentDocRef);
+
+    if (commentDocSnap.exists()) {
+      const userIdFromComment = commentDocSnap.data().userId;
+
+      if (user && userIdFromComment === user.uid) {
+        await deleteDoc(commentDocRef);
+        console.log("Comment deleted successfully");
+      } else {
+        console.log("Only the owner of the comment can delete it");
+      }
+    } else {
+      console.log("Comment does not exist");
+    }
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+  }
+};
+
+export const DeleteBookmark = async (userId: string, articleId: string) => {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, {
+      bookmarks: arrayRemove(articleId),
+    });
+    console.log("Bookmark deleted");
+  } catch (error) {
+    console.error("Error deleting bookmark:", error);
     throw error;
   }
 };
