@@ -27,13 +27,22 @@ export default function NewsDetail() {
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
   const { audioLink } = useSelector((state: RootState) => state.loading);
-  const { newsDetail } = useSelector((state: RootState) => state.news);
+  // const { newsDetail } = useSelector((state: RootState) => state.news);
   // const { getNewsDetail } = NewsHooks();
   // const { getAudioLink } = LoadingHooks();
-
+  const [bookmarkedStatus, setBookMark] = useState(false);
   useEffect(() => {
     console.log(id);
-    IsBookmarked(newsDetail.uri);
+    const getBookmarkStatus = async () => {
+      const status = await IsBookmarked(
+        newsDetail.uri,
+        JSON.parse(localStorage.getItem("user")!).uid
+      );
+      console.log(status);
+      setBookMark(status);
+    };
+
+    getBookmarkStatus();
     // getAudioLink(newsDetail.body);
     // id && getNewsDetail(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,7 +156,7 @@ export default function NewsDetail() {
                   onBookMarkClick();
                 }}
               >
-                <BookmarkBorderIcon />
+                {bookmarkedStatus ? <BookmarkIcon /> : <BookmarkBorderIcon />}
               </IconButton>
               <IconButton sx={{ width: "32px", height: "32px" }}>
                 <ShareIcon />

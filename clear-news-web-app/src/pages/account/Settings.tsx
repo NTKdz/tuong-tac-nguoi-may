@@ -1,8 +1,10 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomDialog from "../../components/dialog/Dialog";
 
 export default function Settings() {
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  useEffect(() => {}, []);
   const settings = [
     {
       title: "Email address",

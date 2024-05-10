@@ -70,6 +70,7 @@ export default function NavBar() {
     if (setting?.includes("logout")) {
       LogOut();
       navigate("/");
+      localStorage.removeItem("user");
     } else {
       setting && navigate(setting);
     }
@@ -338,7 +339,7 @@ export default function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={() => handleCloseUserMenu()}
             >
-              {true ? (
+              {localStorage.getItem("user") ? (
                 settings.map((setting) => (
                   <MenuItem
                     key={setting}
@@ -366,10 +367,8 @@ export default function NavBar() {
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
-                      handleCloseUserMenu(
-                        // event,
-                        "/logout"
-                      );
+                      navigate("/logout");
+                      setAnchorElUser(null);
                     }}
                   >
                     <Typography textAlign="center">Sign up</Typography>

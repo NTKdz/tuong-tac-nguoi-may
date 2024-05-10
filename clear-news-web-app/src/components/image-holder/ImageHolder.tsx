@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function ImageHolder({
   src,
-  style = {
-    height: "100%",
-    width: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
-    borderRadius: "8px",
-  },
+  style = { height: "100%", width: "100%", objectFit: "cover", objectPosition: "center", borderRadius: "8px" },
 }: {
   src?: string;
   style?: SxProps<Theme>;
@@ -18,10 +12,10 @@ export default function ImageHolder({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (src === "")
-      setImage("https://via.placeholder.com/500x240.png?text=No+Image");
+    if (src === "") setImage("https://via.placeholder.com/500x240.png?text=No+Image");
     else setImage(src);
   }, [src]);
+
   const handleImageLoad = () => {
     setLoading(false);
   };
@@ -32,14 +26,7 @@ export default function ImageHolder({
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
-      }}
-    >
+    <Box sx={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
       {loading && (
         <Box
           sx={{
@@ -51,8 +38,8 @@ export default function ImageHolder({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "rgba(255, 0, 0, 0.1)",
-            ...style,
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+            ...style, 
           }}
         >
           <CircularProgress />
@@ -61,7 +48,7 @@ export default function ImageHolder({
       <Box
         component="img"
         src={image}
-        sx={style}
+        sx={{ ...style }} 
         onError={handleImageError}
         onLoad={handleImageLoad}
         loading="lazy"

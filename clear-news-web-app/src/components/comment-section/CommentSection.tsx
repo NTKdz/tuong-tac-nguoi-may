@@ -57,13 +57,20 @@ export default function CommentSection({ articleId }) {
   }, []);
 
   useEffect(() => {
-    console.log(commentContent);
-  }, [commentContent]);
+    const loadComment = async () => {
+      try {
+        const updatedComments = await GetAllCommentsOfArticle(articleId);
+        setCommentsList(updatedComments);
+      } catch (error) {
+        console.error("Error creating comment:", error);
+      }
+    };
+    loadComment();
+  }, [articleId]);
 
   const handleSubmitComment = async () => {
+    if (!commentContent) return;
     const { uid, email } = JSON.parse(localStorage.getItem("user")!);
-    console.log({ uid, email });
-    console.log("submit");
 
     try {
       await CreateComment(uid, email, articleId, commentContent);
