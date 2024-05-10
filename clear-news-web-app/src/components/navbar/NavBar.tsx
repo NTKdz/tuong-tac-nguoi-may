@@ -69,7 +69,7 @@ export default function NavBar() {
 
     if (setting?.includes("logout")) {
       LogOut();
-      navigate("/logout");
+      navigate("/");
     } else {
       setting && navigate(setting);
     }
@@ -338,19 +338,44 @@ export default function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={() => handleCloseUserMenu()}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => {
-                    handleCloseUserMenu(
-                      // event,
-                      "account/" + setting.toLowerCase()
-                    );
-                  }}
-                >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {true ? (
+                settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu(
+                        // event,
+                        "account/" + setting.toLowerCase()
+                      );
+                    }}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))
+              ) : (
+                <Box>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu(
+                        // event,
+                        "/login"
+                      );
+                    }}
+                  >
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu(
+                        // event,
+                        "/logout"
+                      );
+                    }}
+                  >
+                    <Typography textAlign="center">Sign up</Typography>
+                  </MenuItem>
+                </Box>
+              )}
             </Menu>
           </Box>
           {/* {setting !== "logout" ? (
