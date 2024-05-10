@@ -25,7 +25,7 @@ export default function FilterButton({
   content: string;
   boxTitle: string;
   description?: string;
-  onApplyFilter: () => void;
+  onApplyFilter: (e: string[]) => void;
 }) {
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -49,7 +49,7 @@ export default function FilterButton({
               defaultValue={dayjs().subtract(1, "month")}
               onChange={(newValue) => {
                 if (newValue) {
-                  setStartDate(newValue);
+                  setStartDate(dayjs(newValue));
                 }
               }}
             />
@@ -109,11 +109,14 @@ export default function FilterButton({
           )}
           sx={{ width: "100%" }}
           onChange={(event, value) => {
+            console.log(value);
             if (value.length > 2) {
               setValue(`${value.slice(0, 2).join(", ")} ,...`);
             } else {
               setValue(value.join(", "));
             }
+
+            onApplyFilter([...value]);
           }}
         />
       );
@@ -140,26 +143,9 @@ export default function FilterButton({
             } else {
               setValue(value.join(", "));
             }
+
+            onApplyFilter([...value]);
           }}
-        />
-      );
-      break;
-    case "Sort by":
-      filterContent = (
-        <Autocomplete
-          multiple
-          limitTags={2}
-          id="multiple-limit-tags"
-          options={categoriesList}
-          getOptionLabel={(option) => option}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Categories"
-              placeholder="Choose categories"
-            />
-          )}
-          sx={{ width: "100%" }}
         />
       );
       break;
@@ -173,6 +159,10 @@ export default function FilterButton({
             formatDateTime(endDate.toString()).date
           }`
         );
+        onApplyFilter([
+          formatDateTime(startDate.toString()).date,
+          formatDateTime(endDate.toString()).date,
+        ]);
         break;
     }
     setFilterOpen(false);
@@ -201,6 +191,7 @@ export default function FilterButton({
               sx={{ width: "100%", justifyContent: "start" }}
               onClick={() => {
                 setValue("Date");
+                onApplyFilter(["date"]);
                 setFilterOpen(false);
               }}
             >
@@ -210,6 +201,7 @@ export default function FilterButton({
               sx={{ width: "100%", justifyContent: "start" }}
               onClick={() => {
                 setValue("Relevance");
+                onApplyFilter(["rel"]);
                 setFilterOpen(false);
               }}
             >
@@ -254,6 +246,7 @@ export default function FilterButton({
                 color="error"
                 onClick={() => {
                   setValue("");
+                  onApplyFilter([""]);
                   setFilterOpen(false);
                 }}
               >

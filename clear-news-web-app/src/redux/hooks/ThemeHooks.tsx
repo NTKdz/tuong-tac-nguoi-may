@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import {
   setBackGroundColor,
+  setCurrent,
   setDefaultBackGroundColor,
   setFontFamily,
   setFontSize,
@@ -35,14 +36,17 @@ export interface ThemeState {
     typography: { fontSize: number; fontFamily: string };
   };
   lineHeight: string;
+  themeName: "default";
 }
 export const ThemeHooks = () => {
   const dispatch = useDispatch();
   // const { theme } = useSelector((state: RootState) => state);
 
+  function changeCurrent(current: string) {
+    dispatch(setCurrent(current));
+  }
   function changeMode(mode: string) {
     dispatch(setMode(mode));
-    // mode === "light" && dispatch(setTheme(defaultStyles));
   }
   function changeTheme(theme: ThemeState) {
     dispatch(setTheme(theme));
@@ -76,6 +80,7 @@ export const ThemeHooks = () => {
     dispatch(setTextColor({ primary: color, secondary: "" }));
   }
   return {
+    changeCurrent,
     changeMode,
     changeTheme,
     changePrimary,

@@ -6,12 +6,14 @@ import Footer from "../components/footer/Footer";
 import NavBar from "../components/navbar/NavBar";
 import { RootState } from "../redux/store";
 import LoadingScreen from "../components/loading/LoadingScreen";
+import VoiceController from "../components/controller/voice-controller/VoiceController";
 
 export default function LayOut() {
   const { loading } = useSelector((state: RootState) => state.loading);
 
   return (
     <Box sx={{ position: "relative", overflow: "hidden" }}>
+      <VoiceController></VoiceController>
       <Box
         sx={{
           display: loading ? "block" : "none",

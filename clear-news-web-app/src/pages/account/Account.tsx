@@ -2,14 +2,18 @@ import { Box, Container, Typography, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import Settings from "./Settings";
 import BookMarks from "./BookMarks";
+import { useLocation } from "react-router-dom";
 
 const tabs = ["settings", "bookmarks"];
 export default function Account() {
+  const location = useLocation();
   const theme = useTheme();
-  const [selectedTab, changeSelectedTab] = useState(0);
+  const [selectedTab, changeSelectedTab] = useState(
+    location.pathname.includes("bookmark") ? 1 : 0
+  );
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ minHeight: "300px" }}>
       <Box
         sx={{
           display: "flex",
@@ -44,7 +48,7 @@ export default function Account() {
           );
         })}
       </Box>
-      <Box sx={{ width: "90%",margin:"auto" }}>
+      <Box sx={{ width: "90%", margin: "auto" }}>
         {selectedTab == 0 ? (
           <Box sx={{ transition: "all 0.5s" }}>
             <Settings />

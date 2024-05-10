@@ -34,39 +34,46 @@ export default function CommentSection({ articleId }) {
   const [uidAndEmail, setUidAndEmail] = useState({});
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState("");
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const comments = await GetAllCommentsOfArticle(articleId);
-        setCommentsList(comments);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
 
-    const fetchUidAndEmail = async () => {
-      try {
-        const uae = await GetUidAndEmail();
-        setUidAndEmail(uae);
-      } catch (error) {
-        console.error("Error fetching uid:", error);
-      }
-    };
-    fetchComments();
-    fetchUidAndEmail();
+  useEffect(() => {
+    // const fetchComments = async () => {
+    //   try {
+    //     const comments = await GetAllCommentsOfArticle(articleId);
+    //     setCommentsList(comments);
+    //   } catch (error) {
+    //     console.error("Error fetching comments:", error);
+    //   }
+    // };
+    // const fetchUidAndEmail = async () => {
+    //   try {
+    //     const uae = await GetUidAndEmail();
+    //     setUidAndEmail(uae);
+    //   } catch (error) {
+    //     console.error("Error fetching uid:", error);
+    //   }
+    // };
+    // fetchComments();
+    // fetchUidAndEmail();
   }, []);
 
   useEffect(() => {
-    console.log(commentContent);
-  }, [commentContent]);
+    const loadComment = async () => {
+      try {
+        const updatedComments = await GetAllCommentsOfArticle(articleId);
+        setCommentsList(updatedComments);
+      } catch (error) {
+        console.error("Error creating comment:", error);
+      }
+    };
+    loadComment();
+  }, [articleId]);
 
   const handleSubmitComment = async () => {
-    const userId = uidAndEmail.uid;
-    const userEmail = uidAndEmail.email;
-    console.log("submit");
+    if (!commentContent) return;
+    const { uid, email } = JSON.parse(localStorage.getItem("user")!);
 
     try {
-      await CreateComment(userId, userEmail, articleId, commentContent);
+      await CreateComment(uid, email, articleId, commentContent);
       const updatedComments = await GetAllCommentsOfArticle(articleId);
       setCommentsList(updatedComments);
       setCommentContent("");

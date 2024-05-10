@@ -74,6 +74,12 @@ export const BookmarkArticle = async (
   imageUrl: string,
   date: string
 ) => {
+export const BookmarkArticle = async (
+  articleId: string,
+  title: string,
+  imageUrl: string,
+  date: string
+) => {
   console.log(user);
 
   if (user) {
@@ -98,8 +104,20 @@ export const BookmarkArticle = async (
   }
 };
 
-export const GetAllBookmarks = async (): Promise<string[]> => {
-  const bookmarks: string[] = [];
+export const GetAllBookmarks = async (): Promise<
+  {
+    articleId: string;
+    title: string;
+    imageUrl: string;
+    createdAt: string;
+  }[]
+> => {
+  const bookmarks: {
+    articleId: string;
+    title: string;
+    imageUrl: string;
+    createdAt: string;
+  }[] = [];
 
   if (user) {
     const uid = user.uid;
@@ -114,13 +132,16 @@ export const GetAllBookmarks = async (): Promise<string[]> => {
   return bookmarks;
 };
 
-export const IsBookmarked = async (articleId: string): Promise<boolean> => {
-  if (!user) {
+export const IsBookmarked = async (
+  articleId: string,
+  uid: string
+): Promise<boolean> => {
+  console.log(uid)
+  if (!uid) {
     throw new Error("User is not logged in");
   }
 
   try {
-    const uid = user.uid;
     const userDocRef = doc(db, "users", uid);
     const userDocSnap = await getDoc(userDocRef);
 

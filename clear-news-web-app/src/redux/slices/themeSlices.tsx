@@ -3,10 +3,22 @@ import { defaultStyles } from "../../theme";
 
 const themeSlice = createSlice({
   name: "theme",
-  initialState: defaultStyles,
+  initialState: () => {
+    return localStorage.getItem("theme")
+      ? JSON.parse(localStorage.getItem("theme")!)
+      : defaultStyles;
+  },
   reducers: {
+    setCurrent: (state, action: PayloadAction<string>) => {
+      state.current = action.payload;
+    },
     setMode: (state, action: PayloadAction<string>) => {
       state.mode = action.payload;
+      const readStyle = state.current === "reading" ? "read-theme" : "theme";
+      if (localStorage.getItem(readStyle)) {
+        state.theme = JSON.parse(localStorage.getItem(readStyle)!).theme;
+        state.lineHeight = JSON.parse(localStorage.getItem(readStyle)!).lineHeight;
+      }
     },
     setTheme: (
       state,
@@ -73,7 +85,7 @@ const themeSlice = createSlice({
       state.theme.background.default = action.payload;
     },
     setPaperBackGroundColor: (state, action: PayloadAction<string>) => {
-      console.log("dfa")
+      console.log("dfa");
       state.theme.background.paper = action.payload;
     },
   },
@@ -92,6 +104,7 @@ export const {
   setPaperBackGroundColor,
   setFontFamily,
   setLineHeight,
+  setCurrent,
 } = themeSlice.actions;
 
 export default themeSlice.reducer;

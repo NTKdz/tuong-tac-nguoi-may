@@ -39,7 +39,13 @@ const options = {
 async function fetchData() {
   try {
     const response = await axios.request(options);
-    console.log(response.data);
+    const data: {
+      link: string;
+      block_index: number;
+      duration: number;
+      size: number;
+    } = response.data;
+    console.log(data);
   } catch (error) {
     console.error(error);
   }

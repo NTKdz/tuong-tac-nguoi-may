@@ -2,6 +2,7 @@ export interface NewsState {
   newsDetail: NewsDetail;
   latestNews: NewsResult;
   trendingNews: NewsResult;
+  newsByQuery: NewsResult;
 }
 
 export interface NewsDetail {
@@ -69,4 +70,3 @@ export interface NewsResult {
     pages: number;
   };
 }
-

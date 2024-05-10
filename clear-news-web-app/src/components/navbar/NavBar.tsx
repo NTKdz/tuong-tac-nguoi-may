@@ -20,18 +20,19 @@ import { LogOut } from "../../firebase/auth";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import SearchIcon from "@mui/icons-material/Search";
 
-const settings = ["Setting", "Bookmarks"];
+const settings = ["Setting", "Bookmarks", "Logout"];
 
 const pageRoutes = [
-  { name: "art", route: "art" },
-  { name: "Business", route: "business" },
-  { name: "Computers", route: "computers" },
-  { name: "Health", route: "health" },
-  { name: "Home", route: "home" },
-  { name: "Science", route: "science" },
-  { name: "Sports", route: "sport" },
-  { name: "Weather", route: "weather" },
+  { name: "art", route: "Art" },
+  { name: "Business", route: "Business" },
+  { name: "Computers", route: "Computers" },
+  { name: "Health", route: "Health" },
+  { name: "Home", route: "Home" },
+  { name: "Science", route: "Science" },
+  { name: "Sports", route: "Sports" },
+  { name: "Games", route: "Games" },
 ];
 
 export default function NavBar() {
@@ -61,16 +62,23 @@ export default function NavBar() {
   };
 
   const handleCloseUserMenu = (
-    event: React.MouseEvent<HTMLElement>,
-    setting: string
+    // event: React.MouseEvent<HTMLElement>,
+    setting?: string
   ) => {
     setAnchorElUser(null);
-    navigate(setting);
+
+    if (setting?.includes("logout")) {
+      LogOut();
+      navigate("/");
+      localStorage.removeItem("user");
+    } else {
+      setting && navigate(setting);
+    }
   };
   const [isScrollTopVisible, setScrollTopVisibility] = useState(false);
   const [isNavVisible, setNavVisibility] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
-
+  const [value, setValue] = useState("");
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
@@ -189,7 +197,9 @@ export default function NavBar() {
                 horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => {
+                setAnchorElNav(null);
+              }}
               sx={{
                 display: { xs: "block", md: "none" },
               }}
@@ -204,12 +214,10 @@ export default function NavBar() {
               ))}
             </Menu>
           </Box>
-
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -219,9 +227,13 @@ export default function NavBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              "&:hover": {
+                cursor: "pointer",
+              },
             }}
+            onClick={() => navigate("/")}
           >
-            LOGO
+            ClearNews
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pageRoutes.map((page) => (
@@ -239,48 +251,72 @@ export default function NavBar() {
               </Button>
             ))}
           </Box>
-
-          <TextField
-            id="standard-basic"
-            label="Search"
-            variant="outlined"
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-              marginRight: "24px",
-              maxWidth: "320px",
-              "& .MuiOutlinedInput-root": {
-                height: "50px",
-                borderRadius: "8px",
-                color: theme.palette.primary.contrastText,
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: theme.palette.primary.contrastText,
-                },
-                "&.Mui-focused": {
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: theme.palette.primary.contrastText,
-                    borderWidth: "2px",
-                  },
-                },
-                "&:hover:not(.Mui-focused)": {
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: theme.palette.primary.contrastText,
-                    borderWidth: "2px",
-                  },
-                },
-              },
-              "& .MuiInputLabel-outlined": {
-                color: theme.palette.primary.contrastText,
-                top: "-3px",
-                "&.Mui-focused": {
-                  top: "0px",
+          <Box position="relative">
+            <TextField
+              id="standard-basic"
+              label="Search"
+              variant="outlined"
+              value={value}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                marginRight: "24px",
+                maxWidth: "320px",
+                "& .MuiOutlinedInput-root": {
+                  height: "50px",
+                  borderRadius: "8px",
                   color: theme.palette.primary.contrastText,
-                  fontWeight: "bold",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: theme.palette.primary.contrastText,
+                  },
+                  "&.Mui-focused": {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.primary.contrastText,
+                      borderWidth: "2px",
+                    },
+                  },
+                  "&:hover:not(.Mui-focused)": {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.primary.contrastText,
+                      borderWidth: "2px",
+                    },
+                  },
                 },
-              },
-            }}
-          />
+                "& .MuiInputLabel-outlined": {
+                  color: theme.palette.primary.contrastText,
+                  top: "-3px",
+                  "&.Mui-focused": {
+                    top: "0px",
+                    color: theme.palette.primary.contrastText,
+                    fontWeight: "bold",
+                  },
+                },
+              }}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  value && navigate("/search/param?topic=" + value);
+                }
+              }}
+            ></TextField>
 
+            <SearchIcon
+              sx={{
+                display: { xs: "none", md: "flex" },
+                position: "absolute",
+                top: 12,
+                right: 28,
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+              onClick={() => {
+                value && navigate("/search/param?topic=" + value);
+              }}
+            />
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -301,22 +337,47 @@ export default function NavBar() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={() => handleCloseUserMenu()}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={(event) => {
-                    handleCloseUserMenu(
-                      event,
-                      "account/" + setting.toLowerCase()
-                    );
-                    LogOut();
-                  }}
-                >
-                  <Typography textAlign="center">{setting}</Typography>
-
-                  {/* {setting !== "logout" ? (
+              {localStorage.getItem("user") ? (
+                settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu(
+                        // event,
+                        "account/" + setting.toLowerCase()
+                      );
+                    }}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))
+              ) : (
+                <Box>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu(
+                        // event,
+                        "/login"
+                      );
+                    }}
+                  >
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/logout");
+                      setAnchorElUser(null);
+                    }}
+                  >
+                    <Typography textAlign="center">Sign up</Typography>
+                  </MenuItem>
+                </Box>
+              )}
+            </Menu>
+          </Box>
+          {/* {setting !== "logout" ? (
                     <Typography textAlign="center">{setting}</Typography>
                   ) : (
                     <Typography
@@ -329,10 +390,6 @@ export default function NavBar() {
                       {setting}
                     </Typography>
                   )} */}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>

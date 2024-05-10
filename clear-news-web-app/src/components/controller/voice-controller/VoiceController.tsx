@@ -1,25 +1,18 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useEffect, useState } from "react";
 
 interface IVoiceController {
   onSpeechRecognized: (text: string) => void;
 }
 
-const VoiceController: React.FC<IVoiceController> = ({
-  onSpeechRecognized,
-}) => {
+const VoiceController = () => {
   const [recognition, setRecognition] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
     const SpeechRecognitionInstance =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const newRecognition = new SpeechRecognitionInstance();
     newRecognition.continuous = true;
@@ -27,19 +20,29 @@ const VoiceController: React.FC<IVoiceController> = ({
     newRecognition.lang = "vi-VN";
 
     newRecognition.onresult = (event) => {
-      const newTranscript = Array.from(event.results)
-        .map((result) => result[0].transcript)
-        .join("");
+      const newTranscript = Array.from(event.results).map(
+        (result) => result[0].transcript
+      );
 
-      setTranscript(newTranscript);
-      // onSpeechRecognized(newTranscript);
+      console.log(newTranscript[newTranscript.length - 1]);
+      if (newTranscript.includes("lướt xuống")) {
+        window.scrollBy({ top: 100, left: 100, behavior: "smooth" });
+        console.log("work");
+      }
     };
 
     newRecognition.onspeechend = () => {
       setIsListening(false);
+      setTranscript("");
     };
 
     setRecognition(newRecognition);
+
+    return () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -63,10 +66,12 @@ const VoiceController: React.FC<IVoiceController> = ({
     };
   }, [recognition, isListening]);
 
+  useEffect(() => {}, [transcript]);
+
   return (
     <div>
-      <p>Listening: {isListening ? "Yes" : "No"}</p>
-      <p>Transcript: {transcript}</p>
+      {/* <p>Listening: {isListening ? "Yes" : "No"}</p>
+      <p>Transcript: {transcript}</p> */}
     </div>
   );
 };

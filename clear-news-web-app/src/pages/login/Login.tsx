@@ -10,15 +10,19 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import "./styles.css";
-import { SignIn, SignUp } from "../../firebase/auth";
+import { GetUidAndEmail, SignIn, SignUp } from "../../firebase/auth";
 import { getContrastColor } from "../../utils/colorContrast";
 import { Paper, useTheme } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Login() {
   const location = useLocation();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const [isRemember, changeRememberStatus] = useState(false);
+
   // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -59,13 +63,13 @@ export default function Login() {
     const userCredential = await SignIn(email, password);
     if (userCredential) {
       console.log("User signed in:", userCredential.user);
+      if (isRemember) {
+        localStorage.setItem("user", JSON.stringify(await GetUidAndEmail()));
+      }
       navigate("/");
     }
   };
 
-  React.useEffect(() => {
-    console.log(location);
-  }, []);
   return (
     <Box
       sx={{
@@ -122,6 +126,17 @@ export default function Login() {
             noValidate
             sx={{ mt: 1 }}
           >
+            {!location.pathname.includes("login") && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="user-name"
+                label="Username"
+                name="username"
+                autoFocus
+              />
+            )}
             <TextField
               margin="normal"
               required
@@ -144,7 +159,15 @@ export default function Login() {
             />
             {location.pathname.includes("login") ? (
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    onChange={(event) => {
+                      changeRememberStatus(event.target.checked);
+                    }}
+                  />
+                }
                 label="Remember me"
               />
             ) : (

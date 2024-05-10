@@ -1,26 +1,25 @@
+import CancelIcon from "@mui/icons-material/Cancel";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Box,
   Button,
-  Icon,
   IconButton,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
+import { useState } from "react";
 import ImageHolder from "../image-holder/ImageHolder";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useMemo, useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
-import CancelIcon from "@mui/icons-material/Cancel";
 
 export interface CommentModel {
-  id: number;
+  id: string;
   author: string;
   email: string;
   body: string;
-  timestamp: string;
-  avatar: string;
-  replies: CommentModel[];
+  timestamp?: string;
+  avatar?: string;
+  replies?: CommentModel[];
   offset?: number;
 }
 
@@ -34,6 +33,7 @@ export default function Comment({
   replies,
   offset = 0,
 }: CommentModel) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isReplying, setIsReplying] = useState(false);
   const [isRepliesShown, setRepliesShown] = useState(false);
   const theme = useTheme();
@@ -93,7 +93,7 @@ export default function Comment({
         <Box sx={{ marginTop: "8px", marginBottom: "8px" }}>{body}</Box>
         <Box>
           <Box sx={{ display: "flex" }}>
-            <Button
+            {/* <Button
               sx={{
                 height: "28px",
                 marginRight: "8px",
@@ -109,7 +109,7 @@ export default function Comment({
               }}
             >
               {isReplying ? "Stop replying" : "Reply"}
-            </Button>
+            </Button> */}
 
             {replies && replies.length > 0 && (
               <Button
