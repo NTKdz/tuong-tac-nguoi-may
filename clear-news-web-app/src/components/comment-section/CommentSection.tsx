@@ -34,26 +34,26 @@ export default function CommentSection({ articleId }) {
   const [uidAndEmail, setUidAndEmail] = useState({});
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState("");
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const comments = await GetAllCommentsOfArticle(articleId);
-        setCommentsList(comments);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
 
-    const fetchUidAndEmail = async () => {
-      try {
-        const uae = await GetUidAndEmail();
-        setUidAndEmail(uae);
-      } catch (error) {
-        console.error("Error fetching uid:", error);
-      }
-    };
-    fetchComments();
-    fetchUidAndEmail();
+  useEffect(() => {
+    // const fetchComments = async () => {
+    //   try {
+    //     const comments = await GetAllCommentsOfArticle(articleId);
+    //     setCommentsList(comments);
+    //   } catch (error) {
+    //     console.error("Error fetching comments:", error);
+    //   }
+    // };
+    // const fetchUidAndEmail = async () => {
+    //   try {
+    //     const uae = await GetUidAndEmail();
+    //     setUidAndEmail(uae);
+    //   } catch (error) {
+    //     console.error("Error fetching uid:", error);
+    //   }
+    // };
+    // fetchComments();
+    // fetchUidAndEmail();
   }, []);
 
   useEffect(() => {
@@ -61,12 +61,12 @@ export default function CommentSection({ articleId }) {
   }, [commentContent]);
 
   const handleSubmitComment = async () => {
-    const userId = uidAndEmail.uid;
-    const userEmail = uidAndEmail.email;
+    const { uid, email } = JSON.parse(localStorage.getItem("user")!);
+    console.log({ uid, email });
     console.log("submit");
 
     try {
-      await CreateComment(userId, userEmail, articleId, commentContent);
+      await CreateComment(uid, email, articleId, commentContent);
       const updatedComments = await GetAllCommentsOfArticle(articleId);
       setCommentsList(updatedComments);
       setCommentContent("");

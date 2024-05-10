@@ -324,9 +324,9 @@ export default function NewsHooks() {
           block_index: number;
           duration: number;
           size: number;
-        } = response.data;
+        }[] = response.data;
         console.log(data);
-        dispatch(setAudioLink(data.link));
+        dispatch(setAudioLink(data[0].link));
       }
     } catch (error) {
       console.error(error);

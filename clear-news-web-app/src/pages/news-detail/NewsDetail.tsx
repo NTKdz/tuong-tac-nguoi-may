@@ -13,10 +13,12 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { BookmarkArticle } from "../../firebase/apiFunctions";
+import { BookmarkArticle, IsBookmarked } from "../../firebase/apiFunctions";
 import { useParams } from "react-router-dom";
 import NewsHooks from "../../redux/hooks/NewsHooks";
 import PrintIcon from "@mui/icons-material/Print";
+import AudioPlayer from "../../components/audio-player/AudioPlayer";
+import LoadingHooks from "../../redux/hooks/LoadingHooks";
 
 export default function NewsDetail() {
   const newsDetail = mockData[8032858371].info;
@@ -25,11 +27,14 @@ export default function NewsDetail() {
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
   const { audioLink } = useSelector((state: RootState) => state.loading);
-  // const { newsDetail } = useSelector((state: RootState) => state.news);
+  const { newsDetail } = useSelector((state: RootState) => state.news);
   // const { getNewsDetail } = NewsHooks();
+  // const { getAudioLink } = LoadingHooks();
 
   useEffect(() => {
     console.log(id);
+    IsBookmarked(newsDetail.uri);
+    // getAudioLink(newsDetail.body);
     // id && getNewsDetail(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -49,7 +54,7 @@ export default function NewsDetail() {
     };
 
     initializeHls();
-  }, []);
+  }, [newsDetail]);
 
   const scrollToCommentSection = () => {
     if (commentSectionRef.current) {
@@ -67,8 +72,13 @@ export default function NewsDetail() {
     }
   }
 
-  function onBookMarkClick(articleId: string) {
-    BookmarkArticle(articleId);
+  function onBookMarkClick() {
+    BookmarkArticle(
+      newsDetail.uri,
+      newsDetail.title,
+      newsDetail.image,
+      formatDateTime(newsDetail.dateTime).date
+    );
   }
 
   return (
@@ -119,7 +129,6 @@ export default function NewsDetail() {
                 sx={{ width: "32px", height: "32px", marginRight: "8px" }}
                 onClick={() => {
                   scrollToCommentSection();
-                  // BookmarkArticle(newsDetail.uri);
                 }}
               >
                 <CommentOutlinedIcon />
@@ -135,7 +144,7 @@ export default function NewsDetail() {
                 }}
                 onClick={() => {
                   console.log("click");
-                  onBookMarkClick(newsDetail.uri);
+                  onBookMarkClick();
                 }}
               >
                 <BookmarkBorderIcon />
@@ -148,15 +157,7 @@ export default function NewsDetail() {
           {/* <button onClick={() => speak()}>Speak</button> */}
           <ImageHolder src={newsDetail.image} />
         </Box>
-        <audio controls style={{ width: "100%" }}>
-          <source
-            src={
-              audioLink
-                // ? audioLink
-                // : "https://s3.us-east-1.amazonaws.com/invideo-uploads-us-east-1/speechen-US-Neural2-A17141979201700.mp3"
-            }
-          ></source>
-        </audio>
+        <AudioPlayer link={audioLink} />
         <Box>
           {newsDetail &&
             newsDetail.body &&
@@ -205,7 +206,7 @@ export default function NewsDetail() {
       </Paper>
 
       <div ref={commentSectionRef}>
-        <CommentSection articleId={data[8032858371].info.uri} />
+        <CommentSection articleId={newsDetail.uri} />
       </div>
     </Container>
   );

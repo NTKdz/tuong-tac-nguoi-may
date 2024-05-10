@@ -33,6 +33,7 @@ const Footer: React.FC = () => {
             </Typography>
             {categories.map((category) => (
               <Link
+                key={category}
                 sx={{ "&:hover": { cursor: "pointer" } }}
                 variant="body2"
                 color="text.secondary"

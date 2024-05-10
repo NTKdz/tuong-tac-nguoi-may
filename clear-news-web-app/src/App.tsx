@@ -5,6 +5,8 @@ import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { RootState, store } from "./redux/store";
 import { router } from "./routes";
+import { useEffect } from "react";
+import { setLogin } from "./redux/slices/loadingSlice";
 
 const myTheme = (
   theme: {
@@ -75,6 +77,17 @@ const myTheme = (
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme);
+  const { isLogin } = useSelector((state: RootState) => state.loading);
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setLogin(true);
+      console.log("login");
+    } else {
+      setLogin(false);
+      console.log("not login");
+    }
+  }, [isLogin]);
 
   return (
     <ThemeProvider

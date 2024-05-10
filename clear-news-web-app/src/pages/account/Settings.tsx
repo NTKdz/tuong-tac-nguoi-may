@@ -27,6 +27,7 @@ export default function Settings() {
       {settings.slice(0).map((item) => {
         return (
           <Box
+            key={item.title}
             sx={{
               display: "flex",
               alignItems: "center",
