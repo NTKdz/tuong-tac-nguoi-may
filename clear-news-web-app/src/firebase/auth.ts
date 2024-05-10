@@ -67,6 +67,7 @@ export const GetUidAndEmail = async () => {
     if (currentUser) {
       const uid = currentUser.uid;
       const email = currentUser.email;
+
       return { uid, email };
     } else {
       throw new Error("No user is currently signed in");

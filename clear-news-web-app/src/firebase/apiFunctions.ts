@@ -68,7 +68,12 @@ export const GetAllCommentsOfArticle = async (articleId: string) => {
 };
 
 // bookmark an article
-export const BookmarkArticle = async (articleId: string) => {
+export const BookmarkArticle = async (
+  articleId: string,
+  title: string,
+  imageUrl: string,
+  date: string
+) => {
   console.log(user);
 
   if (user) {
@@ -79,6 +84,9 @@ export const BookmarkArticle = async (articleId: string) => {
       await updateDoc(userDocRef, {
         // await updateDoc(userDocRef, {
         bookmarks: arrayUnion(articleId),
+        title: title,
+        imageUrl: imageUrl,
+        createAt: date,
       });
       console.log("Bookmark added");
     } catch (error) {
@@ -104,5 +112,3 @@ export const GetAllBookmarks = async (): Promise<string[]> => {
 
   return bookmarks;
 };
-
-

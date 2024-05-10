@@ -62,8 +62,13 @@ export default function NewsDetail() {
     }
   }
 
-  function onBookMarkClick(articleId: string) {
-    BookmarkArticle(articleId);
+  function onBookMarkClick(
+    articleId: string,
+    title: string,
+    imageUrl: string,
+    date: string
+  ) {
+    BookmarkArticle(articleId, title, imageUrl, date);
   }
 
   return (
@@ -111,7 +116,7 @@ export default function NewsDetail() {
                 sx={{ width: "32px", height: "32px", marginRight: "8px" }}
                 onClick={() => {
                   // scrollToCommentSection();
-                  BookmarkArticle(newsDetail.uri);
+                  // BookmarkArticle(newsDetail.uri);
                 }}
               >
                 <CommentOutlinedIcon />
