@@ -9,14 +9,71 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageHolder from "../image-holder/ImageHolder";
 import comments from "../../mockdata/comments.json";
 import Comment, { CommentModel } from "./Comment";
+import {
+  CreateComment,
+  GetAllCommentsOfArticle,
+} from "../../firebase/apiFunctions";
+import { GetUidAndEmail } from "../../firebase/auth";
+interface Comment {
+  id: string;
+  data: {
+    articleId: string;
+    content: string;
+    userId: string;
+    userEmail: string;
+    createAt: Date;
+  };
+}
 
-export default function CommentSection() {
+export default function CommentSection({ articleId }) {
   const [sortType, changeSortType] = useState("most recent");
-  const commentsList = comments.comments;
+  const [uidAndEmail, setUidAndEmail] = useState({});
+  const [commentsList, setCommentsList] = useState<Comment[]>([]);
+  const [commentContent, setCommentContent] = useState("");
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const comments = await GetAllCommentsOfArticle(articleId);
+        setCommentsList(comments);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    const fetchUidAndEmail = async () => {
+      try {
+        const uae = await GetUidAndEmail();
+        setUidAndEmail(uae);
+      } catch (error) {
+        console.error("Error fetching uid:", error);
+      }
+    };
+    fetchComments();
+    fetchUidAndEmail();
+  }, []);
+
+  useEffect(() => {
+    console.log(commentContent);
+  }, [commentContent]);
+
+  const handleSubmitComment = async () => {
+    const userId = uidAndEmail.uid;
+    const userEmail = uidAndEmail.email;
+    console.log("submit");
+
+    try {
+      await CreateComment(userId, userEmail, articleId, commentContent);
+      const updatedComments = await GetAllCommentsOfArticle(articleId);
+      setCommentsList(updatedComments);
+      setCommentContent("");
+    } catch (error) {
+      console.error("Error creating comment:", error);
+    }
+  };
 
   return (
     <Paper
@@ -27,6 +84,7 @@ export default function CommentSection() {
         paddingBottom: "16px",
       }}
     >
+      {/* <Button onClick={handleSubmitComment}>DELoo</Button> */}
       <Typography variant="h4">Responses</Typography>
 
       <FormControl
@@ -64,6 +122,8 @@ export default function CommentSection() {
         <TextField
           placeholder="What are your thoughts?"
           multiline
+          value={commentContent}
+          onChange={(e) => setCommentContent(e.target.value)}
           minRows={4}
           sx={{
             marginTop: "8px",
@@ -79,8 +139,14 @@ export default function CommentSection() {
             justifyContent: "flex-end",
           }}
         >
-          <Button sx={{}}>cancel</Button>
-          <Button variant="contained" sx={{ marginLeft: "8px" }}>
+          <Button sx={{}} onClick={() => setCommentContent("")}>
+            cancel
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ marginLeft: "8px" }}
+            onClick={handleSubmitComment}
+          >
             respond
           </Button>
         </Box>
@@ -101,12 +167,12 @@ export default function CommentSection() {
             <Comment
               key={comment.id}
               id={comment.id}
-              author={comment.author}
-              email={comment.email}
-              body={comment.body}
-              timestamp={comment.timestamp}
-              avatar={comment.avatar}
-              replies={comment.replies as CommentModel[]}
+              author={comment.data.userId}
+              email={comment.data.userEmail}
+              body={comment.data.content}
+              // timestamp={comment.data.createAt}
+              // avatar={comment.avatar}
+              // replies={comment.replies as CommentModel[]}
             />
           );
         })}

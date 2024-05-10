@@ -5,8 +5,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "./config";
-import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -21,14 +20,14 @@ export const SignUp = async (email: string, password: string) => {
     const user = userCredential.user;
 
     if (user) {
+      const userDocRef = doc(db, "users", user.uid);
       try {
-        const docRef = await addDoc(collection(db, "users"), {
+        await setDoc(userDocRef, {
           uid: user.uid,
           email: email,
           createAt: new Date(),
-          bookmarks: [],
         });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with UID: ", user.uid);
       } catch (e) {
         console.error("Error adding document to Firestore: ", e);
       }
@@ -59,5 +58,21 @@ export const LogOut = async () => {
     console.log("Log out");
   } catch (error) {
     console.error("Log out error", error);
+  }
+};
+
+export const GetUidAndEmail = async () => {
+  try {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const uid = currentUser.uid;
+      const email = currentUser.email;
+      return { uid, email };
+    } else {
+      throw new Error("No user is currently signed in");
+    }
+  } catch (error) {
+    console.error("Error getting UID and email:", error);
+    throw error;
   }
 };
