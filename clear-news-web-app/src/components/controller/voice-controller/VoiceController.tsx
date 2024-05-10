@@ -25,10 +25,10 @@ const VoiceController = () => {
       );
 
       console.log(newTranscript[newTranscript.length - 1]);
-      // if (newTranscript.includes("lướt xuống")) {
-      //   window.scrollBy({ top: 100, left: 100, behavior: "smooth" });
-      //   console.log("work");
-      // }
+      if (newTranscript.includes("lướt xuống")) {
+        window.scrollBy({ top: 100, left: 100, behavior: "smooth" });
+        console.log("work");
+      }
     };
 
     newRecognition.onspeechend = () => {

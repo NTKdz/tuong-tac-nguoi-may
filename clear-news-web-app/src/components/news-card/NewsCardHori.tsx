@@ -73,11 +73,9 @@ export default function NewsCardHori({
       elevation={elevation || elevation == 0 ? elevation : 1}
       onClick={() => navigate("/news/" + id)}
       onMouseEnter={() => {
-        console.log(onHover);
         setHover(true);
       }}
       onMouseLeave={() => {
-        console.log(onHover);
         setHover(false);
       }}
     >
@@ -131,7 +129,7 @@ export default function NewsCardHori({
               display: "-webkit-box",
               WebkitLineClamp: currentMaxLine,
               WebkitBoxOrient: "vertical",
-              "&:hover": { },
+              "&:hover": {},
             }}
           >
             {title}

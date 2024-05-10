@@ -56,7 +56,7 @@ export default function NewsCardVert({
             overflow: "hidden",
             textOverflow: "ellipsis",
             display: "-webkit-box",
-            WebkitLineClamp: "3",
+            WebkitLineClamp: "4",
             WebkitBoxOrient: "vertical",
           }}
         >

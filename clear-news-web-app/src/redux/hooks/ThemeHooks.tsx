@@ -36,6 +36,7 @@ export interface ThemeState {
     typography: { fontSize: number; fontFamily: string };
   };
   lineHeight: string;
+  themeName: "default";
 }
 export const ThemeHooks = () => {
   const dispatch = useDispatch();
