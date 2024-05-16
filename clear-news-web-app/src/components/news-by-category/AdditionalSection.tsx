@@ -8,15 +8,13 @@ import { RootState } from "../../redux/store";
 
 export default function AdditionalSection() {
   const { newsByQuery } = useSelector((state: RootState) => state.news);
-  const data = mockData.articles.results;
-  // const data = newsByQuery?.articles?.results || [];
+  // const data = mockData.articles.results;
+  const data = newsByQuery?.articles?.results || [];
 
-  const filteredData = data
-    ?.slice(34)
-    ?.filter((article) => article.videos && article.image);
+  const filteredData = data?.slice(34)?.filter((article) => article.videos[0]);
 
   useEffect(() => {
-    console.log(data);
+    console.log(filteredData);
   }, []);
   return (
     <Box sx={{ marginTop: "24px", marginLeft: "24px", marginRight: "24px" }}>

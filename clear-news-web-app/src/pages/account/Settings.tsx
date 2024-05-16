@@ -68,7 +68,7 @@ export default function Settings() {
           }}
         />
       ),
-      displayName: "..........",
+      displayName: ".............",
     },
   ];
 
@@ -95,7 +95,9 @@ export default function Settings() {
                 <CustomDialog
                   title={
                     <>
-                      <Typography>{item.displayName}</Typography>
+                      <Typography sx={{ fontSize: "24px!important" }}>
+                        {item.displayName}
+                      </Typography>
                     </>
                   }
                   content={

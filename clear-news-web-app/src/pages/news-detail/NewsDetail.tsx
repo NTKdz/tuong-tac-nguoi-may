@@ -4,7 +4,6 @@ import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import PrintIcon from "@mui/icons-material/Print";
 import ShareIcon from "@mui/icons-material/Share";
 import { Box, Container, IconButton, Paper, Typography } from "@mui/material";
-import Hls from "hls.js"; // Import hls.js library
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -19,20 +18,21 @@ import {
 import mockData from "../../mockdata/data1.json";
 import { RootState } from "../../redux/store";
 import { formatDateTime } from "../../utils/dateFormater";
+import NewsHooks from "../../redux/hooks/NewsHooks";
+import VideoPlayer from "../../components/video-player/VideoPlayer";
 
 export default function NewsDetail() {
-  const newsDetail = mockData[8032858371].info;
-  const videoRef = useRef(null);
+  // const newsDetail = mockData[8032858371].info;
+
   const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
   const { audioLink } = useSelector((state: RootState) => state.loading);
-  // const { newsDetail } = useSelector((state: RootState) => state.news);
-  // const { getNewsDetail } = NewsHooks();
+  const { newsDetail } = useSelector((state: RootState) => state.news);
+  const { getNewsDetail } = NewsHooks();
   // const { getAudioLink } = LoadingHooks();
   const [bookmarkedStatus, setBookMark] = useState(false);
   useEffect(() => {
-    console.log(id);
     const getBookmarkStatus = async () => {
       const status = await IsBookmarked(
         newsDetail.uri,
@@ -44,26 +44,9 @@ export default function NewsDetail() {
 
     getBookmarkStatus();
     // getAudioLink(newsDetail.body);
-    // id && getNewsDetail(id);
+    id && getNewsDetail(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-  useEffect(() => {
-    const initializeHls = () => {
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        const video = videoRef.current;
-
-        hls.loadSource(
-          "https://lineup.cbsivideo.com/playout/c1ed69db-6b71-4581-a937-a70ab4089f8a/0/chunklist.m3u8"
-        );
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {});
-      }
-    };
-
-    initializeHls();
-  }, [newsDetail]);
 
   const scrollToCommentSection = () => {
     if (commentSectionRef.current) {
@@ -73,22 +56,15 @@ export default function NewsDetail() {
     }
   };
 
-  function loadVideo(videoSrc: string) {
-    if (Hls.isSupported()) {
-      let hls = new Hls();
-      hls.loadSource(videoSrc);
-      hls.attachMedia(this.myRef.current);
-    }
-  }
-
   function onBookMarkClick() {
     if (localStorage.getItem("user")) {
       if (bookmarkedStatus) {
+        console.log(JSON.parse(localStorage.getItem("user")!).uid);
         DeleteBookmark(
           JSON.parse(localStorage.getItem("user")!).uid,
           newsDetail.uri
         );
-        setBookMark(false)
+        setBookMark(false);
       } else {
         BookmarkArticle(
           newsDetail.uri,
@@ -96,7 +72,7 @@ export default function NewsDetail() {
           newsDetail.image,
           formatDateTime(newsDetail.dateTime).date
         );
-        setBookMark(true)
+        setBookMark(true);
       }
     } else {
       alert("Please login to comment");
@@ -195,18 +171,7 @@ export default function NewsDetail() {
                     index ===
                       Math.floor(newsDetail.body.split("\n").length / 2) && (
                       <Box>
-                        <video
-                          ref={videoRef}
-                          width="100%"
-                          controls
-                          playsInline // Important for mobile devices
-                        >
-                          <source
-                            src="https://lineup.cbsivideo.com/playout/c1ed69db-6b71-4581-a937-a70ab4089f8a/0/chunklist.m3u8"
-                            type="application/x-mpegURL"
-                          />
-                          Your browser does not support the video tag.
-                        </video>
+                        <VideoPlayer videoLink={newsDetail.videos[0].uri} />
                         <Typography variant="body1" paragraph>
                           {line}
                         </Typography>

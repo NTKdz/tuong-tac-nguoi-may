@@ -11,7 +11,7 @@ export default function NewsList() {
   const { getNewsByCategory } = NewsHooks();
   useEffect(() => {
     console.log("category", category);
-    // category && getNewsByCategory(category);
+    category && getNewsByCategory(category);
   }, [category]);
   return (
     <Container
