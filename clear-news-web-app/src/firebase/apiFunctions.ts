@@ -13,7 +13,12 @@ import {
   where,
 } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  updatePassword,
+  User,
+} from "firebase/auth";
 import { Title } from "@mui/icons-material";
 
 const db = getFirestore(app);
@@ -191,5 +196,40 @@ export const DeleteBookmark = async (userId: string, articleId: string) => {
   } catch (error) {
     console.error("Error deleting bookmark:", error);
     throw error;
+  }
+};
+
+export const ChangePassword = async (newPassword: string) => {
+  if (!user) {
+    console.error("No authenticated user found.");
+    return;
+  }
+
+  try {
+    await updatePassword(user, newPassword);
+    console.log("Password updated successfully.");
+  } catch (error) {
+    console.error("An error occurred while updating the password:", error);
+  }
+};
+
+export const ChangeUsername = async (userId: string, newUsername: string) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const userDocRef = querySnapshot.docs[0].ref;
+
+      await updateDoc(userDocRef, {
+        username: newUsername,
+      });
+
+      console.log("Username updated successfully.");
+    } else {
+      console.error("User not found.");
+    }
+  } catch (error) {
+    console.error("An error occurred while updating the username:", error);
   }
 };
