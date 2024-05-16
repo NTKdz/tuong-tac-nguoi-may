@@ -19,12 +19,13 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { ThemeHooks } from "../../../redux/hooks/ThemeHooks";
+import { ThemeHooks, ThemeState } from "../../../redux/hooks/ThemeHooks";
 import { RootState } from "../../../redux/store";
 import { fontFamilies } from "../../../theme";
 import ColorPicker from "./color-picker/ColorPicker";
 import LineHeightInput from "./value-input/LineHeightInput";
 import ValueInput from "./value-input/ValueInput";
+import { getTheme } from "./getTheme";
 
 export default function ThemeController() {
   const location = useLocation();
@@ -35,7 +36,7 @@ export default function ThemeController() {
     width: "500px",
   });
   const myTheme = useTheme();
-  const { lineHeight, theme, mode, current } = useSelector(
+  const { lineHeight, theme, mode, current, themeName } = useSelector(
     (state: RootState) => state.theme
   );
 
@@ -85,7 +86,41 @@ export default function ThemeController() {
     }
   }
 
+  function onResetting(type: string) {
+    const theme = getTheme(
+      JSON.parse(
+        localStorage.getItem(current === "reading" ? "read-theme" : "theme")!
+      ).themeName
+    ) as ThemeState;
+    switch (type) {
+      case "text":
+        changeTextColor(theme.theme.text.primary);
+        break;
+      case "default":
+        console.log("change default");
+        changeDefaultBackgroundColor(theme.theme.background.default);
+        break;
+      case "paper":
+        console.log("change");
+        changePaperBackgroundColor(theme.theme.background.paper);
+        break;
+      case "primary-main":
+        changePrimary(
+          theme.theme.primary.main,
+          myTheme.palette.primary.contrastText
+        );
+        break;
+      case "primary-contrast":
+        changePrimary(
+          myTheme.palette.primary.main,
+          theme.theme.primary.contrastText
+        );
+        break;
+    }
+  }
+
   const themeSettings = [
+    { name: "Theme", setting: "theme", component: <Box></Box> },
     {
       name: "Text",
       setting: "text",
@@ -209,7 +244,7 @@ export default function ThemeController() {
                 disabled={myTheme.palette.mode === "dark" ? true : false}
               />
             </Box>
-            <Button>Reset</Button>
+            <Button onClick={() => onResetting("text")}>Reset</Button>
           </Box>
         </Box>
       ),
@@ -238,7 +273,7 @@ export default function ThemeController() {
                 disabled={myTheme.palette.mode === "dark" ? true : false}
               />
             </Box>
-            <Button>Reset</Button>
+            <Button onClick={() => onResetting("default")}>Reset</Button>
           </Box>
 
           <Typography>
@@ -260,7 +295,7 @@ export default function ThemeController() {
                 disabled={myTheme.palette.mode === "dark" ? true : false}
               />
             </Box>
-            <Button>Reset</Button>
+            <Button onClick={() => onResetting("paper")}>Reset</Button>
           </Box>
         </Box>
       ),
@@ -289,7 +324,7 @@ export default function ThemeController() {
                 disabled={myTheme.palette.mode === "dark" ? true : false}
               />
             </Box>
-            <Button>Reset</Button>
+            <Button onClick={() => onResetting("primary-main")}>Reset</Button>
           </Box>
 
           <Typography>
@@ -311,62 +346,64 @@ export default function ThemeController() {
                 disabled={myTheme.palette.mode === "dark" ? true : false}
               />
             </Box>
-            <Button>Reset</Button>
+            <Button onClick={() => onResetting("primary-contrast")}>
+              Reset
+            </Button>
           </Box>
         </>
       ),
     },
-    {
-      name: "Secondary",
-      setting: "secondary",
-      component: (
-        <>
-          <Typography>
-            Main {myTheme.palette.mode === "dark" && "(disabled)"}
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "16px",
-            }}
-          >
-            <Box sx={{ marginRight: "8px", width: "80%" }}>
-              <ColorPicker
-                color={myTheme.palette.secondary.main}
-                onColorChange={(color: string) => {
-                  onColorChange("secondary-main", color);
-                }}
-                disabled={myTheme.palette.mode === "dark" ? true : false}
-              />
-            </Box>
-            <Button>Reset</Button>
-          </Box>
+    // {
+    //   name: "Secondary",
+    //   setting: "secondary",
+    //   component: (
+    //     <>
+    //       <Typography>
+    //         Main {myTheme.palette.mode === "dark" && "(disabled)"}
+    //       </Typography>
+    //       <Box
+    //         sx={{
+    //           display: "flex",
+    //           alignItems: "center",
+    //           marginBottom: "16px",
+    //         }}
+    //       >
+    //         <Box sx={{ marginRight: "8px", width: "80%" }}>
+    //           <ColorPicker
+    //             color={myTheme.palette.secondary.main}
+    //             onColorChange={(color: string) => {
+    //               onColorChange("secondary-main", color);
+    //             }}
+    //             disabled={myTheme.palette.mode === "dark" ? true : false}
+    //           />
+    //         </Box>
+    //         <Button>Reset</Button>
+    //       </Box>
 
-          <Typography>
-            Contrast Text {myTheme.palette.mode === "dark" && "(disabled)"}
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "16px",
-            }}
-          >
-            <Box sx={{ marginRight: "8px", width: "80%" }}>
-              <ColorPicker
-                color={myTheme.palette.secondary.contrastText}
-                onColorChange={(color: string) => {
-                  onColorChange("secondary-contrast", color);
-                }}
-                disabled={myTheme.palette.mode === "dark" ? true : false}
-              />
-            </Box>
-            <Button>Reset</Button>
-          </Box>
-        </>
-      ),
-    },
+    //       <Typography>
+    //         Contrast Text {myTheme.palette.mode === "dark" && "(disabled)"}
+    //       </Typography>
+    //       <Box
+    //         sx={{
+    //           display: "flex",
+    //           alignItems: "center",
+    //           marginBottom: "16px",
+    //         }}
+    //       >
+    //         <Box sx={{ marginRight: "8px", width: "80%" }}>
+    //           <ColorPicker
+    //             color={myTheme.palette.secondary.contrastText}
+    //             onColorChange={(color: string) => {
+    //               onColorChange("secondary-contrast", color);
+    //             }}
+    //             disabled={myTheme.palette.mode === "dark" ? true : false}
+    //           />
+    //         </Box>
+    //         <Button>Reset</Button>
+    //       </Box>
+    //     </>
+    //   ),
+    // },
   ];
 
   return (
@@ -449,6 +486,7 @@ export default function ThemeController() {
                   mode: mode,
                   theme: theme,
                   lineHeight: lineHeight,
+                  themeName: themeName,
                 })
               );
             }}
@@ -456,14 +494,36 @@ export default function ThemeController() {
             Apply
           </Button>
         </Box>
-        <Box display={"flex"} alignItems={"center"} marginBottom={"8px"}>
-          <Typography>Dark mode</Typography>
-          <Switch
-            checked={myTheme.palette.mode === "dark"}
-            onChange={(_, checked) => {
-              changeMode(checked ? "dark" : "light");
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          marginBottom={"8px"}
+        >
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography>Dark mode</Typography>
+            <Switch
+              checked={myTheme.palette.mode === "dark"}
+              onChange={(_, checked) => {
+                changeMode(checked ? "dark" : "light");
+              }}
+            />
+          </Box>
+          <Button
+            onClick={() => {
+              changeTheme(
+                getTheme(
+                  JSON.parse(
+                    localStorage.getItem(
+                      current === "reading" ? "read-theme" : "theme"
+                    )!
+                  ).themeName
+                ) as ThemeState
+              );
             }}
-          />
+          >
+            Reset
+          </Button>
         </Box>
 
         <Grid container spacing={2}>

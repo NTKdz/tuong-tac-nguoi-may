@@ -13,6 +13,7 @@ import { defaultStyles } from "./theme.tsx";
         current: defaultStyles.current,
         lineHeight: defaultStyles.lineHeight,
         theme: defaultStyles.theme,
+        themeName: defaultStyles.themeName,
       })
     );
   if (!localStorage.getItem("theme"))
@@ -23,12 +24,13 @@ import { defaultStyles } from "./theme.tsx";
         current: defaultStyles.current,
         lineHeight: defaultStyles.lineHeight,
         theme: defaultStyles.theme,
+        themeName: defaultStyles.themeName,
       })
     );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
- 
+  <React.StrictMode>
     <AppWrapper />
- 
+  </React.StrictMode>
 );

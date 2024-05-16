@@ -1,26 +1,74 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomDialog from "../../components/dialog/Dialog";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { ChangePassword, ChangeUsername } from "../../firebase/apiFunctions";
 
 export default function Settings() {
-  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const [userInfo, setUserInfo] = useState({ username: "", password: "" });
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [content, setContent] = useState(
+    JSON.parse(localStorage.getItem("user")!).username
+  );
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
   useEffect(() => {}, []);
   const settings = [
-    {
-      title: "Email address",
-      caption: " You can sign into ClearNews with this email address.",
-      element: (
-        <TextField variant="standard" sx={{ width: "100%" }} value={"he"} />
-      ),
-      normalElement: <></>,
-    },
     {
       title: "Username",
       caption: " You can sign into ClearNews with this email address.",
       element: (
-        <TextField variant="standard" sx={{ width: "100%" }} value={"he"} />
+        <TextField
+          variant="standard"
+          sx={{ width: "100%" }}
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+        />
       ),
-      normalElement: <></>,
+      displayName: JSON.parse(localStorage.getItem("user")!).username,
+    },
+    {
+      title: "Password",
+      caption: " You can sign into ClearNews with this email address.",
+      element: (
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          value={content}
+          sx={{ width: "100%" }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+        />
+      ),
+      displayName: "..........",
     },
   ];
 
@@ -47,7 +95,7 @@ export default function Settings() {
                 <CustomDialog
                   title={
                     <>
-                      <Typography>ngsuyenthekhoi2003@gmail.com</Typography>
+                      <Typography>{item.displayName}</Typography>
                     </>
                   }
                   content={
@@ -68,22 +116,26 @@ export default function Settings() {
                           {item.caption}
                         </Typography>
                       </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          marginTop: "32px",
-                          justifyContent: "right",
-                        }}
-                      >
-                        <Button variant="contained" sx={{ marginRight: "8px" }}>
-                          cancel
-                        </Button>
-                        <Button variant="contained">save</Button>
-                      </Box>
                     </Box>
                   }
+                  onClose={(type: string) => {
+                    console.log(content);
+                    if (type === "save") {
+                      if (item.title === "Username")
+                        ChangeUsername(
+                          JSON.parse(localStorage.getItem("user")!).uid,
+                          content
+                        );
+                      if (item.title === "Password") {
+                        ChangePassword(content);
+                      }
+                    }
+                    setContent("");
+                  }}
+                  onOpen={() => {
+                    if (item.title === "Password") setContent("");
+                    else setContent(item.displayName);
+                  }}
                 />
               </React.Fragment>
             )}

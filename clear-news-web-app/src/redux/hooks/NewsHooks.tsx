@@ -111,7 +111,7 @@ export default function NewsHooks() {
 
       if (response.status === 200) {
         const data: NewsDetail = response.data[id].info;
-        await getAudio(data.body);
+        // await getAudio(data.body);
         dispatch(setNewsDetail(data));
       }
     } catch (error) {

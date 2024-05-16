@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,9 +17,9 @@ import { useEffect, useState } from "react";
 import { getContrastColor } from "../../utils/colorContrast";
 import { LogOut } from "../../firebase/auth";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import SearchIcon from "@mui/icons-material/Search";
+import ImageHolder from "../image-holder/ImageHolder";
+import Avatar from "react-avatar";
 
 const settings = ["Setting", "Bookmarks", "Logout"];
 
@@ -317,14 +316,37 @@ export default function NavBar() {
               }}
             />
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 0,
+              overflow: "hidden",
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+            }}
+          >
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{
+                  p: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {localStorage.getItem("user") ? (
+                  <Avatar
+                    name={JSON.parse(localStorage.getItem("user")!).email}
+                    size="44"
+                  ></Avatar>
+                ) : (
+                  <ImageHolder src="https://via.placeholder.com/500x240.png?text=No+Image" />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: "45px", zIndex: 1000000 }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

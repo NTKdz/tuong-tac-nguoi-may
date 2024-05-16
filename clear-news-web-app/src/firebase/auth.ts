@@ -5,12 +5,24 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "./config";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Sign up new users
-export const SignUp = async (email: string, password: string) => {
+export const SignUp = async (
+  username: string,
+  email: string,
+  password: string
+) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -21,20 +33,21 @@ export const SignUp = async (email: string, password: string) => {
 
     if (user) {
       const userDocRef = doc(db, "users", user.uid);
-      try {
-        await setDoc(userDocRef, {
-          uid: user.uid,
-          email: email,
-          createAt: new Date(),
-        });
-        // console.log("Document written with UID: ", user.uid);
-      } catch (e) {
-        console.error("Error adding document to Firestore: ", e);
-      }
+
+      await setDoc(userDocRef, {
+        username: username,
+        uid: user.uid,
+        email: email,
+        createAt: new Date(),
+      });
+      // console.log("Document written with UID: ", user.uid);
     }
   } catch (error) {
     console.error("Error signing up: ", error);
+    return false;
   }
+
+  return true;
 };
 
 // Sign in existing users
@@ -48,6 +61,7 @@ export const SignIn = async (email: string, password: string) => {
     return userCredential;
   } catch (error) {
     console.error("Sign in error", error);
+    return false;
   }
 };
 
@@ -67,7 +81,13 @@ export const GetUidAndEmail = async () => {
     if (currentUser) {
       const uid = currentUser.uid;
       const email = currentUser.email;
-      return { uid, email };
+      let username = "";
+      const q = query(collection(db, "users"), where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        username = doc.data().username;
+      });
+      return { uid, email, username };
     } else {
       throw new Error("No user is currently signed in");
     }

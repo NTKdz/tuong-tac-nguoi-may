@@ -85,7 +85,7 @@ export default function NewsCardHori({
             pictureStyle
               ? {
                   ...pictureStyle,
-                  flex: onHover ? 0 : 0.5,
+                  flex: onHover ? 0 : 0.6,
                   transition: "all 0.5s",
                 }
               : { flex: "1", minHeight: "240px", width: "500px" }

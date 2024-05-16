@@ -1,5 +1,5 @@
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Settings from "./Settings";
 import BookMarks from "./BookMarks";
 import { useLocation } from "react-router-dom";
@@ -12,8 +12,14 @@ export default function Account() {
     location.pathname.includes("bookmark") ? 1 : 0
   );
 
+  useEffect(() => {
+    location.pathname.includes("bookmark")
+      ? changeSelectedTab(1)
+      : changeSelectedTab(0);
+  }, [location.pathname]);
+
   return (
-    <Container maxWidth="md" sx={{ minHeight: "300px" }}>
+    <Container maxWidth="md" sx={{ minHeight: "300px", marginBottom: "32px" }}>
       <Box
         sx={{
           display: "flex",
@@ -31,7 +37,7 @@ export default function Account() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: "20%",
+                width: "200px",
                 height: selectedTab === index ? "72px" : "56px",
                 marginRight: "1px",
                 borderRadius: "8px 8px 0px 0px",

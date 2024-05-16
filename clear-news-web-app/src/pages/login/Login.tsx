@@ -21,37 +21,31 @@ export default function Login() {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [isRemember, changeRememberStatus] = useState(false);
+  const [isRemember, changeRememberStatus] = useState(true);
+  const [isError, setError] = useState(false);
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+  useEffect(() => {
+    setError(false);
+  }, [location.pathname]);
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email") as string;
     const password = data.get("password") as string;
     const repeatPassword = data.get("repeat password") as string;
-
+    const username = data.get("username") as string;
     if (password === repeatPassword) {
       try {
-        const userCredential = await SignUp(email, password);
-        // if (userCredential) {
-        //   console.log("User created:", userCredential.user);
-        //   navigate("/");
-        // }
-        navigate("/");
+        const userCredential = await SignUp(username, email, password);
+        if (userCredential) {
+          navigate("/");
+        }
       } catch (error) {
         console.error("Signup failed:", error);
       }
     } else {
       console.error("Passwords do not match");
-      // show an error message to the user
+      setError(true);
     }
   };
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,11 +56,13 @@ export default function Login() {
 
     const userCredential = await SignIn(email, password);
     if (userCredential) {
-      console.log("User signed in:", userCredential.user);
       if (isRemember) {
         localStorage.setItem("user", JSON.stringify(await GetUidAndEmail()));
       }
       navigate("/");
+    } else {
+      console.error("Sign in failed");
+      setError(true);
     }
   };
 
@@ -135,6 +131,7 @@ export default function Login() {
                 label="Username"
                 name="username"
                 autoFocus
+                error={isError}
               />
             )}
             <TextField
@@ -146,6 +143,7 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={isError}
             />
             <TextField
               margin="normal"
@@ -156,6 +154,7 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={isError}
             />
             {location.pathname.includes("login") ? (
               <FormControlLabel
@@ -180,6 +179,7 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="off"
+                error={isError}
               />
             )}
             <Button
@@ -193,15 +193,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  {location.pathname.includes("login") ? (
-                    <div>Forgot password?</div>
-                  ) : (
-                    <div onClick={() => navigate("/login")}>
-                      Got an account? Login
-                    </div>
-                  )}
-                </Link>
+                <Link href="#" variant="body2"></Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
@@ -210,7 +202,9 @@ export default function Login() {
                       Don't have an account? Sign Up
                     </div>
                   ) : (
-                    <div></div>
+                    <div onClick={() => navigate("/login")}>
+                      Got an account? Login
+                    </div>
                   )}
                 </Link>
               </Grid>

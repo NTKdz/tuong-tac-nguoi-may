@@ -1,7 +1,7 @@
 import { CssBaseline, PaletteMode, responsiveFontSizes } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider, useSelector } from "react-redux";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, useLocation } from "react-router-dom";
 import "./App.css";
 import { RootState, store } from "./redux/store";
 import { router } from "./routes";

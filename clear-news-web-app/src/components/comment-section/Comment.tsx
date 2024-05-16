@@ -5,12 +5,16 @@ import {
   Box,
   Button,
   IconButton,
+  Menu,
+  MenuItem,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import ImageHolder from "../image-holder/ImageHolder";
+import Avatar from "react-avatar";
+import { DeleteComment } from "../../firebase/apiFunctions";
 
 export interface CommentModel {
   id: string;
@@ -21,6 +25,7 @@ export interface CommentModel {
   avatar?: string;
   replies?: CommentModel[];
   offset?: number;
+  onDelete: () => void;
 }
 
 export default function Comment({
@@ -32,10 +37,21 @@ export default function Comment({
   avatar,
   replies,
   offset = 0,
+  onDelete,
 }: CommentModel) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isReplying, setIsReplying] = useState(false);
   const [isRepliesShown, setRepliesShown] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = async () => {
+    setAnchorEl(null);
+    DeleteComment(id);
+    onDelete()
+  };
   const theme = useTheme();
   return (
     <Box
@@ -72,7 +88,8 @@ export default function Comment({
                 marginRight: "8px",
               }}
             >
-              <ImageHolder
+              <Avatar name={email} round={true} size="40" />
+              {/* <ImageHolder
                 src={avatar}
                 style={{
                   height: "100%",
@@ -81,16 +98,26 @@ export default function Comment({
                   objectPosition: "center",
                   borderRadius: "50%",
                 }}
-              />
+              /> */}
             </Box>
 
             <Typography>{email}</Typography>
           </Box>
-          <IconButton sx={{ width: "40px", height: "40px" }}>
-            <MoreVertIcon />
-          </IconButton>
+          <Box>
+            <IconButton
+              sx={{ position: "relative", width: "40px", height: "40px" }}
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem onClick={handleClose}>Delete Comment</MenuItem>
+            </Menu>
+          </Box>
         </Box>
-        <Box sx={{ marginTop: "8px", marginBottom: "8px" }}>{body}</Box>
+        <Box sx={{ marginTop: "8px", marginBottom: "8px" }}>
+          <Typography>{body}</Typography>
+        </Box>
         <Box>
           <Box sx={{ display: "flex" }}>
             {/* <Button
@@ -131,7 +158,7 @@ export default function Comment({
             )}
           </Box>
 
-          <Box sx={{ width: "100%" }}>
+          {/* <Box sx={{ width: "100%" }}>
             {isRepliesShown &&
               replies?.map((reply) => {
                 return (
@@ -183,7 +210,7 @@ export default function Comment({
                 </Box>
               </Box>
             )}
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>

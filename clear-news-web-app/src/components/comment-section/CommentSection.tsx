@@ -29,7 +29,7 @@ interface Comment {
   };
 }
 
-export default function CommentSection({ articleId }) {
+export default function CommentSection({ articleId }: { articleId: string }) {
   const [sortType, changeSortType] = useState("most recent");
   const [uidAndEmail, setUidAndEmail] = useState({});
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
@@ -60,6 +60,7 @@ export default function CommentSection({ articleId }) {
     const loadComment = async () => {
       try {
         const updatedComments = await GetAllCommentsOfArticle(articleId);
+        console.log(updatedComments);
         setCommentsList(updatedComments);
       } catch (error) {
         console.error("Error creating comment:", error);
@@ -69,16 +70,20 @@ export default function CommentSection({ articleId }) {
   }, [articleId]);
 
   const handleSubmitComment = async () => {
-    if (!commentContent) return;
-    const { uid, email } = JSON.parse(localStorage.getItem("user")!);
+    if (localStorage.getItem("user")) {
+      if (!commentContent) return;
+      const { uid, email } = JSON.parse(localStorage.getItem("user")!);
 
-    try {
-      await CreateComment(uid, email, articleId, commentContent);
-      const updatedComments = await GetAllCommentsOfArticle(articleId);
-      setCommentsList(updatedComments);
-      setCommentContent("");
-    } catch (error) {
-      console.error("Error creating comment:", error);
+      try {
+        await CreateComment(uid, email, articleId, commentContent);
+        const updatedComments = await GetAllCommentsOfArticle(articleId);
+        setCommentsList(updatedComments);
+        setCommentContent("");
+      } catch (error) {
+        console.error("Error creating comment:", error);
+      }
+    } else {
+      alert("Please login to comment");
     }
   };
 
@@ -89,6 +94,7 @@ export default function CommentSection({ articleId }) {
         paddingTop: "16px",
         paddingInline: "32px",
         paddingBottom: "16px",
+        borderRadius: "8px",
       }}
     >
       {/* <Button onClick={handleSubmitComment}>DELoo</Button> */}
@@ -180,6 +186,12 @@ export default function CommentSection({ articleId }) {
               // timestamp={comment.data.createAt}
               // avatar={comment.avatar}
               // replies={comment.replies as CommentModel[]}
+              onDelete={async () => {
+                const updatedComments = await GetAllCommentsOfArticle(
+                  articleId
+                );
+                setCommentsList(updatedComments);
+              }}
             />
           );
         })}

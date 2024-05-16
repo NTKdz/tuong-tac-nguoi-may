@@ -1,15 +1,21 @@
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import ThemeController from "../components/controller/theme-controller/ThemeController";
 import Footer from "../components/footer/Footer";
 import NavBar from "../components/navbar/NavBar";
 import { RootState } from "../redux/store";
 import LoadingScreen from "../components/loading/LoadingScreen";
 import VoiceController from "../components/controller/voice-controller/VoiceController";
+import { useEffect } from "react";
 
 export default function LayOut() {
   const { loading } = useSelector((state: RootState) => state.loading);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <Box sx={{ position: "relative", overflow: "hidden" }}>

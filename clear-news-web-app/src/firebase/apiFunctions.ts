@@ -1,6 +1,8 @@
 import app from "./config";
 import {
+  arrayRemove,
   arrayUnion,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -11,7 +13,12 @@ import {
   where,
 } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  updatePassword,
+  User,
+} from "firebase/auth";
 import { Title } from "@mui/icons-material";
 
 const db = getFirestore(app);
@@ -130,7 +137,7 @@ export const IsBookmarked = async (
   articleId: string,
   uid: string
 ): Promise<boolean> => {
-  console.log(uid)
+  console.log(uid);
   if (!uid) {
     throw new Error("User is not logged in");
   }
@@ -151,5 +158,76 @@ export const IsBookmarked = async (
   } catch (error) {
     console.error("Error checking bookmark:", error);
     throw error;
+  }
+};
+
+export const DeleteComment = async (commentId: string) => {
+  try {
+    const commentDocRef = doc(db, "comments", commentId);
+    const commentDocSnap = await getDoc(commentDocRef);
+
+    if (commentDocSnap.exists()) {
+      const userIdFromComment = commentDocSnap.data().userId;
+
+      if (user && userIdFromComment === user.uid) {
+        await deleteDoc(commentDocRef);
+        console.log("Comment deleted successfully");
+      } else {
+        console.log("Only the owner of the comment can delete it");
+        alert("Only the owner of the comment can delete it");
+      }
+    } else {
+      console.log("Comment does not exist");
+    }
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+  }
+};
+
+export const DeleteBookmark = async (userId: string, articleId: string) => {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, {
+      bookmarks: arrayRemove(articleId),
+    });
+    console.log("Bookmark deleted");
+  } catch (error) {
+    console.error("Error deleting bookmark:", error);
+    throw error;
+  }
+};
+
+export const ChangePassword = async (newPassword: string) => {
+  if (!user) {
+    console.error("No authenticated user found.");
+    return;
+  }
+
+  try {
+    await updatePassword(user, newPassword);
+    console.log("Password updated successfully.");
+  } catch (error) {
+    console.error("An error occurred while updating the password:", error);
+  }
+};
+
+export const ChangeUsername = async (userId: string, newUsername: string) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const userDocRef = querySnapshot.docs[0].ref;
+
+      await updateDoc(userDocRef, {
+        username: newUsername,
+      });
+
+      console.log("Username updated successfully.");
+    } else {
+      console.error("User not found.");
+    }
+  } catch (error) {
+    console.error("An error occurred while updating the username:", error);
   }
 };
