@@ -187,10 +187,24 @@ export const DeleteComment = async (commentId: string) => {
 export const DeleteBookmark = async (userId: string, articleId: string) => {
   try {
     const userDocRef = doc(db, "users", userId);
-    await updateDoc(userDocRef, {
-      bookmarks: arrayRemove(articleId),
-    });
-    console.log("Bookmark deleted");
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      const bookmarks = userData.bookmarks || [];
+
+      const updatedBookmarks = bookmarks.filter(
+        (bookmark) => bookmark.articleId !== articleId
+      );
+
+      await updateDoc(userDocRef, {
+        bookmarks: updatedBookmarks,
+      });
+
+      console.log("Bookmark deleted");
+    } else {
+      console.log("No such document!");
+    }
   } catch (error) {
     console.error("Error deleting bookmark:", error);
     throw error;
