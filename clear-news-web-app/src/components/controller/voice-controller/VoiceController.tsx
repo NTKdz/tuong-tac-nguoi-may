@@ -1,18 +1,22 @@
+import { Box, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { colorToHex, executeCommand } from "./commands";
-import { recognition, textToSpeech } from "./commands";
-import { useLocation, useNavigate } from "react-router-dom";
-import { ThemeHooks } from "../../../redux/hooks/ThemeHooks";
-import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ThemeHooks, ThemeState } from "../../../redux/hooks/ThemeHooks";
 import { RootState } from "../../../redux/store";
+import { colorToHex, recognition, textToSpeech } from "./commands";
+import { getTheme } from "../theme-controller/getTheme";
+import { getContrastColor } from "../../../utils/colorContrast";
 
 console.log("init");
 const VoiceController = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const muiTheme = useTheme();
-  const { theme } = useSelector((state: RootState) => state);
+  const { lineHeight, theme, mode, current, themeName } = useSelector(
+    (state: RootState) => state.theme
+  );
+
   const {
     changeDefaultBackgroundColor,
     changePaperBackgroundColor,
@@ -22,11 +26,12 @@ const VoiceController = () => {
     changeLineHeight,
     changeMode,
     changeTextColor,
+    changeTheme,
   } = ThemeHooks();
 
   const [stopReco, setStopReco] = useState(true);
   const [transcript, setTranscript] = useState("");
-
+  const [speechScript, setSpeechScript] = useState("");
   useEffect(() => {
     const htmlElements = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
 
@@ -73,11 +78,23 @@ const VoiceController = () => {
     }
   }
 
+  function handleDecrease(type: string) {
+    switch (type) {
+      case "cỡ chữ":
+        changeFontSize(muiTheme.typography.fontSize - 2);
+        break;
+      case "dòng":
+        changeLineHeight(String(Number(theme.lineHeight) - 100));
+        break;
+    }
+  }
+
   function handleChange(command: string) {
     let [prefix, colorName] = ["", ""],
       hexColor: string | null = "";
     if (command.startsWith("chủ đạo")) {
-      [prefix, colorName] = command.split("chủ đạo");
+      prefix = "chủ đạo";
+      colorName = command.split("chủ đạo")[1];
       hexColor = colorToHex(colorName.trim());
     } else {
       [prefix, colorName] = command.split(/\s+/);
@@ -85,7 +102,6 @@ const VoiceController = () => {
     }
 
     if (!hexColor) return;
-
     switch (prefix) {
       case "nền":
         changeDefaultBackgroundColor(hexColor);
@@ -94,9 +110,14 @@ const VoiceController = () => {
         changePaperBackgroundColor(hexColor);
         break;
       case "chữ":
+        changeTextColor(hexColor);
         break;
       case "chủ đạo":
-        console.log("chudd");
+        console.log("change");
+        changePrimary(
+          hexColor,
+          getContrastColor(hexColor) === "dark" ? "#3c3c3c" : "#ffffff"
+        );
         break;
     }
   }
@@ -104,6 +125,18 @@ const VoiceController = () => {
     let command = event.results[0][0].transcript.toLowerCase();
     command = command.replace(".", "");
     console.log(command);
+    setSpeechScript(command);
+    if (command.startsWith("reset")) {
+      changeTheme(
+        getTheme(
+          JSON.parse(
+            localStorage.getItem(
+              current === "reading" ? "read-theme" : "theme"
+            )!
+          ).themeName
+        ) as ThemeState
+      );
+    }
     if (command.startsWith("đọc")) {
       console.log(transcript);
       const utterThis = new SpeechSynthesisUtterance(transcript);
@@ -112,8 +145,34 @@ const VoiceController = () => {
       }
       textToSpeech.speak(utterThis);
     }
-    if (command.includes("tăng")) {
+    if (command.startsWith("màu")) {
+      command.split("màu")[1].trim() === "tối"
+        ? changeMode("dark")
+        : changeMode("light");
+    }
+    if (command.startsWith("xác nhận")) {
+      const readStyle = current === "reading" ? "read-theme" : "theme";
+      localStorage.setItem(
+        readStyle,
+        JSON.stringify({
+          mode: mode,
+          theme: theme,
+          lineHeight: lineHeight,
+          themeName: themeName,
+        })
+      );
+    }
+    if (command.startsWith("tải lại")) {
+      navigate(0);
+    }
+    if (command.startsWith("in bài")) {
+      window.print();
+    }
+    if (command.startsWith("tăng")) {
       handleIncrease(command.split("tăng")[1].trim());
+    }
+    if (command.startsWith("giảm")) {
+      handleDecrease(command.split("giảm")[1].trim());
     }
     if (command.startsWith("đổi màu")) {
       handleChange(command.split("đổi màu")[1].trim());
@@ -130,7 +189,7 @@ const VoiceController = () => {
     if (command.includes("cuối trang")) {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
-    if (command.includes("mở")) {
+    if (command.startsWith("mở")) {
       switch (command.split("mở")[1].trim()) {
         case "đăng nhập":
           navigate("/login");
@@ -152,7 +211,7 @@ const VoiceController = () => {
           break;
       }
     }
-    if (command.includes("tắt")) {
+    if (command.includes("dừng")) {
       setStopReco(true);
     }
   };
@@ -184,12 +243,24 @@ const VoiceController = () => {
     }
   }, [stopReco]);
   return (
-    <>
-      {/* sadfasdfsdfasdfas
-      <p>pfdasf</p>
-      <p>fadfads</p>
-      {transcript} */}
-    </>
+    <Box>
+      {!stopReco && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 100,
+            left: "45%",
+            zIndex: 10000,
+            backgroundColor: "white",
+            padding: "8px",
+            fontSize: "24px",
+            borderRadius: "8px",
+          }}
+        >
+          {speechScript}
+        </Box>
+      )}
+    </Box>
   );
 };
 

@@ -11,7 +11,7 @@ export default function AdditionalSection() {
   // const data = mockData.articles.results;
   const data = newsByQuery?.articles?.results || [];
 
-  const filteredData = data?.slice(34)?.filter((article) => article.videos[0]);
+  const filteredData = data?.slice(0)?.filter((article) => article.videos[0]);
 
   useEffect(() => {
     console.log(filteredData);

@@ -23,16 +23,16 @@ export function colorToHex(colorName: string): string | null {
   const colorMap: Record<string, string> = {
     // ... (previous colors)
 
-    "xanh lơ": "#ADD8E6", // Light Blue
+    "xanh": "#ADD8E6", // Light Blue
     "xanh cô ban": "#00FFFF", // Cyan
     "xanh ngọc bích": "#007FFF", // Deep Sky Blue
     "lam nhạt": "#9400D3", // Dark Violet
     "tím hoa sim": "#C39797", // Pale Violet Red
 
-    "đỏ mận": "#800000", // Maroon
+    "đỏ": "#800000", // Maroon
     "đỏ burgundy": "#800020", // Burgundy
     "san hô": "#FF7F50", // Coral
-    đào: "#FFB6C1", // Light Pink
+    "đào": "#FFB6C1", // Light Pink
     "mận chín": "#660066", // Purple
 
     "vàng mơ": "#FFEFD5", // Papaya Whip
@@ -55,8 +55,8 @@ export function colorToHex(colorName: string): string | null {
     "nâu sô cô la": "#7B3F00", // Chocolate
     "nâu xám": "#A9A9A9", // Dark Gray
 
-    kem: "#FFFDD0", // Cream
-    ngà: "#F8F8FF", // Ghost White
+    "kem": "#FFFDD0", // Cream
+    "ngà": "#F8F8FF", // Ghost White
 
     // ... (and many more!)
   };
