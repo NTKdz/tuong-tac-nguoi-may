@@ -26,7 +26,7 @@ const myTheme = (
       primary: string;
       secondary: string;
     };
-    typography: { fontSize: number };
+    typography: { fontSize: number; fontFamily: string };
   },
   mode: PaletteMode | undefined
 ) =>
@@ -55,7 +55,7 @@ const myTheme = (
       },
     },
     typography: {
-      fontFamily: `sans-serif`,
+      fontFamily: theme.typography.fontFamily,
       fontSize: theme.typography.fontSize,
       // body1: { fontSize: theme.typography.fontSize },
       // body2: {},

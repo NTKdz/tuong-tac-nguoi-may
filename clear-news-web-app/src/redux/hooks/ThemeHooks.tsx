@@ -12,6 +12,7 @@ import {
   setSecondary,
   setTextColor,
   setTheme,
+  setThemeName,
 } from "../slices/themeSlices";
 
 export interface ThemeState {
@@ -41,6 +42,9 @@ export const ThemeHooks = () => {
   const dispatch = useDispatch();
   // const { theme } = useSelector((state: RootState) => state);
 
+  function changeThemeName(themeName: string) {
+    dispatch(setThemeName(themeName));
+  }
   function changeCurrent(current: string) {
     dispatch(setCurrent(current));
   }
@@ -91,5 +95,6 @@ export const ThemeHooks = () => {
     changePaperBackgroundColor,
     changeFontFamily,
     changeLineHeight,
+    changeThemeName
   };
 };

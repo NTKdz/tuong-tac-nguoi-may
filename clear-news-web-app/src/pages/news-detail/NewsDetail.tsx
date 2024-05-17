@@ -22,13 +22,13 @@ import NewsHooks from "../../redux/hooks/NewsHooks";
 import VideoPlayer from "../../components/video-player/VideoPlayer";
 
 export default function NewsDetail() {
-  // const newsDetail = mockData[8032858371].info;
+  const newsDetail = mockData[8032858371].info;
 
   const commentSectionRef = useRef<null | HTMLDivElement>(null);
   const { id } = useParams();
   const { lineHeight } = useSelector((state: RootState) => state.theme);
   const { audioLink } = useSelector((state: RootState) => state.loading);
-  const { newsDetail } = useSelector((state: RootState) => state.news);
+  // const { newsDetail } = useSelector((state: RootState) => state.news);
   const { getNewsDetail } = NewsHooks();
   // const { getAudioLink } = LoadingHooks();
   const [bookmarkedStatus, setBookMark] = useState(false);
@@ -44,7 +44,7 @@ export default function NewsDetail() {
 
     getBookmarkStatus();
     // getAudioLink(newsDetail.body);
-    id && getNewsDetail(id);
+    // id && getNewsDetail(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

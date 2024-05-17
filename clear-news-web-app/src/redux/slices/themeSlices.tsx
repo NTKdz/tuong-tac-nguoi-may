@@ -48,6 +48,9 @@ const themeSlice = createSlice({
       state.theme = action.payload.theme;
       state.mode = action.payload.mode;
     },
+    setThemeName: (state, action: PayloadAction<string>) => {
+      state.themeName = action.payload;
+    },
     setPrimary: (
       state,
       action: PayloadAction<{ main: string; contrastText: string }>
@@ -105,6 +108,7 @@ export const {
   setFontFamily,
   setLineHeight,
   setCurrent,
+  setThemeName
 } = themeSlice.actions;
 
 export default themeSlice.reducer;

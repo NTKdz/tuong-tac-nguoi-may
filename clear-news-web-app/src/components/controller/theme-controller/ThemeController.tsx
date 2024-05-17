@@ -51,6 +51,7 @@ export default function ThemeController() {
     changeMode,
     changeFontFamily,
     changeLineHeight,
+    changeThemeName,
   } = ThemeHooks();
 
   useEffect(() => {
@@ -119,8 +120,46 @@ export default function ThemeController() {
     }
   }
 
+  const themeList = [
+    "default",
+    "green",
+    "orange",
+    "pinkBliss",
+    "blue",
+    "purple",
+    "charcoal",
+    "slate",
+    "deepSea",
+    "midnight",
+  ];
+
   const themeSettings = [
-    { name: "Theme", setting: "theme", component: <Box></Box> },
+    {
+      name: "Theme",
+      setting: "theme",
+      component: (
+        <Grid container sx={{ display: "flex", flexWrap: "wrap" }}>
+          {themeList.map((name: string) => (
+            <Grid
+              item
+              sm={3}
+              onClick={() => {
+                changeTheme(getTheme(name) as ThemeState);
+                changeThemeName(name);
+              }}
+            >
+              <Box
+                width={"100%"}
+                component="input"
+                type="color"
+                value={getTheme(name)?.theme.primary.main}
+                sx={{ pointerEvents: "none" }}
+              ></Box>
+            </Grid>
+          ))}
+        </Grid>
+      ),
+    },
     {
       name: "Text",
       setting: "text",
@@ -206,7 +245,7 @@ export default function ThemeController() {
           >
             <FormControl fullWidth>
               <Select
-                value={myTheme.typography.fontFamily}
+                value={myTheme.typography.fontFamily?.toLowerCase()}
                 onChange={(e) => {
                   changeFontFamily(e.target.value);
                   console.log(myTheme.typography.fontFamily);
@@ -214,7 +253,7 @@ export default function ThemeController() {
               >
                 {fontFamilies.map((fontFamily, index) => {
                   return (
-                    <MenuItem key={index} value={fontFamily}>
+                    <MenuItem key={index} value={fontFamily.toLowerCase()}>
                       {fontFamily}
                     </MenuItem>
                   );

@@ -260,6 +260,7 @@ export default function NavBar() {
                 flexGrow: 1,
                 display: { xs: "none", md: "flex" },
                 marginRight: "24px",
+                minWidth: "300px",
                 maxWidth: "320px",
                 "& .MuiOutlinedInput-root": {
                   height: "50px",

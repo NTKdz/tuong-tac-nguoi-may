@@ -27,6 +27,7 @@ const VoiceController = () => {
     changeMode,
     changeTextColor,
     changeTheme,
+    changeThemeName,
   } = ThemeHooks();
 
   const [stopReco, setStopReco] = useState(true);
@@ -126,6 +127,9 @@ const VoiceController = () => {
     command = command.replace(".", "");
     console.log(command);
     setSpeechScript(command);
+    if(command.startsWith("tìm")){
+      navigate("/search/param?topic=" + command.split("tìm")[1].trim());
+    }
     if (command.startsWith("reset")) {
       changeTheme(
         getTheme(

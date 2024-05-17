@@ -8,6 +8,7 @@ import { RootState } from "../redux/store";
 import LoadingScreen from "../components/loading/LoadingScreen";
 import VoiceController from "../components/controller/voice-controller/VoiceController";
 import { useEffect } from "react";
+import GlowCursor from "../components/glow-cursor/GlowCursor";
 
 export default function LayOut() {
   const { loading } = useSelector((state: RootState) => state.loading);
@@ -19,6 +20,7 @@ export default function LayOut() {
 
   return (
     <Box sx={{ position: "relative", overflow: "hidden" }}>
+      <GlowCursor />
       <VoiceController></VoiceController>
       <Box
         sx={{
