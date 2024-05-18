@@ -14,9 +14,9 @@ export default function ValueInput({
   initValue: number;
 }) {
   const [value, setValue] = useState(initValue);
-  
+
   useEffect(() => {
-    setValue(initValue); 
+    setValue(initValue);
   }, [initValue]);
 
   useEffect(() => {
@@ -32,7 +32,6 @@ export default function ValueInput({
       onChange={(e) => {
         if (Number(e.target.value) <= 30 && Number(e.target.value) >= 0) {
           setValue(Number(e.target.value));
-          console.log("dfasfa");
         }
       }}
       sx={{ ...style }}

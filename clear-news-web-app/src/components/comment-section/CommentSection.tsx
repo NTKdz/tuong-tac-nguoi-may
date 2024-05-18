@@ -60,7 +60,7 @@ export default function CommentSection({ articleId }: { articleId: string }) {
     const loadComment = async () => {
       try {
         const updatedComments = await GetAllCommentsOfArticle(articleId);
-        console.log(updatedComments);
+
         setCommentsList(updatedComments);
       } catch (error) {
         console.error("Error creating comment:", error);

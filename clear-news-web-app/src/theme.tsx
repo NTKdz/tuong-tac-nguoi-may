@@ -267,7 +267,7 @@ export const pinkBlissTheme = {
     },
     typography: { fontSize: 16, fontFamily: "Arial, sans-serif" },
   },
-  lineHeight: "1.6",
+  lineHeight: "200",
   current: "pinkBlissTheme",
   themeName: "Pink Bliss Theme",
 };
@@ -293,7 +293,7 @@ export const greenOasisTheme = {
     },
     typography: { fontSize: 16, fontFamily: "Arial, sans-serif" },
   },
-  lineHeight: "1.6",
+  lineHeight: "200",
   current: "greenOasisTheme",
   themeName: "Green Oasis Theme",
 };
@@ -319,7 +319,7 @@ export const orangeGlowTheme = {
     },
     typography: { fontSize: 16, fontFamily: "Arial, sans-serif" },
   },
-  lineHeight: "1.6",
+  lineHeight: "200",
   current: "orangeGlowTheme",
   themeName: "Orange Glow Theme",
 };

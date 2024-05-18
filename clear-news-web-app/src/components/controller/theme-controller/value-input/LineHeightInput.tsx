@@ -17,7 +17,6 @@ export default function LineHeightInput({
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
-    console.log(initValue)
     setValue(initValue);
   }, [initValue]);
 

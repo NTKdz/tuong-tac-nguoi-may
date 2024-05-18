@@ -71,11 +71,9 @@ export default function ThemeController() {
         changeTextColor(color);
         break;
       case "default":
-        console.log("change default");
         changeDefaultBackgroundColor(color);
         break;
       case "paper":
-        console.log("change");
         changePaperBackgroundColor(color);
         break;
       case "primary-main":
@@ -98,11 +96,9 @@ export default function ThemeController() {
         changeTextColor(theme.theme.text.primary);
         break;
       case "default":
-        console.log("change default");
         changeDefaultBackgroundColor(theme.theme.background.default);
         break;
       case "paper":
-        console.log("change");
         changePaperBackgroundColor(theme.theme.background.paper);
         break;
       case "primary-main":
@@ -248,7 +244,6 @@ export default function ThemeController() {
                 value={myTheme.typography.fontFamily?.toLowerCase()}
                 onChange={(e) => {
                   changeFontFamily(e.target.value);
-                  console.log(myTheme.typography.fontFamily);
                 }}
               >
                 {fontFamilies.map((fontFamily, index) => {
@@ -277,7 +272,6 @@ export default function ThemeController() {
               <ColorPicker
                 color={myTheme.palette.text.primary}
                 onColorChange={(color: string) => {
-                  console.log("change text");
                   onColorChange("text", color);
                 }}
                 disabled={myTheme.palette.mode === "dark" ? true : false}

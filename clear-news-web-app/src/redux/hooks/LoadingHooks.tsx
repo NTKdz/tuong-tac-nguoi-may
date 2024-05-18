@@ -15,7 +15,7 @@ export default function LoadingHooks() {
       url: "https://realistic-text-to-speech.p.rapidapi.com/v3/generate_voice_over_v2",
       headers: {
         "content-type": "application/json",
-        "X-RapidAPI-Key": key[2],
+        "X-RapidAPI-Key": key[4],
         "X-RapidAPI-Host": "realistic-text-to-speech.p.rapidapi.com",
       },
       data: {

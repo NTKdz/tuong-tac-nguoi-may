@@ -82,10 +82,8 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("user")) {
       setLogin(true);
-      console.log("login");
     } else {
       setLogin(false);
-      console.log("not login");
     }
   }, [isLogin]);
 
