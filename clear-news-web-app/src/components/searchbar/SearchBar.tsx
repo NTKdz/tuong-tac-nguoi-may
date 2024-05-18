@@ -18,8 +18,8 @@ export default function SearchBar({
 }) {
   const [value, setValue] = useState(searchValue);
   useEffect(() => {
-    console.log(searchValue);
-  }, []);
+    setValue(searchValue);
+  }, [searchValue]);
   return (
     <Box
       sx={{ width: "100%", display: "flex", alignItems: "center", ...style }}

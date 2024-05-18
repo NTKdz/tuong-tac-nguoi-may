@@ -7,8 +7,19 @@ import { RootState } from "../../../redux/store";
 import { colorToHex, recognition, textToSpeech } from "./commands";
 import { getTheme } from "../theme-controller/getTheme";
 import { getContrastColor } from "../../../utils/colorContrast";
+import { fontFamilies } from "../../../theme";
 
 console.log("init");
+const pageRoutes = [
+  { name: "art", route: "Art" },
+  { name: "Business", route: "Business" },
+  { name: "Computers", route: "Computers" },
+  { name: "Health", route: "Health" },
+  { name: "Home", route: "Home" },
+  { name: "Science", route: "Science" },
+  { name: "Sports", route: "Sports" },
+  { name: "Games", route: "Games" },
+];
 const VoiceController = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -127,7 +138,7 @@ const VoiceController = () => {
     command = command.replace(".", "");
     console.log(command);
     setSpeechScript(command);
-    if(command.startsWith("tìm")){
+    if (command.startsWith("tìm")) {
       navigate("/search/param?topic=" + command.split("tìm")[1].trim());
     }
     if (command.startsWith("reset")) {
@@ -181,6 +192,27 @@ const VoiceController = () => {
     if (command.startsWith("đổi màu")) {
       handleChange(command.split("đổi màu")[1].trim());
     }
+    if (command.startsWith("đổi phông chữ")) {
+      switch (command.split("đổi phông chữ")[1].trim()) {
+        case "":
+          console.log(
+            fontFamilies[
+              (fontFamilies.indexOf(theme.typography.fontFamily) + 1) %
+                fontFamilies.length
+            ]
+          );
+          changeFontFamily(
+            fontFamilies[
+              (fontFamilies.indexOf(theme.typography.fontFamily) + 1) %
+                fontFamilies.length
+            ]
+          );
+          break;
+        default:
+          changeFontFamily(command.split("đổi phông chữ")[1].trim());
+          break;
+      }
+    }
     if (command.includes("lên")) {
       window.scrollBy({ top: -700, left: 0, behavior: "smooth" });
     }
@@ -194,6 +226,9 @@ const VoiceController = () => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
     if (command.startsWith("mở")) {
+      const matchingRoute = pageRoutes.find(
+        (route) => route.name.toLowerCase() === command.split("mở")[1].trim()
+      );
       switch (command.split("mở")[1].trim()) {
         case "đăng nhập":
           navigate("/login");
@@ -210,8 +245,10 @@ const VoiceController = () => {
         case "bookmark":
           navigate("/account/bookmarks");
           break;
-        default:
-          navigate("/category/" + command.split("mở")[1].trim());
+        case "home":
+          if (matchingRoute) {
+            navigate("/category/" + matchingRoute.route);
+          }
           break;
       }
     }

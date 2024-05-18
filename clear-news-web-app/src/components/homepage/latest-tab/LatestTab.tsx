@@ -13,12 +13,12 @@ export default function LatestTab() {
   const { getLatestNews } = NewsHooks();
 
   useEffect(() => {
-    // getLatestNews();
+    getLatestNews();
   }, []);
 
-  // const articles = latestNews?.articles?.results || [];
+  const articles = latestNews?.articles?.results || [];
 
-  const articles = mockData.articles.results;
+  // const articles = mockData.articles.results;
   return (
     <Box sx={{ marginTop: "36px" }}>
       <HeadLine

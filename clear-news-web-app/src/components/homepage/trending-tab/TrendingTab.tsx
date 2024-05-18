@@ -14,14 +14,14 @@ export default function TrendingTab() {
   const { getTrendingNews } = NewsHooks();
 
   useEffect(() => {
-    // getTrendingNews();
+    getTrendingNews();
   }, []);
 
-  // const mainArticle = trendingNews?.articles?.results?.[0];
-  // const otherArticles = trendingNews?.articles?.results?.slice(1, 7) || [];
+  const mainArticle = trendingNews?.articles?.results?.[0];
+  const otherArticles = trendingNews?.articles?.results?.slice(1, 7) || [];
 
-  const mainArticle = mockData?.articles?.results?.[0];
-  const otherArticles = mockData?.articles?.results?.slice(1, 7) || [];
+  // const mainArticle = mockData?.articles?.results?.[0];
+  // const otherArticles = mockData?.articles?.results?.slice(1, 7) || [];
 
   return (
     <Box>

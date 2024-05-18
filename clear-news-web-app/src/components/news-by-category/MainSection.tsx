@@ -7,8 +7,8 @@ import NewsCardVert from "../news-card/NewsCardVert";
 import mockData from "../../mockdata/data4.json"
 export default function MainSection() {
   const { newsByQuery } = useSelector((state: RootState) => state.news);
-  // const data = newsByQuery?.articles?.results;
-  const data = mockData.articles.results;
+  const data = newsByQuery?.articles?.results;
+  // const data = mockData.articles.results;
   const theme = useTheme();
 
   useEffect(() => {

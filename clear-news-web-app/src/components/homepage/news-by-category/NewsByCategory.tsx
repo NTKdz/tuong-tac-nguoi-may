@@ -11,8 +11,8 @@ export default function NewsByCategory() {
   const [selectedCategory, changeSelectedCategory] = useState<string>("all");
   const theme = useTheme();
   const { trendingNews } = useSelector((state: RootState) => state.news);
-  // const data = trendingNews?.articles?.results || [];
-  const data = mockData.articles.results;
+  const data = trendingNews?.articles?.results || [];
+  // const data = mockData.articles.results;
   const filteredData = data.filter((item) => {
     if (selectedCategory === "all") return true;
     return item.categories[0]?.label.toLowerCase().includes(selectedCategory);
