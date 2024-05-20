@@ -19,6 +19,7 @@ export default function NewsHooks() {
   const dispatch = useDispatch();
 
   async function getLatestNews() {
+    dispatch(setLoading(true));
     const query = {
       query: {
         $query: {
@@ -40,7 +41,6 @@ export default function NewsHooks() {
     };
 
     try {
-      dispatch(setLoading(true));
       const response = await axios.post(baseUrl, query);
 
       if (response.status === 200) {
@@ -56,6 +56,7 @@ export default function NewsHooks() {
   }
 
   async function getTrendingNews() {
+    dispatch(setLoading(true));
     const query = {
       query: {
         $query: {
@@ -77,7 +78,6 @@ export default function NewsHooks() {
     };
 
     try {
-      dispatch(setLoading(true));
       const response = await axios.post(baseUrl, query);
 
       if (response.status === 200) {
@@ -93,6 +93,7 @@ export default function NewsHooks() {
   }
 
   async function getNewsDetail(id: string) {
+    dispatch(setLoading(true));
     const query = {
       articleUri: [id],
       resultType: "info",
@@ -106,7 +107,6 @@ export default function NewsHooks() {
     };
 
     try {
-      dispatch(setLoading(true));
       const response = await axios.post(baseUrl1, query);
 
       if (response.status === 200) {
@@ -124,6 +124,7 @@ export default function NewsHooks() {
   }
 
   async function getNewsByCategory(category: string) {
+    dispatch(setLoading(true));
     const query = {
       query: {
         $query: {
@@ -162,7 +163,6 @@ export default function NewsHooks() {
     };
 
     try {
-      dispatch(setLoading(true));
       const response = await axios.post(baseUrl, query);
 
       if (response.status === 200) {
@@ -185,6 +185,7 @@ export default function NewsHooks() {
     sortBy: string,
     topic: string
   ) {
+    dispatch(setLoading(true));
     console.log([locations, date, categories, sortBy]);
     const parseDate = (dateString: string) => {
       const [day, month, year] = dateString.split("/");
@@ -262,7 +263,6 @@ export default function NewsHooks() {
     console.log([query]);
 
     try {
-      dispatch(setLoading(true));
       const response = await axios.post(baseUrl, query);
 
       if (response.status === 200) {

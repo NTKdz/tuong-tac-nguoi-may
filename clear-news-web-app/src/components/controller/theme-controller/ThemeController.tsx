@@ -149,7 +149,7 @@ export default function ThemeController() {
                 width={"100%"}
                 component="input"
                 type="color"
-                value={getTheme(name)?.theme.primary.main}
+                defaultValue={getTheme(name)?.theme.primary.main}
                 sx={{ pointerEvents: "none" }}
               ></Box>
             </Grid>

@@ -65,7 +65,7 @@ export default function FilterButton({
             />
           </Box>
 
-          <RadioGroup defaultValue="month" name="radio-buttons-group">
+          <RadioGroup name="radio-buttons-group">
             <Box sx={{ display: "flex", marginTop: "16px" }}>
               <FormControlLabel
                 value="week"

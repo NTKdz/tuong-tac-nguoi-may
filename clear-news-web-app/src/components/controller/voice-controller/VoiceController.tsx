@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeHooks, ThemeState } from "../../../redux/hooks/ThemeHooks";
@@ -27,6 +27,7 @@ const VoiceController = () => {
   const { lineHeight, theme, mode, current, themeName } = useSelector(
     (state: RootState) => state.theme
   );
+  const { loading } = useSelector((state: RootState) => state.loading);
 
   const {
     changeDefaultBackgroundColor,
@@ -44,11 +45,11 @@ const VoiceController = () => {
   const [stopReco, setStopReco] = useState(true);
   const [transcript, setTranscript] = useState("");
   const [speechScript, setSpeechScript] = useState("");
-  useEffect(() => {
-    const htmlElements = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
-
+  useLayoutEffect(() => {
+    const htmlElements = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6, div p");
     Array.from(htmlElements).forEach((element) => {
       element.addEventListener("mouseover", (event) => {
+        console.log("move");
         const textContent = (event.target as HTMLElement).textContent;
         if (textContent) {
           setTranscript(textContent);
@@ -68,17 +69,9 @@ const VoiceController = () => {
         }
       });
     });
-  }, [location.pathname]);
+  }, [location.pathname, loading]);
 
-  useEffect(() => {
-    // console.log(transcript);
-    // const utterThis = new SpeechSynthesisUtterance(transcript);
-    // if (textToSpeech.speaking) {
-    //   textToSpeech.cancel();
-    // }
-    // textToSpeech.speak(utterThis);
-  }, [transcript]);
-
+  
   function handleIncrease(type: string) {
     switch (type) {
       case "cỡ chữ":
