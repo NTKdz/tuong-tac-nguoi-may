@@ -24,7 +24,7 @@ import Avatar from "react-avatar";
 const settings = ["Setting", "Bookmarks", "Logout"];
 
 const pageRoutes = [
-  { name: "art", route: "Art" },
+  { name: "art", route: "Arts" },
   { name: "Business", route: "Business" },
   { name: "Computers", route: "Computers" },
   { name: "Health", route: "Health" },

@@ -137,6 +137,7 @@ export default function ThemeController() {
         <Grid container sx={{ display: "flex", flexWrap: "wrap" }}>
           {themeList.map((name: string) => (
             <Grid
+              key={name}
               item
               sm={3}
               onClick={() => {
