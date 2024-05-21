@@ -10,7 +10,6 @@ export default function NewsList() {
   const { category } = useParams();
   const { getNewsByCategory } = NewsHooks();
   useEffect(() => {
-    console.log("category", category);
     category && getNewsByCategory(category);
   }, [category]);
   return (
