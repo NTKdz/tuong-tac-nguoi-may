@@ -2,22 +2,19 @@ import {
   Box,
   Button,
   FormControl,
-  IconButton,
   MenuItem,
   Paper,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ImageHolder from "../image-holder/ImageHolder";
-import comments from "../../mockdata/comments.json";
-import Comment, { CommentModel } from "./Comment";
+import { useEffect, useState } from "react";
 import {
   CreateComment,
   GetAllCommentsOfArticle,
 } from "../../firebase/apiFunctions";
-import { GetUidAndEmail } from "../../firebase/auth";
+import ImageHolder from "../image-holder/ImageHolder";
+import Comment from "./Comment";
 interface Comment {
   id: string;
   data: {
@@ -31,7 +28,6 @@ interface Comment {
 
 export default function CommentSection({ articleId }: { articleId: string }) {
   const [sortType, changeSortType] = useState("most recent");
-  const [uidAndEmail, setUidAndEmail] = useState({});
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState("");
 

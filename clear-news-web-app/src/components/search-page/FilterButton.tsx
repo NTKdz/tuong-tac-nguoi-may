@@ -109,7 +109,7 @@ export default function FilterButton({
           )}
           sx={{ width: "100%" }}
           onChange={(event, value) => {
-            console.log(value);
+            console.log(value, event);
             if (value.length > 2) {
               setValue(`${value.slice(0, 2).join(", ")} ,...`);
             } else {
@@ -138,6 +138,7 @@ export default function FilterButton({
           )}
           sx={{ width: "100%" }}
           onChange={(event, value) => {
+            console.log(event)
             if (value.length > 2) {
               setValue(`${value.slice(0, 2).join(", ")} ,...`);
             } else {

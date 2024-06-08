@@ -1,19 +1,18 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
-  Button,
   IconButton,
   InputAdornment,
   OutlinedInput,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomDialog from "../../components/dialog/Dialog";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { ChangePassword, ChangeUsername } from "../../firebase/apiFunctions";
 
 export default function Settings() {
-  const [userInfo, setUserInfo] = useState({ username: "", password: "" });
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [content, setContent] = useState(
     JSON.parse(localStorage.getItem("user")!).username

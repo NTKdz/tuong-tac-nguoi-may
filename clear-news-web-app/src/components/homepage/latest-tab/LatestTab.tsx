@@ -8,6 +8,7 @@ import HeadLine from "../../headline/HeadLine";
 import NewsCardVert from "../../news-card/NewsCardVert";
 import mockData from "../../../mockdata/data2.json";
 export default function LatestTab() {
+  console.log(mockData)
   const theme = useTheme();
   const { latestNews } = useSelector((state: RootState) => state.news);
   const { getLatestNews } = NewsHooks();

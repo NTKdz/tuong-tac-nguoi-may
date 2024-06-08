@@ -9,6 +9,7 @@ import NewsCard from "./news-card/NewsCard";
 import { useNavigate } from "react-router-dom";
 import mockData from "../../../mockdata/data2.json";
 export default function TrendingTab() {
+  console.log(mockData)
   const navigate = useNavigate();
   const { trendingNews } = useSelector((state: RootState) => state.news);
   const { getTrendingNews } = NewsHooks();

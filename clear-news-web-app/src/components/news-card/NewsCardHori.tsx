@@ -1,8 +1,8 @@
 import { Box, Paper, SxProps, Theme, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import ImageHolder from "../image-holder/ImageHolder";
 import { Variant } from "@mui/material/styles/createTypography";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ImageHolder from "../image-holder/ImageHolder";
 
 export default function NewsCardHori({
   id,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function AudioPlayer({ link }: { link: string }) {
   const [audioLink, setAudioLink] = useState(link);

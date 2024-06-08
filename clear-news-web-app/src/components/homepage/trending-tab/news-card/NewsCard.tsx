@@ -22,6 +22,7 @@ export default function NewsCard({
 }) {
   const navigate = useNavigate();
   const [onHover, setHover] = useState(false);
+  console.log(onHover);
   return (
     <Box
       sx={{ "&:hover": { cursor: "pointer" } }}

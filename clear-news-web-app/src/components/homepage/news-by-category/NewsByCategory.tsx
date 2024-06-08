@@ -8,6 +8,7 @@ import NewsCardHori from "../../news-card/NewsCardHori";
 import CategorySelector from "./category-selector/CategorySelector";
 import mockData from "../../../mockdata/data2.json";
 export default function NewsByCategory() {
+  console.log(mockData)
   const [selectedCategory, changeSelectedCategory] = useState<string>("all");
   const theme = useTheme();
   const { trendingNews } = useSelector((state: RootState) => state.news);

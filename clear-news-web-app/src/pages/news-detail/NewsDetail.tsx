@@ -10,16 +10,15 @@ import { useParams } from "react-router-dom";
 import AudioPlayer from "../../components/audio-player/AudioPlayer";
 import CommentSection from "../../components/comment-section/CommentSection";
 import ImageHolder from "../../components/image-holder/ImageHolder";
+import VideoPlayer from "../../components/video-player/VideoPlayer";
 import {
   BookmarkArticle,
   DeleteBookmark,
   IsBookmarked,
 } from "../../firebase/apiFunctions";
-import mockData from "../../mockdata/data1.json";
+import NewsHooks from "../../redux/hooks/NewsHooks";
 import { RootState } from "../../redux/store";
 import { formatDateTime } from "../../utils/dateFormater";
-import NewsHooks from "../../redux/hooks/NewsHooks";
-import VideoPlayer from "../../components/video-player/VideoPlayer";
 
 export default function NewsDetail() {
   // const newsDetail = mockData[8032858371].info;
