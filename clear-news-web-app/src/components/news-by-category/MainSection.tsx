@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import NewsCardHori from "../news-card/NewsCardHori";
 import NewsCardVert from "../news-card/NewsCardVert";
-import mockData from "../../mockdata/data4.json"
 export default function MainSection() {
   const { newsByQuery } = useSelector((state: RootState) => state.news);
   const data = newsByQuery?.articles?.results;

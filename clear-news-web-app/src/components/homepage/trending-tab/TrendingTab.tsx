@@ -1,13 +1,12 @@
 import { Box, Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import NewsHooks from "../../../redux/hooks/NewsHooks";
 import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
 import MainArticle from "./news-card/MainArticle";
 import NewsCard from "./news-card/NewsCard";
-import { useNavigate } from "react-router-dom";
-import mockData from "../../../mockdata/data2.json";
 export default function TrendingTab() {
   const navigate = useNavigate();
   const { trendingNews } = useSelector((state: RootState) => state.news);

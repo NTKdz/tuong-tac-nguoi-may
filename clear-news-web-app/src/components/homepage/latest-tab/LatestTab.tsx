@@ -6,7 +6,6 @@ import { RootState } from "../../../redux/store";
 import { formatDateTime } from "../../../utils/dateFormater";
 import HeadLine from "../../headline/HeadLine";
 import NewsCardVert from "../../news-card/NewsCardVert";
-import mockData from "../../../mockdata/data2.json";
 export default function LatestTab() {
   const theme = useTheme();
   const { latestNews } = useSelector((state: RootState) => state.news);

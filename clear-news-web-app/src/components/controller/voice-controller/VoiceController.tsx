@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeHooks, ThemeState } from "../../../redux/hooks/ThemeHooks";
 import { RootState } from "../../../redux/store";
-import { colorToHex, recognition, textToSpeech } from "./commands";
-import { getTheme } from "../theme-controller/getTheme";
-import { getContrastColor } from "../../../utils/colorContrast";
 import { fontFamilies } from "../../../theme";
+import { getContrastColor } from "../../../utils/colorContrast";
+import { getTheme } from "../theme-controller/getTheme";
+import { colorToHex, recognition, textToSpeech } from "./commands";
 
 console.log("init");
 const pageRoutes = [
@@ -39,14 +39,15 @@ const VoiceController = () => {
     changeMode,
     changeTextColor,
     changeTheme,
-    changeThemeName,
   } = ThemeHooks();
 
   const [stopReco, setStopReco] = useState(true);
   const [transcript, setTranscript] = useState("");
   const [speechScript, setSpeechScript] = useState("");
   useLayoutEffect(() => {
-    const htmlElements = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6, div p");
+    const htmlElements = document.querySelectorAll(
+      "p, h1, h2, h3, h4, h5, h6, div p"
+    );
     Array.from(htmlElements).forEach((element) => {
       element.addEventListener("mouseover", (event) => {
         console.log("move");
@@ -71,7 +72,6 @@ const VoiceController = () => {
     });
   }, [location.pathname, loading]);
 
-  
   function handleIncrease(type: string) {
     switch (type) {
       case "cỡ chữ":
@@ -126,7 +126,8 @@ const VoiceController = () => {
         break;
     }
   }
-  recognition.onresult = async (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  recognition.onresult = async (event: any) => {
     let command = event.results[0][0].transcript.toLowerCase();
     command = command.replace(".", "");
     console.log(command);

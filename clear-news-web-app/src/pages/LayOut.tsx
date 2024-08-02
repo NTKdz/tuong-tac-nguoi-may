@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 import ThemeController from "../components/controller/theme-controller/ThemeController";
+import VoiceController from "../components/controller/voice-controller/VoiceController";
 import Footer from "../components/footer/Footer";
+import LoadingScreen from "../components/loading/LoadingScreen";
 import NavBar from "../components/navbar/NavBar";
 import { RootState } from "../redux/store";
-import LoadingScreen from "../components/loading/LoadingScreen";
-import VoiceController from "../components/controller/voice-controller/VoiceController";
-import { useEffect } from "react";
-import GlowCursor from "../components/glow-cursor/GlowCursor";
 
 export default function LayOut() {
   const { loading } = useSelector((state: RootState) => state.loading);
@@ -20,7 +19,7 @@ export default function LayOut() {
 
   return (
     <Box sx={{ position: "relative", overflow: "hidden" }}>
-      <GlowCursor />
+
       <VoiceController></VoiceController>
       <Box
         sx={{

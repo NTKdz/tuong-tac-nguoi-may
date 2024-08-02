@@ -1,8 +1,8 @@
 import { Box, Container, Typography, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import Settings from "./Settings";
-import BookMarks from "./BookMarks";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import BookMarks from "./BookMarks";
+import Settings from "./Settings";
 
 const tabs = ["settings", "bookmarks"];
 export default function Account() {

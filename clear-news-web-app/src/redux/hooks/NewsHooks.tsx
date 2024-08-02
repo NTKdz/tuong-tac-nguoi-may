@@ -1,17 +1,16 @@
 /* eslint-disable no-unused-labels */
 import axios from "axios";
+import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
+import { capitalize } from "../../utils/stringFormater";
 import { NewsDetail, NewsResult } from "../interface/newsInterface";
+import { setAudioLink, setLoading } from "../slices/loadingSlice";
 import {
   setLatestNews,
   setNewsByQuery,
   setNewsDetail,
   setTrendingNews,
 } from "../slices/newsSlice";
-import { setAudioLink, setLoading } from "../slices/loadingSlice";
-import { formatDateTime } from "../../utils/dateFormater";
-import dayjs from "dayjs";
-import { capitalize } from "../../utils/stringFormater";
 
 const baseUrl = "https://www.newsapi.ai/api/v1/article/getArticles";
 const baseUrl1 = "https://www.newsapi.ai/api/v1/article/getArticle";
@@ -396,3 +395,7 @@ const categoryQuery = [
 
 const apiKey = "159c60f5-3163-4a6c-a5e7-ceba43588b89";
 const apiKey1 = "80e6dfda-35b9-4e5c-9a4d-80a83b945586";
+
+let a = apiKey1;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+a += 1;

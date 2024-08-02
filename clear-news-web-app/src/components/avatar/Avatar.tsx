@@ -1,5 +1,5 @@
 import { Box, SxProps, Theme } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function Avatar({
   src,
@@ -14,14 +14,9 @@ export default function Avatar({
   style?: SxProps<Theme>;
 }) {
   const [image, setImage] = useState(src);
-  const [loading, setLoading] = useState(true);
-  const handleImageLoad = () => {
-    setLoading(false);
-  };
 
   const handleImageError = () => {
     setImage("https://via.placeholder.com/500x240.png?text=No+Image");
-    setLoading(false);
   };
 
   return (
@@ -30,7 +25,6 @@ export default function Avatar({
       src={image}
       sx={style}
       onError={handleImageError}
-      onLoad={handleImageLoad}
       loading="lazy"
     />
   );

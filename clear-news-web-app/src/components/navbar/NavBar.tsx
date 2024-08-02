@@ -1,25 +1,25 @@
-import * as React from "react";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import { CssBaseline, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import { CssBaseline, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useEffect, useState } from "react";
-import { getContrastColor } from "../../utils/colorContrast";
-import { LogOut } from "../../firebase/auth";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import SearchIcon from "@mui/icons-material/Search";
-import ImageHolder from "../image-holder/ImageHolder";
 import Avatar from "react-avatar";
+import { useNavigate } from "react-router-dom";
+import { LogOut } from "../../firebase/auth";
+import { getContrastColor } from "../../utils/colorContrast";
+import ImageHolder from "../image-holder/ImageHolder";
 
 const settings = ["Setting", "Bookmarks", "Logout"];
 
@@ -56,6 +56,7 @@ export default function NavBar() {
     event: React.MouseEvent<HTMLElement>,
     route: string
   ) => {
+    console.log(event)
     setAnchorElNav(null);
     navigate("/category/" + route);
   };

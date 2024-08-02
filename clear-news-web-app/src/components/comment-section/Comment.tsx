@@ -1,18 +1,14 @@
-import CancelIcon from "@mui/icons-material/Cancel";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SendIcon from "@mui/icons-material/Send";
 import {
   Box,
   Button,
   IconButton,
   Menu,
   MenuItem,
-  TextField,
   Typography,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import { useState } from "react";
-import ImageHolder from "../image-holder/ImageHolder";
 import Avatar from "react-avatar";
 import { DeleteComment } from "../../firebase/apiFunctions";
 
@@ -30,17 +26,13 @@ export interface CommentModel {
 
 export default function Comment({
   id,
-  author,
   email,
   body,
-  timestamp,
-  avatar,
   replies,
   offset = 0,
   onDelete,
 }: CommentModel) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isReplying, setIsReplying] = useState(false);
   const [isRepliesShown, setRepliesShown] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

@@ -3,8 +3,6 @@ import { useEffect, useRef, useState } from "react";
 
 export default function VideoPlayer({ videoLink }: { videoLink: string }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null); 
   const [isYouTube, setIsYouTube] = useState(false);
 
   useEffect(() => {
@@ -19,10 +17,9 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
       hls.loadSource(videoLink);
       hls.attachMedia(video);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, () => setIsLoading(false));
       hls.on(Hls.Events.ERROR, (event, data) => {
+        console.log(event)
         if (data.fatal) {
-          setError(data);
           hls.destroy();
         }
       });
@@ -37,7 +34,7 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
         <iframe
           width="560"
           height="315"
-          src={`https://www.youtube.com/embed/${match[1]}`}
+          src={`https://www.youtube.com/embed/`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

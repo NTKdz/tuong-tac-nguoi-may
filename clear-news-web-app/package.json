@@ -20,6 +20,7 @@
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "firebase": "^10.8.1",
+    "frontend": "file:",
     "gtts": "^0.2.1",
     "hls.js": "^1.5.7",
     "mui-color-input": "^2.0.3",

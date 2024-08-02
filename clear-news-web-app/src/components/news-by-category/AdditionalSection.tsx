@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import NewsCard from "../homepage/trending-tab/news-card/NewsCard";
-import mockData from "../../mockdata/data4.json";
-import { formatDateTime } from "../../utils/dateFormater";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { formatDateTime } from "../../utils/dateFormater";
+import NewsCard from "../homepage/trending-tab/news-card/NewsCard";
 
 export default function AdditionalSection() {
   const { newsByQuery } = useSelector((state: RootState) => state.news);

@@ -1,25 +1,24 @@
-import app from "./config";
-import {
-  arrayRemove,
-  arrayUnion,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
   updatePassword,
   User,
 } from "firebase/auth";
-import { Title } from "@mui/icons-material";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import app from "./config";
 
 const db = getFirestore(app);
 const auth = getAuth();
@@ -61,7 +60,7 @@ export const GetAllCommentsOfArticle = async (articleId: string) => {
     collection(db, "comments"),
     where("articleId", "==", articleId)
   );
-  const comments = [];
+  const comments: { id: string; data: DocumentData; }[] = [];
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // console.log(`${doc.id} => ${doc.data().}`);
@@ -150,6 +149,7 @@ export const IsBookmarked = async (
       const userData = userDocSnap.data();
       if (userData && userData.bookmarks) {
         return userData.bookmarks.some(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (bookmark: any) => bookmark.articleId === articleId
         );
       }
@@ -194,7 +194,7 @@ export const DeleteBookmark = async (userId: string, articleId: string) => {
       const bookmarks = userData.bookmarks || [];
 
       const updatedBookmarks = bookmarks.filter(
-        (bookmark) => bookmark.articleId !== articleId
+        (bookmark: DocumentData) => bookmark.articleId !== articleId
       );
 
       await updateDoc(userDocRef, {

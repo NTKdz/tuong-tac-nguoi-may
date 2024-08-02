@@ -1,5 +1,6 @@
 const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition || false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition || false;
 if (!SpeechRecognition) {
   console.log("not allowed");
 }

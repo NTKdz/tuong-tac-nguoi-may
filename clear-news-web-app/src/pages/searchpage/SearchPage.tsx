@@ -89,6 +89,7 @@ export default function SearchPage() {
   };
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log(event);
     setPage(value);
   };
   return (
